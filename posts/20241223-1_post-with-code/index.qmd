@@ -1,13 +1,34 @@
 ---
-title: "Post With Code"
-author: "Harlow Malloc"
+title: "List files without directory part"
+author: "Alcor"
 date: "2024-12-23"
 categories: [news, code, analysis]
 image: "image.jpg"
 ---
 
-This is a post with executable code.
+Get the list of files recursively from a directory (without the folder part in the filename if it does exist)
 
 ```{r}
-1 + 1
+#| label: load_libraries
+#| code-fold: true
+
+library(stringi) # stri_split_fixed
+library(purrr)   # map
+
+```
+
+
+```{r}
+#| label: list_of_files
+
+list_of_files <- function(path, liste = TRUE, ...) {
+  
+  return(
+    list.files(path = path, recursive = TRUE) |>
+      map(\(x) {tail(stri_split_fixed(x, "/")[[1]], n = 1)}) |> 
+      unlist()
+  )
+  
+}
+
 ```
