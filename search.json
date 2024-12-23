@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Bienvenue",
+    "section": "",
+    "text": "Premier post informel. Bienvenue !\n\nJ’ai repris cette image mais le smartphone me semble de trop ici."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "dive-R-city",
+    "section": "",
+    "text": "List files without directory part\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\nDec 23, 2024\n\n\nAlcor\n\n\n\n\n\n\n\n\n\n\n\n\nBienvenue\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nDec 23, 2024\n\n\nAlcor\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "A propos",
+    "section": "",
+    "text": "Un bac à sable de plus … :)"
+  },
+  {
+    "objectID": "posts/20241223-1_post-with-code/index.html",
+    "href": "posts/20241223-1_post-with-code/index.html",
+    "title": "List files without directory part",
+    "section": "",
+    "text": "Get the list of files recursively from a directory (without the folder part in the filename if it does exist)\n\n\nCode\nlibrary(stringi) # stri_split_fixed\nlibrary(purrr)   # map\nlibrary(microbenchmark)\nlibrary(tibble)\n\n\n\nfunction list_of_files\n\nlist_of_files &lt;- function(path, ...) {\n  \n  return(\n    list.files(path = path, ...) |&gt;\n      map(\\(x) {tail(stri_split_fixed(x, \"/\")[[1]], n = 1)}) |&gt; \n      unlist()\n  )\n  \n}\n\n\n\nbenchmarking comparisons\n\n\nCode\ndir_test &lt;- getwd()\n\nmicrobenchmark(\n  list_of_files(path = dir_test, recursive = TRUE),\n  list.files(path = dir_test, recursive = TRUE)\n  \n)\n\n\nUnit: microseconds\n                                             expr    min     lq      mean\n list_of_files(path = dir_test, recursive = TRUE) 72.756 75.145 129.34258\n    list.files(path = dir_test, recursive = TRUE) 17.212 18.129  21.55329\n  median     uq      max neval\n 77.5095 82.168 3391.888   100\n 22.1560 22.667   92.793   100\n\n\n\n\nResults when applying\n\nfiles_base &lt;- list.files(path = dir_test, recursive = TRUE)\nfiles_new &lt;- list_of_files(path = dir_test, recursive = TRUE)\n\ntib_base &lt;- tibble(file = files_base)\ntib_new  &lt;- tibble(file = files_new)\n\ntail(tib_base)\n\n# A tibble: 3 × 1\n  file           \n  &lt;chr&gt;          \n1 image.jpg      \n2 index.qmd      \n3 index.rmarkdown\n\ntail(tib_new)\n\n# A tibble: 3 × 1\n  file           \n  &lt;chr&gt;          \n1 image.jpg      \n2 index.qmd      \n3 index.rmarkdown"
+  }
+]
