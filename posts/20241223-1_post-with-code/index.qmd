@@ -15,7 +15,6 @@ Get the list of files recursively from a directory (without the folder part in t
 library(stringi) # stri_split_fixed
 library(purrr)   # map
 library(microbenchmark)
-library(tibble)
 
 ```
 
@@ -52,19 +51,13 @@ microbenchmark(
 
 ```
 
-### Results when applying
+### results when applying
 
 ```{r}
 #| label: list_files_results
 
-files_base <- list.files(path = dir_test, recursive = TRUE)
-files_new <- list_of_files(path = dir_test, recursive = TRUE)
-
-tib_base <- tibble(file = files_base)
-tib_new  <- tibble(file = files_new)
-
-tail(tib_base)
-tail(tib_new)
+list.files(path = dir_test, recursive = TRUE) |> tails(n = 10)
+list_of_files(path = dir_test, recursive = TRUE) |>  tails(n = 10)
 
 ```
 
