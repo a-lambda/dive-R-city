@@ -226,23 +226,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: microseconds
-                                             expr    min     lq      mean
- list_of_files(path = dir_test, recursive = TRUE) 72.044 75.556 125.14756
-    list.files(path = dir_test, recursive = TRUE) 17.192 17.623  20.47795
+                                             expr    min      lq      mean
+ list_of_files(path = dir_test, recursive = TRUE) 73.057 75.7370 127.41207
+    list.files(path = dir_test, recursive = TRUE) 17.372 17.9235  20.66069
  median      uq      max neval
- 77.550 78.9875 3138.026   100
- 18.209 22.3520   53.730   100</code></pre>
+ 77.570 79.1125 3218.296   100
+ 20.468 22.8170   28.042   100</code></pre>
 </div>
 </div>
 </section>
 <section id="results-when-applying" class="level3">
 <h3 class="anchored" data-anchor-id="results-when-applying">results when applying</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="at">path =</span> dir_test, <span class="at">recursive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"./"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "image.jpg"       "index.qmd"       "index.rmarkdown"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_of_files</span>(<span class="at">path =</span> dir_test, <span class="at">recursive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span>  <span class="fu">tail</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_of_files</span>(<span class="at">path =</span> <span class="st">"./"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span>  <span class="fu">tail</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "image.jpg"       "index.qmd"       "index.rmarkdown"</code></pre>
 </div>
