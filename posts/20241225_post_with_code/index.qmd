@@ -1,0 +1,203 @@
+---
+title: "Get geographic squares"
+author: "Alcor"
+date: "2024-12-25"
+categories: [news, code, analysis]
+image: "image.jpg"
+---
+
+## Get geographic squares
+
+```{r}
+#| label: load_libraries
+#| code-fold: true
+
+library(ggplot2)
+library(sf)
+library(s2)
+library(microbenchmark)
+library(purrr)
+
+```
+
+### function `get_geo_square` get a `geographic square` which sides have $\alpha$ degrees angle
+
+```{r}
+#| label: get_geo_square
+
+# fonction génératrice de "carré géographique" de `alpha` degrés de côté
+# le point de base (lon, lat) est le point inférieur gauche. 
+
+get_geo_square <- function(lon, lat, alpha) {
+  
+  points <- list(rbind(
+    c(lon, lat),
+    c(lon + alpha, lat),
+    c(lon + alpha, lat + alpha),
+    c(lon, lat + alpha),
+    c(lon, lat)
+  ))
+  st_polygon(points)
+  
+}
+
+```
+
+
+### function `get_all_geo_squares_on_sphere` cuts the sphere into `geographic squares` which sides have $\alpha$ degrees angle
+
+::: {.callout-note collapse="false"}
+
+La fonction renvoie un résultat si l'angle $\alpha$ vérifie la condition :
+
+$$90^\circ\space\bmod\space\alpha = 0$$
+:::
+
+### function `get_all_geo_squares_on_sphere`
+
+```{r}
+#| label: get_all_geo_squares_on_sphere
+
+get_all_geo_squares_on_sphere <- function(alpha) {
+  
+  if (90 %% alpha == 0) {
+    
+    n <- 90 / alpha
+    dim_lon <- 4 * n
+    dim_lat <- 2 * n
+    lon <- seq(-180, 180 - alpha, by = alpha)
+    lat <- seq(-90, 90 - alpha, by = alpha)
+    coord <- expand.grid(lon, lat)
+    names(coord) <- c("lon", "lat")
+    geom <- map2(coord$lon, coord$lat, \(x, y) {get_geo_square(x, y, alpha)}) |> 
+      st_as_sfc(crs = st_crs(4326))
+    return(geom)
+  } else {
+    return(NULL)
+  }
+  
+}
+
+```
+
+
+### benchmarking
+
+```{r}
+#| label: benchmarks
+#| code-fold: true
+
+microbenchmark(
+  get_all_geo_squares_on_sphere(alpha = 10),
+  get_all_geo_squares_on_sphere(alpha = 1),
+  times = 10
+)
+
+```
+
+### results when applying
+
+```{r}
+#| label: list_files_results
+
+geo_squares <- get_all_geo_squares_on_sphere(alpha = 10)
+
+geo_centroids <- geo_squares |> 
+  st_centroid()
+
+ggplot() +
+  geom_sf(data = geo_squares) +
+  geom_sf(data = geo_centroids, color = "red")
+
+#--------------------------------------------------
+
+geo_squares_moll <- st_transform(
+  geo_squares,
+  crs = "+proj=moll"
+)
+
+geo_centroids_moll <- st_transform(
+  geo_centroids,
+  crs = "+proj=moll"
+)
+
+ggplot() +
+  geom_sf(data = geo_squares_moll) +
+  geom_sf(data = geo_centroids_moll, color = "red", cex = 0.5)
+
+```
+
+::: {.callout-warning collapse="false"}
+
+UNDER CONSTRUCTION
+
+:::
+
+### function `get_s2_square`
+
+```{r}
+#| label: get_s2_square
+
+get_s2_square <- function(lon, lat, alpha) {
+  
+  points <- rbind(
+    c(lon, lat),
+    c(lon + alpha, lat),
+    c(lon + alpha, lat + alpha),
+    c(lon, lat + alpha),
+    c(lon, lat)
+  )
+  s2_make_polygon(points[, 1], points[, 2])
+  
+}
+
+```
+
+function `get_all_s2_squares_on_sphere`
+
+```{r}
+#| label: get_all_s2_squares_on_sphere
+
+get_all_s2_squares_on_sphere <- function(alpha) {
+  
+  if (90 %% alpha == 0) {
+    
+    n <- 90 / alpha
+    dim_lon <- 4 * n
+    dim_lat <- 2 * n
+    lon <- seq(-180, 180 - alpha, by = alpha)
+    lat <- seq(-90, 90 - alpha, by = alpha)
+    coord <- expand.grid(lon, lat)
+    names(coord) <- c("lon", "lat")
+    geom <- map2(coord$lon, coord$lat, \(x, y) {get_s2_square(x, y, alpha)}) |> 
+      map(st_as_sfc)
+    return(geom)
+  } else {
+    return(NULL)
+  }
+  
+}
+
+```
+
+
+
+```{r}
+
+one_degree_side_s2_squares <- get_all_s2_squares_on_sphere(alpha = 30)
+
+# one_degree_side_s2_squares is a list of sfc 
+# It must be transformed into a single sfc
+
+# ggplot(data = one_degree_side_s2_squares) +
+#   geom_sf()
+# 
+# one_degree_side_s2_squares_2 <- st_transform(
+#   one_degree_side_s2_squares,
+#   crs = "+proj=moll"
+# )
+# ggplot(data = one_degree_side_s2_squares_2) +
+#   geom_sf()
+
+```
+
