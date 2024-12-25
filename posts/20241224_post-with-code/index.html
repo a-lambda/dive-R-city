@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alcor">
-<meta name="dcterms.date" content="2024-12-23">
+<meta name="dcterms.date" content="2024-12-24">
 
 <title>List files without directory part – dive-R-city</title>
 <style>
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-07ba0ad10f5680c660e360ac31d2f3b6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5bbd3aa6b4b157b3a4fd6f651d8e85ba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-f29aaeecf1a46d890de4f9c541966cf8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -169,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">December 23, 2024</p>
+        <p class="date">December 24, 2024</p>
       </div>
     </div>
     
@@ -226,12 +226,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: microseconds
-                                             expr    min     lq      mean
- list_of_files(path = dir_test, recursive = TRUE) 73.658 76.422 126.69426
-    list.files(path = dir_test, recursive = TRUE) 17.392 18.099  21.80266
- median      uq      max neval
- 78.081 80.2340 3178.941   100
- 22.467 22.8925   94.526   100</code></pre>
+                                             expr     min       lq      mean
+ list_of_files(path = dir_test, recursive = TRUE) 161.501 168.9515 228.73003
+    list.files(path = dir_test, recursive = TRUE)  80.501  85.1505  97.29597
+  median      uq      max neval
+ 176.151 182.101 3516.701   100
+  97.001  99.551  242.101   100</code></pre>
 </div>
 </div>
 </section>
@@ -240,17 +240,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"../"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "_metadata.yml"                            
-[2] "20241223-1_post-with-code/image.jpg"      
-[3] "20241223-1_post-with-code/index.qmd"      
-[4] "20241223-1_post-with-code/index.rmarkdown"
-[5] "welcome/index.qmd"                        
-[6] "welcome/thumbnail.jpg"                    </code></pre>
+<pre><code>[1] "_metadata.yml"                          
+[2] "20241224_post-with-code/image.jpg"      
+[3] "20241224_post-with-code/index.qmd"      
+[4] "20241224_post-with-code/index.rmarkdown"
+[5] "20241225_post_with_code/image.jpg"      
+[6] "20241225_post_with_code/index.qmd"      
+[7] "welcome/index.qmd"                      
+[8] "welcome/thumbnail.jpg"                  </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_of_files</span>(<span class="at">path =</span> <span class="st">"../"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span>  <span class="fu">tail</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "_metadata.yml"   "image.jpg"       "index.qmd"       "index.rmarkdown"
-[5] "index.qmd"       "thumbnail.jpg"  </code></pre>
+[5] "image.jpg"       "index.qmd"       "index.qmd"       "thumbnail.jpg"  </code></pre>
 </div>
 </div>
 
