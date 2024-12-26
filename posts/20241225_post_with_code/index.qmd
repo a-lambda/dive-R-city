@@ -97,7 +97,7 @@ microbenchmark(
 ### results when applying
 
 ```{r}
-#| label: list_files_results
+#| label: list_files_results_geo_squares
 
 geo_squares <- get_all_geo_squares_on_sphere(alpha = 10)
 
@@ -178,7 +178,7 @@ get_all_s2_squares_on_sphere <- function(alpha) {
 ### benchmarking
 
 ```{r}
-#| label: benchmarks
+#| label: benchmarks_get_all_s2_squares_on_sphere
 #| code-fold: true
 
 microbenchmark(
@@ -192,7 +192,8 @@ microbenchmark(
 ### results when applying
 
 ```{r}
-
+#| label: list_files_results_s2_squares
+#| 
 s2_squares <- get_all_s2_squares_on_sphere(alpha = 10)
 
 s2_centroids <- s2_squares |> 
