@@ -80,7 +80,6 @@ get_all_geo_squares_on_sphere <- function(alpha) {
 
 ```
 
-
 ### benchmarking
 
 ```{r}
@@ -127,12 +126,6 @@ ggplot() +
 
 ```
 
-::: {.callout-warning collapse="false"}
-
-UNDER CONSTRUCTION
-
-:::
-
 ### function `get_s2_square`
 
 ```{r}
@@ -169,8 +162,10 @@ get_all_s2_squares_on_sphere <- function(alpha) {
     lat <- seq(-90, 90 - alpha, by = alpha)
     coord <- expand.grid(lon, lat)
     names(coord) <- c("lon", "lat")
-    geom <- map2(coord$lon, coord$lat, \(x, y) {get_s2_square(x, y, alpha)}) |> 
-      map(st_as_sfc)
+    geom <- map2(coord$lon, coord$lat, \(x, y) {get_s2_square(x, y, alpha)}) |>
+      map(st_as_sfc) |> 
+      unlist(recursive = FALSE) |> 
+      st_as_sfc(crs = st_crs(4326))
     return(geom)
   } else {
     return(NULL)
@@ -180,24 +175,48 @@ get_all_s2_squares_on_sphere <- function(alpha) {
 
 ```
 
+### benchmarking
 
+```{r}
+#| label: benchmarks
+#| code-fold: true
+
+microbenchmark(
+  get_all_s2_squares_on_sphere(alpha = 10),
+  get_all_s2_squares_on_sphere(alpha = 1),
+  times = 10
+)
+
+```
+
+### results when applying
 
 ```{r}
 
-one_degree_side_s2_squares <- get_all_s2_squares_on_sphere(alpha = 30)
+s2_squares <- get_all_s2_squares_on_sphere(alpha = 10)
 
-# one_degree_side_s2_squares is a list of sfc 
-# It must be transformed into a single sfc
+s2_centroids <- s2_squares |> 
+  st_centroid()
 
-# ggplot(data = one_degree_side_s2_squares) +
-#   geom_sf()
-# 
-# one_degree_side_s2_squares_2 <- st_transform(
-#   one_degree_side_s2_squares,
-#   crs = "+proj=moll"
-# )
-# ggplot(data = one_degree_side_s2_squares_2) +
-#   geom_sf()
+ggplot(data = s2_squares) +
+  geom_sf() +
+  geom_sf(data = s2_centroids, color = "red")
+
+#--------------------------------------------------
+
+s2_squares_moll <- st_transform(
+  s2_squares,
+  crs = "+proj=moll"
+)
+
+s2_centroids_moll <- st_transform(
+  s2_centroids,
+  crs = "+proj=moll"
+)
+
+ggplot() +
+  geom_sf(data = s2_squares_moll) +
+  geom_sf(data = s2_centroids_moll, color = "red", cex = 0.5)
 
 ```
 
