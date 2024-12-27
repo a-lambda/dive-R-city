@@ -90,7 +90,8 @@ microbenchmark(
   get_all_geo_squares_on_sphere(alpha = 10),
   get_all_geo_squares_on_sphere(alpha = 1),
   times = 10
-)
+) |> 
+  ggplot2::autoplot()
 
 ```
 
@@ -106,7 +107,8 @@ geo_centroids <- geo_squares |>
 
 ggplot() +
   geom_sf(data = geo_squares) +
-  geom_sf(data = geo_centroids, color = "red")
+  geom_sf(data = geo_centroids, color = "red", cex = 0.5) +
+  coord_sf()
 
 #--------------------------------------------------
 
@@ -122,7 +124,8 @@ geo_centroids_moll <- st_transform(
 
 ggplot() +
   geom_sf(data = geo_squares_moll) +
-  geom_sf(data = geo_centroids_moll, color = "red", cex = 0.5)
+  geom_sf(data = geo_centroids_moll, color = "red", cex = 0.5) +
+  coord_sf()
 
 ```
 
@@ -154,7 +157,6 @@ function `get_all_s2_squares_on_sphere`
 get_all_s2_squares_on_sphere <- function(alpha) {
   
   if (90 %% alpha == 0) {
-    
     n <- 90 / alpha
     dim_lon <- 4 * n
     dim_lat <- 2 * n
@@ -185,7 +187,8 @@ microbenchmark(
   get_all_s2_squares_on_sphere(alpha = 10),
   get_all_s2_squares_on_sphere(alpha = 1),
   times = 10
-)
+) |> 
+  ggplot2::autoplot()
 
 ```
 
@@ -201,7 +204,7 @@ s2_centroids <- s2_squares |>
 
 ggplot(data = s2_squares) +
   geom_sf() +
-  geom_sf(data = s2_centroids, color = "red")
+  geom_sf(data = s2_centroids, color = "red", cex = 0.5)
 
 #--------------------------------------------------
 
