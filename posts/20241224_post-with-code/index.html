@@ -197,18 +197,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="function-list_of_files" class="level3">
-<h3 class="anchored" data-anchor-id="function-list_of_files">function <code>list_of_files</code></h3>
+<section id="list_of_files-function" class="level3">
+<h3 class="anchored" data-anchor-id="list_of_files-function"><code>list_of_files</code> function</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>list_of_files <span class="ot">&lt;-</span> <span class="cf">function</span>(path, ...) {</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list.files</span>(<span class="at">path =</span> path, ...) <span class="sc">|&gt;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(\(x) {<span class="fu">tail</span>(<span class="fu">stri_split_fixed</span>(x, <span class="st">"/"</span>)[[<span class="dv">1</span>]], <span class="at">n =</span> <span class="dv">1</span>)}) <span class="sc">|&gt;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(\(x) { <span class="fu">sub</span>(x, <span class="at">pattern =</span> <span class="st">"^(.*)/"</span>, <span class="at">replacement =</span> <span class="st">''</span>) }) <span class="sc">|&gt;</span> </span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unlist</span>()</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------------------------------------------------------------</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 1st version</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># list.files(path = path, ...) |&gt;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   map(\(x) { stri_split_fixed(x, "/")[[1]] |&gt; tail(n = 1) }) |&gt; </span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   unlist()</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------------------------------------------------------------</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2nd version</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># list.files(path = path, ...) |&gt;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#   map(\(x) { stri_match_all_regex(x, pattern = "/([^/]*)$")[[1]][,2] }) |&gt; </span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#   unlist())</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------------------------------------------------------------</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="benchmarking-comparisons" class="level3">
@@ -219,40 +233,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dir_test <span class="ot">&lt;-</span> <span class="fu">getwd</span>()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_of_files</span>(<span class="at">path =</span> dir_test, <span class="at">recursive =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list.files</span>(<span class="at">path =</span> dir_test, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list.files</span>(<span class="at">path =</span> dir_test, <span class="at">recursive =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_of_files</span>(<span class="at">path =</span> dir_test, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Unit: microseconds
-                                             expr   min     lq    mean median
- list_of_files(path = dir_test, recursive = TRUE) 164.1 166.65 216.337  174.3
-    list.files(path = dir_test, recursive = TRUE)  83.0  85.50  92.800   87.9
-     uq    max neval
- 177.75 3496.4   100
-  99.75  122.9   100</code></pre>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/benchmarks-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="results-when-applying" class="level3">
 <h3 class="anchored" data-anchor-id="results-when-applying">results when applying</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"../"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"../"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "_metadata.yml"                          
-[2] "20241224_post-with-code/image.jpg"      
-[3] "20241224_post-with-code/index.qmd"      
-[4] "20241224_post-with-code/index.rmarkdown"
-[5] "20241225_post_with_code/image.jpg"      
-[6] "20241225_post_with_code/index.qmd"      
-[7] "welcome/index.qmd"                      
-[8] "welcome/thumbnail.jpg"                  </code></pre>
+<pre><code>[1] "_metadata.yml"                                                   
+[2] "20241224_post-with-code/image.jpg"                               
+[3] "20241224_post-with-code/index.qmd"                               
+[4] "20241224_post-with-code/index.rmarkdown"                         
+[5] "20241224_post-with-code/index_files/figure-html/benchmarks-1.png"
+[6] "20241225_post_with_code/image.jpg"                               
+[7] "20241225_post_with_code/index.qmd"                               
+[8] "welcome/index.qmd"                                               
+[9] "welcome/thumbnail.jpg"                                           </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_of_files</span>(<span class="at">path =</span> <span class="st">"../"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span>  <span class="fu">tail</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_of_files</span>(<span class="at">path =</span> <span class="st">"../"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span>  <span class="fu">tail</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "_metadata.yml"   "image.jpg"       "index.qmd"       "index.rmarkdown"
-[5] "image.jpg"       "index.qmd"       "index.qmd"       "thumbnail.jpg"  </code></pre>
+<pre><code>[1] "_metadata.yml"    "image.jpg"        "index.qmd"        "index.rmarkdown" 
+[5] "benchmarks-1.png" "image.jpg"        "index.qmd"        "index.qmd"       
+[9] "thumbnail.jpg"   </code></pre>
 </div>
 </div>
 
