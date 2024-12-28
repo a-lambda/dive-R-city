@@ -141,15 +141,17 @@ ggplot() +
 
 get_s2_square <- function(lon, lat, alpha) {
   
-  points <- rbind(
-    c(lon, lat),
-    c(lon + alpha, lat),
-    c(lon + alpha, lat + alpha),
-    c(lon, lat + alpha),
-    c(lon, lat)
-  )
+  points <- matrix(
+      c(lon, lat,
+        lon + alpha, lat,
+        lon + alpha, lat + alpha,
+        lon, lat + alpha,
+        lon, lat),
+      ncol = 2,
+      byrow = TRUE
+    )
   s2_make_polygon(points[, 1], points[, 2])
-  
+
 }
 
 ```
