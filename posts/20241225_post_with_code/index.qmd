@@ -16,6 +16,7 @@ library(ggplot2)
 library(sf)
 library(s2)
 library(microbenchmark)
+library(profvis)
 library(purrr)
 
 ```
@@ -30,13 +31,17 @@ library(purrr)
 
 get_geo_square <- function(lon, lat, alpha) {
   
-  points <- list(rbind(
-    c(lon, lat),
-    c(lon + alpha, lat),
-    c(lon + alpha, lat + alpha),
-    c(lon, lat + alpha),
-    c(lon, lat)
-  ))
+  points <- list(
+    matrix(
+      c(lon, lat,
+        lon + alpha, lat,
+        lon + alpha, lat + alpha,
+        lon, lat + alpha,
+        lon, lat),
+      ncol = 2,
+      byrow = TRUE
+    )
+  )
   st_polygon(points)
   
 }
@@ -62,15 +67,17 @@ get_all_geo_squares_on_sphere <- function(alpha) {
   
   if (90 %% alpha == 0) {
     
-    n <- 90 / alpha
-    dim_lon <- 4 * n
-    dim_lat <- 2 * n
     lon <- seq(-180, 180 - alpha, by = alpha)
     lat <- seq(-90, 90 - alpha, by = alpha)
-    coord <- expand.grid(lon, lat)
-    names(coord) <- c("lon", "lat")
-    geom <- map2(coord$lon, coord$lat, \(x, y) {get_geo_square(x, y, alpha)}) |> 
-      st_as_sfc(crs = st_crs(4326))
+    geom <- vector("list", length = length(lon) * length(lat))
+    n <- 0
+    for (x in lon) {
+      for (y in lat) {
+        n <- n + 1
+        geom[[n]] <- get_geo_square(x, y, alpha)
+      }
+    } 
+    geom <- geom |> st_as_sfc(crs = st_crs(4326))
     return(geom)
   } else {
     return(NULL)
@@ -87,11 +94,9 @@ get_all_geo_squares_on_sphere <- function(alpha) {
 #| code-fold: true
 
 microbenchmark(
-  get_all_geo_squares_on_sphere(alpha = 10),
   get_all_geo_squares_on_sphere(alpha = 1),
-  times = 10
-) |> 
-  ggplot2::autoplot()
+  times = 10L
+)
 
 ```
 
@@ -191,6 +196,8 @@ microbenchmark(
   ggplot2::autoplot()
 
 ```
+
+
 
 ### results when applying
 
