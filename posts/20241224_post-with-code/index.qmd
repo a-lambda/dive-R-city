@@ -33,19 +33,23 @@ list_of_files <- function(path, ...) {
   
 }
 
-#---------------------------------------------------------------------------
-# 1st version
-# -----------
-# list.files(path = path, ...) |>
-#   map(\(x) { stri_split_fixed(x, "/")[[1]] |> tail(n = 1) }) |> 
-#   unlist()
-#---------------------------------------------------------------------------
-# 2nd version
-# -----------
-# list.files(path = path, ...) |>
-#   map(\(x) { stri_match_all_regex(x, pattern = "/([^/]*)$")[[1]][,2] }) |> 
-#   unlist())
-#---------------------------------------------------------------------------
+list_of_files_v2 <- function(path, ...) {
+  
+  return(
+    list.files(path = path, ...) |>
+      map(\(x) { stri_split_fixed(x, "/")[[1]] |> tail(n = 1) }) |>
+      unlist()
+  )
+}
+
+list_of_files_v3 <- function(path, ...) {
+  
+  return(
+    list.files(path = path, ...) |>
+      map(\(x) { stri_match_all_regex(x, pattern = "/([^/]*)$")[[1]][,2] }) |>
+      unlist()
+  )
+}
 
 ```
 
@@ -59,7 +63,9 @@ dir_test <- getwd()
 
 microbenchmark(
   list.files(path = dir_test, recursive = TRUE),
-  list_of_files(path = dir_test, recursive = TRUE)
+  list_of_files(path = dir_test, recursive = TRUE),
+  list_of_files_v2(path = dir_test, recursive = TRUE),
+  list_of_files_v3(path = dir_test, recursive = TRUE)
 ) |> 
   ggplot2::autoplot()
 
