@@ -95,8 +95,10 @@ get_all_geo_squares_on_sphere <- function(alpha) {
 
 microbenchmark(
   get_all_geo_squares_on_sphere(alpha = 1),
+  get_all_geo_squares_on_sphere(alpha = 10),
   times = 10L
-)
+) |> 
+  ggplot2::autoplot()
 
 ```
 
