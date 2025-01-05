@@ -7,11 +7,11 @@
     "text": "Premier post informel. Bienvenue !\n\nJ’ai repris cette image mais le smartphone me semble de trop ici."
   },
   {
-    "objectID": "posts/20241224_post-with-code/index.html",
-    "href": "posts/20241224_post-with-code/index.html",
-    "title": "List files without directory part",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "dive-R-city",
     "section": "",
-    "text": "Get the list of files recursively from a directory (without the folder part in the filename if it does exist)\n\n\nCode\nlibrary(stringi) # stri_split_fixed\nlibrary(purrr)   # map\nlibrary(microbenchmark)\n\n\n\nlist_of_files function\n\nlist_of_files &lt;- function(path, ...) {\n  \n  return(\n    list.files(path = path, ...) |&gt;\n      map(\\(x) { sub(x, pattern = \"^(.*)/\", replacement = '') }) |&gt; \n      unlist()\n  )\n  \n}\n\nlist_of_files_v2 &lt;- function(path, ...) {\n  \n  return(\n    list.files(path = path, ...) |&gt;\n      map(\\(x) { stri_split_fixed(x, \"/\")[[1]] |&gt; tail(n = 1) }) |&gt;\n      unlist()\n  )\n}\n\nlist_of_files_v3 &lt;- function(path, ...) {\n  \n  return(\n    list.files(path = path, ...) |&gt;\n      map(\\(x) { stri_match_all_regex(x, pattern = \"/([^/]*)$\")[[1]][,2] }) |&gt;\n      unlist()\n  )\n}\n\n\n\nbenchmarking comparisons\n\n\nCode\ndir_test &lt;- getwd()\n\nmicrobenchmark(\n  list.files(path = dir_test, recursive = TRUE),\n  list_of_files(path = dir_test, recursive = TRUE),\n  list_of_files_v2(path = dir_test, recursive = TRUE),\n  list_of_files_v3(path = dir_test, recursive = TRUE)\n) |&gt; \n  ggplot2::autoplot()\n\n\n\n\n\n\n\n\n\n\n\nresults when applying\n\nlist.files(path = \"../\", recursive = TRUE) |&gt; tail(n = 10)\n\n[1] \"_metadata.yml\"                                                   \n[2] \"20241224_post-with-code/image.jpg\"                               \n[3] \"20241224_post-with-code/index.qmd\"                               \n[4] \"20241224_post-with-code/index.rmarkdown\"                         \n[5] \"20241224_post-with-code/index_files/figure-html/benchmarks-1.png\"\n[6] \"20241225_post_with_code/image.jpg\"                               \n[7] \"20241225_post_with_code/index.qmd\"                               \n[8] \"welcome/index.qmd\"                                               \n[9] \"welcome/thumbnail.jpg\"                                           \n\nlist_of_files(path = \"../\", recursive = TRUE) |&gt;  tail(n = 10)\n\n[1] \"_metadata.yml\"    \"image.jpg\"        \"index.qmd\"        \"index.rmarkdown\" \n[5] \"benchmarks-1.png\" \"image.jpg\"        \"index.qmd\"        \"index.qmd\"       \n[9] \"thumbnail.jpg\""
+    "text": "Get geographic squares\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\nDec 25, 2024\n\n\nAlcor\n\n\n\n\n\n\n\n\n\n\n\n\nBienvenue\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nDec 23, 2024\n\n\nAlcor\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -19,13 +19,6 @@
     "title": "A propos",
     "section": "",
     "text": "Un bac à sable de plus … :)"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "dive-R-city",
-    "section": "",
-    "text": "Get geographic squares\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\nDec 25, 2024\n\n\nAlcor\n\n\n\n\n\n\n\n\n\n\n\n\nList files without directory part\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\nDec 24, 2024\n\n\nAlcor\n\n\n\n\n\n\n\n\n\n\n\n\nBienvenue\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nDec 23, 2024\n\n\nAlcor\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/20241225_post_with_code/index.html",
