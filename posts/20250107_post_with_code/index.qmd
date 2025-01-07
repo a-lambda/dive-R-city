@@ -1,0 +1,253 @@
+---
+title: "R packages database"
+author: "Alcor"
+date: "2025-01-07"
+categories: [news, code, analysis]
+image: "image.jpg"
+---
+
+## Paquets R
+
+```{r}
+#| label: load_libraries
+#| code-fold: true
+#| warning: false
+#| 
+library(purrr)
+library(dplyr)
+library(gt)
+library(microbenchmark)
+library(tools)
+library(lobstr)
+library(tibble)
+
+```
+
+### Nombre de paquets R disponibles
+
+  - utilisation de la fonction **`available.packages`** du paquet `utils`
+  
+```{r}
+#| label: available_packages
+#| 
+mat_pkg <- utils::available.packages()
+#head.matrix(mat_pkg)
+tbl_pkg <- tibble::as_tibble(mat_pkg)
+
+```
+
+  - Utilisation de la fonction `CRAN_package_db` du paquet **`tools`**
+
+```{r}
+#| label: CRAN_package_db
+#| 
+pkgdb <- tools::CRAN_package_db()
+
+```
+
+  - comparaisons du nombre d'informations entre les 2 bases
+
+```{r}
+#| label: db_comparisons
+#| code-fold: true
+
+tbl_summary <- tibble(
+             n = c(length(unique(tbl_pkg$Package)), 
+                   length(unique(pkgdb$Package))),
+  fields_count = c(ncol(tbl_pkg), ncol(pkgdb)), 
+        taille = c(lobstr::obj_size(tbl_pkg), lobstr::obj_size(pkgdb)) 
+)
+
+gt_summary <- gt(tbl_summary) |> 
+  tab_header(
+    title = md("**packages R disponibles**"),
+    subtitle = md(paste("(en date du", Sys.Date(), ")"))
+  ) |> 
+  tab_footnote(
+    footnote = md("Quantité estimée avec la commande `obj_size`"),
+    locations = cells_column_labels(columns = taille)
+  ) |> 
+  tab_footnote(
+    footnote = md("Données issues de la commande `available.packages`"),
+    locations = cells_body(
+      columns = c(fields_count,n), rows = 1
+    )
+  ) |> 
+  tab_footnote(
+    footnote = md("Données issues de la commande `CRAN_package_db`"),
+    locations = cells_body(
+      columns = c(fields_count,n), rows = 2
+    )
+  )
+
+gt_summary
+
+```
+
+### Paquets communs
+
+```{r}
+#| label: similar_pkgs
+#| code-fold: true
+
+similar_pkgs <- intersect(tbl_pkg$Package, pkgdb$Package)
+
+```
+
+::: {.callout-note collapse="false"}
+
+ - Nous avons `r length(similar_pkgs)` paquets en commun
+
+ - Tous les paquets du tibble `tbl_pkg` sont présents dans le data.frame `pkgdb` puisque :
+
+   - **length(tbl_pkg\$Package[!tbl_pkg\$Package %in% similar_pkgs]) == `r length(tbl_pkg$Package[!tbl_pkg$Package %in% similar_pkgs])`**
+
+:::
+
+### Paquets différents
+
+```{r}
+#| label: dissimilar_pkgs
+#| code-fold: true
+
+dissimilar_pkgs <- pkgdb$Package[!pkgdb$Package %in% similar_pkgs]
+dissimilar_pkgs
+
+```
+
+### Paquets doublons
+
+```{r}
+#| label: twin_pkgs
+#| code-fold: true
+
+pkgdb |>
+  summarize(n = dplyr::n(), .by = Package) |> 
+  dplyr::filter(n > 1) |> 
+  dplyr::inner_join(pkgdb) |> 
+  dplyr::select(c(Package, Version, Depends)) 
+
+```
+
+### Informations communes et différentes
+
+  - Champs communs
+  
+```{r}
+#| label: similar_fields
+#| code-fold: true
+#| 
+similar_fields <- names(tbl_pkg)[names(tbl_pkg) %in% names(pkgdb)]
+similar_fields
+
+```
+
+  - Champs différents
+  
+```{r}
+#| label: dissimilar_fields
+#| code-fold: true
+#| 
+dissimilar_fields_tbl_pkg <- names(tbl_pkg)[!names(tbl_pkg) %in% names(pkgdb)]
+dissimilar_fields_pkgdb <- names(pkgdb)[!names(pkgdb) %in% names(tbl_pkg)]
+dissimilar_fields <- c(dissimilar_fields_tbl_pkg, dissimilar_fields_pkgdb)
+dissimilar_fields
+
+```
+
+### Informations sur les champs de la table `tbl_pkg`
+
+```{r}
+#| label: fields_info
+#| code-fold: true
+#| 
+get_property <- function(tbl, f) sapply(tbl, f)
+
+get_NA_count <- function(x) sum(is.na(x))
+get_data_count <- function(x) sum(!is.na(x))
+get_unique_count <- function(x) length(unique(x))
+
+NA_count <- tbl_pkg |> get_property(get_NA_count)
+data_count <- tbl_pkg |> get_property(get_data_count)
+unique_count <- tbl_pkg |> get_property(get_unique_count)
+
+resultat <- t(rbind(data_count, NA_count, unique_count))
+
+tbl_summary <- as_tibble(resultat)
+tbl_summary$field <- dimnames(resultat)[[1]]
+tbl_summary <- tbl_summary |> 
+  dplyr::relocate("field")
+
+names(tbl_summary) <- c("champ", "data", "NA", "unique")
+
+gt_summary <- gt(tbl_summary) |> 
+  tab_header(
+    title = md("**Indications sur les différents champs**"),
+    subtitle = md("(Décompte des lignes vérifiant la propriété)")
+  ) 
+
+gt_summary
+
+```
+
+### benchmarking
+
+```{r}
+#| label: benchmarks
+#| code-fold: true
+
+# microbenchmark(
+#   get_NA_2(tbl_pkg),
+#   get_NA(tbl_pkg)
+# ) |> 
+#   ggplot2::autoplot()
+
+```
+
+### Types de licences utilisées
+
+```{r}
+#| label: licences_used
+#| code-fold: true
+#| 
+table_licenses <- table(tbl_pkg$License)
+mat_licenses <- as.matrix(table_licenses)
+tbl_licenses <- as_tibble(mat_licenses)
+tbl_licenses$license <- dimnames(mat_licenses)[[1]]
+tbl_licenses <- tbl_licenses |> 
+  dplyr::relocate("license")
+
+names(tbl_licenses) <- c("licence", "n")
+
+
+#--- licences orphelines
+
+tbl_orphan_licenses <- tbl_licenses |> 
+    dplyr::filter(n == 1) |> 
+    left_join(tbl_pkg, join_by(licence == License)) |> 
+    select(Package, licence)
+
+gt_orphan_licenses <- gt(tbl_orphan_licenses) |> 
+  tab_header(
+    title = md("**Nom des paquets liées à un type de licence orpheline**"),
+    subtitle = md("(qui n'apparaît qu'une fois dans la liste des licences)")
+  ) 
+
+gt_orphan_licenses
+
+#--- licences utilisées au moins 2 fois
+
+tbl_other_licenses <- tbl_licenses |> 
+  filter(n >= 1)
+
+gt_other_licenses <- gt(tbl_other_licenses) |> 
+  tab_header(
+    title = md("**Nombre de paquets liées à des licences non orphelines**"),
+    subtitle = md("(qui apparaît plus d'une fois dans la liste des licences)")
+  ) 
+
+gt_other_licenses
+
+```
+
+
