@@ -16,7 +16,6 @@ image: "image.jpg"
 library(purrr)
 library(dplyr)
 library(gt)
-library(microbenchmark)
 library(tools)
 library(lobstr)
 library(tibble)
@@ -167,40 +166,40 @@ get_NA_count <- function(x) sum(is.na(x))
 get_data_count <- function(x) sum(!is.na(x))
 get_unique_count <- function(x) length(unique(x))
 
-NA_count <- tbl_pkg |> get_property(get_NA_count)
-data_count <- tbl_pkg |> get_property(get_data_count)
-unique_count <- tbl_pkg |> get_property(get_unique_count)
+get_gt_summary <- function(tbl) {
+  
+  NA_count <- tbl |> get_property(get_NA_count)
+  data_count <- tbl |> get_property(get_data_count)
+  unique_count <- tbl |> get_property(get_unique_count)
 
-resultat <- t(rbind(data_count, NA_count, unique_count))
+  resultat <- t(rbind(data_count, NA_count, unique_count))
 
-tbl_summary <- as_tibble(resultat)
-tbl_summary$field <- dimnames(resultat)[[1]]
-tbl_summary <- tbl_summary |> 
-  dplyr::relocate("field")
+  tbl_summary <- as_tibble(resultat)
+  tbl_summary$field <- dimnames(resultat)[[1]]
+  tbl_summary <- tbl_summary |> 
+    dplyr::relocate("field")
 
-names(tbl_summary) <- c("champ", "data", "NA", "unique")
+  names(tbl_summary) <- c("champ", "data", "NA", "unique")
 
-gt_summary <- gt(tbl_summary) |> 
-  tab_header(
-    title = md("**Indications sur les différents champs**"),
-    subtitle = md("(Décompte des lignes vérifiant la propriété)")
+  gt_summary <- gt(tbl_summary) |> 
+    tab_header(
+      title = md("**Indications sur les différents champs**"),
+      subtitle = md("(Décompte des lignes vérifiant la propriété)")
   ) 
 
-gt_summary
+  return(gt_summary)
+  
+}
 
-```
+#--- tibble tbl_pkg
 
-### benchmarking
+gt_summary_tbl_pkg <- get_gt_summary(tbl_pkg)
+gt_summary_tbl_pkg
 
-```{r}
-#| label: benchmarks
-#| code-fold: true
+#--- data.frame pkgdb
 
-# microbenchmark(
-#   get_NA_2(tbl_pkg),
-#   get_NA(tbl_pkg)
-# ) |> 
-#   ggplot2::autoplot()
+gt_summary_pkgdb <- get_gt_summary(pkgdb)
+gt_summary_pkgdb
 
 ```
 
