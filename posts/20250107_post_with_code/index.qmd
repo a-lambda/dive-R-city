@@ -164,7 +164,7 @@ get_property <- function(tbl, f) sapply(tbl, f)
 
 get_NA_count <- function(x) sum(is.na(x))
 get_data_count <- function(x) sum(!is.na(x))
-get_unique_count <- function(x) length(unique(x))
+get_unique_count <- function(x) length(unique(x[!is.na(x)]))
 
 get_gt_summary <- function(tbl) {
   
@@ -185,7 +185,11 @@ get_gt_summary <- function(tbl) {
     tab_header(
       title = md("**Indications sur les différents champs**"),
       subtitle = md("(Décompte des lignes vérifiant la propriété)")
-  ) 
+  ) |> 
+  tab_footnote(
+    footnote = md("La valeur NA n'est pas comptabilisée"),
+    locations = cells_column_labels(columns = unique)
+  )
 
   return(gt_summary)
   
@@ -208,7 +212,8 @@ gt_summary_pkgdb
 ```{r}
 #| label: licences_used
 #| code-fold: true
-#| 
+#| warning: false
+
 table_licenses <- table(tbl_pkg$License)
 mat_licenses <- as.matrix(table_licenses)
 tbl_licenses <- as_tibble(mat_licenses)
@@ -217,7 +222,6 @@ tbl_licenses <- tbl_licenses |>
   dplyr::relocate("license")
 
 names(tbl_licenses) <- c("licence", "n")
-
 
 #--- licences orphelines
 
