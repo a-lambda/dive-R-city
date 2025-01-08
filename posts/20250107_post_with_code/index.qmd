@@ -19,10 +19,32 @@ library(gt)
 library(tools)
 library(lobstr)
 library(tibble)
-
+library(rvest)
 ```
 
 ### Nombre de paquets R disponibles
+
+  - utilisation de `rvest` sur le repo [/src/contrib](https://cloud.r-project.org/src/contrib/) 
+
+```{r}
+#| label: rvest_scraping
+
+url_repo <- "https://cloud.r-project.org/src/contrib/"
+
+links <- read_html(url_repo) |> 
+  html_elements("a") |> 
+  html_attr("href")
+
+tbl_pkg_rvest <- links[grep("[.]tar[.]gz$", links)] |> 
+  gsub(pattern = ".tar.gz", replacement = "") |> 
+  strsplit(split = "_") |> 
+  unlist() |> 
+  matrix(ncol = 2, byrow = TRUE) |> 
+  as_tibble()
+
+names(tbl_pkg_rvest) <- c("Package", "Version")
+
+```
 
   - utilisation de la fonction **`available.packages`** du paquet `utils`
   
@@ -44,7 +66,7 @@ pkgdb <- tools::CRAN_package_db()
 
 ```
 
-  - comparaisons du nombre d'informations entre les 2 bases
+  - comparaisons du nombre d'informations entre les 3 bases
 
 ```{r}
 #| label: db_comparisons
@@ -52,9 +74,12 @@ pkgdb <- tools::CRAN_package_db()
 
 tbl_summary <- tibble(
              n = c(length(unique(tbl_pkg$Package)), 
-                   length(unique(pkgdb$Package))),
-  fields_count = c(ncol(tbl_pkg), ncol(pkgdb)), 
-        taille = c(lobstr::obj_size(tbl_pkg), lobstr::obj_size(pkgdb)) 
+                   length(unique(pkgdb$Package)),
+                   length(unique(tbl_pkg_rvest$Package))),
+  fields_count = c(ncol(tbl_pkg), ncol(pkgdb), ncol(tbl_pkg_rvest)), 
+        taille = c(lobstr::obj_size(tbl_pkg), 
+                   lobstr::obj_size(pkgdb),
+                   lobstr::obj_size(tbl_pkg_rvest)) 
 )
 
 gt_summary <- gt(tbl_summary) |> 
@@ -77,30 +102,47 @@ gt_summary <- gt(tbl_summary) |>
     locations = cells_body(
       columns = c(fields_count,n), rows = 2
     )
+  ) |> 
+  tab_footnote(
+    footnote = md("Données issues de la commande `rvest`"),
+    locations = cells_body(
+      columns = c(fields_count,n), rows = 3
+    )
   )
-
+  
 gt_summary
 
 ```
 
-### Paquets communs
+### Paquets communs pour les 3 sources de données
 
 ```{r}
 #| label: similar_pkgs
 #| code-fold: true
 
-similar_pkgs <- intersect(tbl_pkg$Package, pkgdb$Package)
+e1 <- unique(tbl_pkg_rvest$Package)
+e2 <- unique(tbl_pkg$Package)
+e3 <- unique(pkgdb$Package)
+
+similar_pkgs <- intersect(intersect(e1, e2), e3)
+
+dissimilar_tbl_pkg_rvest <- e1[!e1 %in% similar_pkgs]
+dissimilar_tbl_pkg <- e2[!e2 %in% similar_pkgs]
+dissimilar_pkgdb <- e3[!e3 %in% similar_pkgs]
+
+identical(dissimilar_tbl_pkg_rvest, dissimilar_pkgdb)
 
 ```
+
 
 ::: {.callout-note collapse="false"}
 
  - Nous avons `r length(similar_pkgs)` paquets en commun
 
- - Tous les paquets du tibble `tbl_pkg` sont présents dans le data.frame `pkgdb` puisque :
+ - Tous les paquets du tibble `tbl_pkg` sont présents dans le data.frame `pkgdb` et le tibble `tbl_pkg_rvest`puisque :
 
-   - **length(tbl_pkg\$Package[!tbl_pkg\$Package %in% similar_pkgs]) == `r length(tbl_pkg$Package[!tbl_pkg$Package %in% similar_pkgs])`**
-
+   - **length(dissimilar_tbl_pkg) == `r length(dissimilar_tbl_pkg)`**
+   
 :::
 
 ### Paquets différents
