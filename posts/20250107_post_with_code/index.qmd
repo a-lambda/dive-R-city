@@ -154,7 +154,15 @@ dissimilar_fields
 
 ```
 
-### Informations sur les champs de la table `tbl_pkg`
+### Informations sur les champs
+
+::: {.callout-note collapse="false"}
+
+Tous les données des contenues dans `tbl_pkg` et `pkgdb` sont de type **character**
+
+On peut donc calculer la taille maximale de caractères utilisés pour les données de chaque champ.
+
+:::
 
 ```{r}
 #| label: fields_info
@@ -165,42 +173,64 @@ get_property <- function(tbl, f) sapply(tbl, f)
 get_NA_count <- function(x) sum(is.na(x))
 get_data_count <- function(x) sum(!is.na(x))
 get_unique_count <- function(x) length(unique(x[!is.na(x)]))
+get_max_nchar <- function(x) {
+  if (all(is.na(x))) return(0) else return(max(nchar(x[!is.na(x)])))
+}
 
 get_gt_summary <- function(tbl) {
   
-  NA_count <- tbl |> get_property(get_NA_count)
   data_count <- tbl |> get_property(get_data_count)
+  NA_count <- tbl |> get_property(get_NA_count)
   unique_count <- tbl |> get_property(get_unique_count)
-
-  resultat <- t(rbind(data_count, NA_count, unique_count))
+  max_nchar <- tbl |> get_property(get_max_nchar)
+  
+  resultat <- t(rbind(data_count, NA_count, unique_count, max_nchar))
 
   tbl_summary <- as_tibble(resultat)
   tbl_summary$field <- dimnames(resultat)[[1]]
   tbl_summary <- tbl_summary |> 
     dplyr::relocate("field")
 
-  names(tbl_summary) <- c("champ", "data", "NA", "unique")
+  names(tbl_summary) <- c("Nom du champ", 
+                          "# lignes avec données", 
+                          "# lignes avec NA", 
+                          "# valeurs différentes", 
+                          "taille max.")
 
   gt_summary <- gt(tbl_summary) |> 
     tab_header(
-      title = md("**Indications sur les différents champs**"),
-      subtitle = md("(Décompte des lignes vérifiant la propriété)")
+      title = md("Données relatives aux différents champs"),
+      subtitle = md(paste("Nombre de lignes = ", nrow(tbl)))
   ) |> 
   tab_footnote(
     footnote = md("La valeur NA n'est pas comptabilisée"),
-    locations = cells_column_labels(columns = unique)
+    locations = cells_column_labels(columns = "# valeurs différentes")
+  ) |> 
+  tab_footnote(
+    footnote = md("En nombre de caractères (0 si NA pour toutes les lignes)"),
+    locations = cells_column_labels(columns = "taille max.")
   )
 
   return(gt_summary)
   
 }
 
-#--- tibble tbl_pkg
+```
+
+  -  de la table `tbl_pkg`
+
+```{r}
+#|label: summary_tbl_pkg
 
 gt_summary_tbl_pkg <- get_gt_summary(tbl_pkg)
 gt_summary_tbl_pkg
 
-#--- data.frame pkgdb
+```
+
+  - de la table `pgkdb`
+
+```{r}
+#|label: summary_pkgdb
 
 gt_summary_pkgdb <- get_gt_summary(pkgdb)
 gt_summary_pkgdb
@@ -221,32 +251,41 @@ tbl_licenses$license <- dimnames(mat_licenses)[[1]]
 tbl_licenses <- tbl_licenses |> 
   dplyr::relocate("license")
 
-names(tbl_licenses) <- c("licence", "n")
+names(tbl_licenses) <- c("Nom licence", "occurrences")
 
-#--- licences orphelines
+```
+
+  - Licences à usage unique
+
+```{r}
+#|label: orphan_licenses
 
 tbl_orphan_licenses <- tbl_licenses |> 
-    dplyr::filter(n == 1) |> 
-    left_join(tbl_pkg, join_by(licence == License)) |> 
-    select(Package, licence)
+    dplyr::filter(occurrences == 1) |> 
+    left_join(tbl_pkg, join_by("Nom licence" == License)) |> 
+    select(Package, "Nom licence")
 
 gt_orphan_licenses <- gt(tbl_orphan_licenses) |> 
   tab_header(
-    title = md("**Nom des paquets liées à un type de licence orpheline**"),
-    subtitle = md("(qui n'apparaît qu'une fois dans la liste des licences)")
+    title = md("**Licences orphelines**"),
+    subtitle = md("(occurrence de licence égale à 1 pour un paquet donné)")
   ) 
 
 gt_orphan_licenses
+```
 
-#--- licences utilisées au moins 2 fois
+  - Autres licences
+
+```{r}
+#|label: other_licenses
 
 tbl_other_licenses <- tbl_licenses |> 
-  filter(n >= 1)
+  filter(occurrences > 1)
 
 gt_other_licenses <- gt(tbl_other_licenses) |> 
   tab_header(
-    title = md("**Nombre de paquets liées à des licences non orphelines**"),
-    subtitle = md("(qui apparaît plus d'une fois dans la liste des licences)")
+    title = md("**Licences non orphelines**"),
+    subtitle = md("(occurrences de licence supérieure à 1 pour un paquet donné)")
   ) 
 
 gt_other_licenses
