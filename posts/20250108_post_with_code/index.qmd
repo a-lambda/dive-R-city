@@ -1,0 +1,146 @@
+---
+title: "R packages database (2/?)"
+author: "Alcor"
+date: "2025-01-08"
+categories: [news, code, analysis]
+image: "image.jpg"
+---
+
+## Etude des données obtenues sur les paquets à partir de `CRAN_package_db`
+
+```{r}
+#| label: load_libraries
+#| code-fold: true
+#| warning: false
+#| 
+library(dplyr)
+library(tools)
+library(gt)
+library(purrr)
+
+```
+
+Les champs conservés dans la suite de l'étude sont :
+
+  - ceux dont les données ne présentent aucune valeur `NA`.
+  - le champ `Authors@R` qui comporte des informations textes intéressantes
+  
+:::
+
+```{r}
+#| label: CRAN_package_db
+#| 
+pkgdb <- tools::CRAN_package_db()
+
+```
+
+### Simplification du data.frame d'étude
+
+```{r}
+#| label: pkgdb_simplified
+
+fields <- c(
+  "Package", "Version", "License", "MD5sum", "NeedsCompilation",
+  "Author", "Authors@R", "Date/Publication", "Description", "Maintainer", "Packaged",
+  "Title", "Published")
+
+pkgdb <- pkgdb |> 
+  dplyr::select(all_of(fields))
+
+```
+
+### Types de licences utilisées
+
+```{r}
+#| label: licences_used
+#| code-fold: true
+#| warning: false
+
+table_licenses <- table(pkgdb$License)
+tbl_licenses   <- table_licenses |> 
+  as.matrix() |> 
+  as_tibble() |> 
+  dplyr::mutate(license = dimnames(table_licenses)[[1]]) |> 
+  rename("Nom licence" = license,
+          occurrences = V1,
+        ) |> 
+  dplyr::relocate("Nom licence")
+
+```
+
+  - Licences à usage unique
+
+```{r}
+#|label: orphan_licenses
+
+tbl_orphan_licenses <- tbl_licenses |> 
+    dplyr::filter(occurrences == 1) |> 
+    left_join(pkgdb, join_by("Nom licence" == License)) |> 
+    select(Package, "Nom licence")
+
+gt_orphan_licenses <- gt(tbl_orphan_licenses) |> 
+  tab_header(
+    title    = md("**Licences orphelines**"),
+    subtitle = md("(occurrence de licence égale à 1 pour un paquet donné)")
+  ) 
+
+gt_orphan_licenses
+
+```
+
+  - Autres licences
+
+```{r}
+#|label: other_licenses
+
+tbl_other_licenses <- tbl_licenses |> 
+  filter(occurrences > 1)
+
+gt_other_licenses <- gt(tbl_other_licenses) |> 
+  tab_header(
+    title    = md("**Licences non orphelines**"),
+    subtitle = md("(occurrences de licence supérieure à 1 pour un paquet donné)")
+  ) 
+
+gt_other_licenses
+
+```
+
+### Données du champ `Authors@R`
+
+  - fonction `extract_person`
+
+```{r}
+#| label: extract_person
+#| code-fold: true
+
+extract_person <- function(text) {
+  
+  delete_vector_item <- function(vector, string_to_delete) {
+    
+    return(vector[vector != string_to_delete])
+    
+  }
+  regex    <- "[[:alnum:][@]-.]+"
+  resultat <- stringi::stri_extract_all(text, regex = regex)[[1]] |> 
+    delete_vector_item(string_to_delete = "c")
+  
+  return(resultat)
+  
+}
+
+```
+
+  - Récupération des données de personnes
+
+```{r}
+
+personnes <- pkgdb$`Authors@R` |> 
+  map(extract_person)
+
+personnes[1:10]
+
+```
+
+
+
