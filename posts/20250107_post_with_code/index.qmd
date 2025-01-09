@@ -1,5 +1,5 @@
 ---
-title: "R packages database"
+title: "R packages database (1/?)"
 author: "Alcor"
 date: "2025-01-07"
 categories: [news, code, analysis]
@@ -39,10 +39,11 @@ tbl_pkg_rvest <- links[grep("[.]tar[.]gz$", links)] |>
   gsub(pattern = ".tar.gz", replacement = "") |> 
   strsplit(split = "_") |> 
   unlist() |> 
-  matrix(ncol = 2, byrow = TRUE) |> 
+  matrix(ncol = 2, 
+         byrow = TRUE, 
+         dimnames = list(NULL, c("Package", "Version"))
+         ) |> 
   as_tibble()
-
-names(tbl_pkg_rvest) <- c("Package", "Version")
 
 ```
 
@@ -50,10 +51,9 @@ names(tbl_pkg_rvest) <- c("Package", "Version")
   
 ```{r}
 #| label: available_packages
-#| 
-mat_pkg <- utils::available.packages()
-#head.matrix(mat_pkg)
-tbl_pkg <- tibble::as_tibble(mat_pkg)
+
+tbl_pkg <- utils::available.packages() |> 
+  as_tibble()
 
 ```
 
@@ -84,27 +84,27 @@ tbl_summary <- tibble(
 
 gt_summary <- gt(tbl_summary) |> 
   tab_header(
-    title = md("**packages R disponibles**"),
+    title    = md("**packages R disponibles**"),
     subtitle = md(paste("(en date du", Sys.Date(), ")"))
   ) |> 
   tab_footnote(
-    footnote = md("Quantité estimée avec la commande `obj_size`"),
+    footnote  = md("Quantité estimée avec la commande `obj_size`"),
     locations = cells_column_labels(columns = taille)
   ) |> 
   tab_footnote(
-    footnote = md("Données issues de la commande `available.packages`"),
+    footnote  = md("Données issues de la commande `available.packages`"),
     locations = cells_body(
       columns = c(fields_count,n), rows = 1
     )
   ) |> 
   tab_footnote(
-    footnote = md("Données issues de la commande `CRAN_package_db`"),
+    footnote  = md("Données issues de la commande `CRAN_package_db`"),
     locations = cells_body(
       columns = c(fields_count,n), rows = 2
     )
   ) |> 
   tab_footnote(
-    footnote = md("Données issues de la commande `rvest`"),
+    footnote  = md("Données issues de la commande `rvest`"),
     locations = cells_body(
       columns = c(fields_count,n), rows = 3
     )
@@ -127,8 +127,8 @@ e3 <- unique(pkgdb$Package)
 similar_pkgs <- intersect(intersect(e1, e2), e3)
 
 dissimilar_tbl_pkg_rvest <- e1[!e1 %in% similar_pkgs]
-dissimilar_tbl_pkg <- e2[!e2 %in% similar_pkgs]
-dissimilar_pkgdb <- e3[!e3 %in% similar_pkgs]
+dissimilar_tbl_pkg       <- e2[!e2 %in% similar_pkgs]
+dissimilar_pkgdb         <- e3[!e3 %in% similar_pkgs]
 
 identical(dissimilar_tbl_pkg_rvest, dissimilar_pkgdb)
 
@@ -200,7 +200,7 @@ dissimilar_fields
 
 ::: {.callout-note collapse="false"}
 
-Tous les données des contenues dans `tbl_pkg` et `pkgdb` sont de type **character**
+Tous les données contenues dans `tbl_pkg` et `pkgdb` sont de type **character**
 
 On peut donc calculer la taille maximale de caractères utilisés pour les données de chaque champ.
 
@@ -210,49 +210,49 @@ On peut donc calculer la taille maximale de caractères utilisés pour les donn�
 #| label: fields_info
 #| code-fold: true
 #| 
-get_property <- function(tbl, f) sapply(tbl, f)
+get_property     <- function(tbl, f) sapply(tbl, f)
 
-get_NA_count <- function(x) sum(is.na(x))
-get_data_count <- function(x) sum(!is.na(x))
+get_NA_count     <- function(x) sum(is.na(x))
+get_data_count   <- function(x) sum(!is.na(x))
 get_unique_count <- function(x) length(unique(x[!is.na(x)]))
-get_max_nchar <- function(x) {
+get_max_nchar    <- function(x) {
   if (all(is.na(x))) return(0) else return(max(nchar(x[!is.na(x)])))
 }
 
 get_gt_summary <- function(tbl) {
   
-  data_count <- tbl |> get_property(get_data_count)
-  NA_count <- tbl |> get_property(get_NA_count)
+  data_count   <- tbl |> get_property(get_data_count)
+  NA_count     <- tbl |> get_property(get_NA_count)
   unique_count <- tbl |> get_property(get_unique_count)
-  max_nchar <- tbl |> get_property(get_max_nchar)
+  max_nchar    <- tbl |> get_property(get_max_nchar)
   
   resultat <- t(rbind(data_count, NA_count, unique_count, max_nchar))
-
-  tbl_summary <- as_tibble(resultat)
+  
+  tbl_summary       <- as_tibble(resultat)
   tbl_summary$field <- dimnames(resultat)[[1]]
-  tbl_summary <- tbl_summary |> 
+  tbl_summary       <- tbl_summary |> 
     dplyr::relocate("field")
-
+  
   names(tbl_summary) <- c("Nom du champ", 
                           "# lignes avec données", 
                           "# lignes avec NA", 
                           "# valeurs différentes", 
                           "taille max.")
-
+  
   gt_summary <- gt(tbl_summary) |> 
     tab_header(
-      title = md("Données relatives aux différents champs"),
-      subtitle = md(paste("Nombre de lignes = ", nrow(tbl)))
-  ) |> 
-  tab_footnote(
-    footnote = md("La valeur NA n'est pas comptabilisée"),
-    locations = cells_column_labels(columns = "# valeurs différentes")
-  ) |> 
-  tab_footnote(
-    footnote = md("En nombre de caractères (0 si NA pour toutes les lignes)"),
-    locations = cells_column_labels(columns = "taille max.")
-  )
-
+      title     = md("Données relatives aux différents champs"),
+      subtitle  = md(paste("Nombre de lignes = ", nrow(tbl)))
+    ) |> 
+    tab_footnote(
+      footnote  = md("La valeur NA n'est pas comptabilisée"),
+      locations = cells_column_labels(columns = "# valeurs différentes")
+    ) |> 
+    tab_footnote(
+      footnote  = md("En nombre de caractères (0 si NA pour toutes les lignes)"),
+      locations = cells_column_labels(columns = "taille max.")
+    )
+  
   return(gt_summary)
   
 }
@@ -279,59 +279,10 @@ gt_summary_pkgdb
 
 ```
 
-### Types de licences utilisées
+::: {.callout-note collapse="false"}
 
-```{r}
-#| label: licences_used
-#| code-fold: true
-#| warning: false
+Le data.frame `pkgdb` contient les données les plus à jour.
 
-table_licenses <- table(tbl_pkg$License)
-mat_licenses <- as.matrix(table_licenses)
-tbl_licenses <- as_tibble(mat_licenses)
-tbl_licenses$license <- dimnames(mat_licenses)[[1]]
-tbl_licenses <- tbl_licenses |> 
-  dplyr::relocate("license")
+Ce fichier sera étudié plus précisément dans le second épisode de cette série de posts sur les paquets R.
 
-names(tbl_licenses) <- c("Nom licence", "occurrences")
-
-```
-
-  - Licences à usage unique
-
-```{r}
-#|label: orphan_licenses
-
-tbl_orphan_licenses <- tbl_licenses |> 
-    dplyr::filter(occurrences == 1) |> 
-    left_join(tbl_pkg, join_by("Nom licence" == License)) |> 
-    select(Package, "Nom licence")
-
-gt_orphan_licenses <- gt(tbl_orphan_licenses) |> 
-  tab_header(
-    title = md("**Licences orphelines**"),
-    subtitle = md("(occurrence de licence égale à 1 pour un paquet donné)")
-  ) 
-
-gt_orphan_licenses
-```
-
-  - Autres licences
-
-```{r}
-#|label: other_licenses
-
-tbl_other_licenses <- tbl_licenses |> 
-  filter(occurrences > 1)
-
-gt_other_licenses <- gt(tbl_other_licenses) |> 
-  tab_header(
-    title = md("**Licences non orphelines**"),
-    subtitle = md("(occurrences de licence supérieure à 1 pour un paquet donné)")
-  ) 
-
-gt_other_licenses
-
-```
-
-
+:::
