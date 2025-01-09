@@ -32,6 +32,9 @@ Les champs conservés dans la suite de l'étude sont :
 #| 
 pkgdb <- tools::CRAN_package_db()
 
+RDS_bkp_name <- paste0(Sys.Date(), "_pkg.RDS") 
+saveRDS(pkgdb, file.path("DATA", RDS_bkp_name))
+
 ```
 
 ### Simplification du data.frame d'étude
