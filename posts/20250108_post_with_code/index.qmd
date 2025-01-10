@@ -17,7 +17,8 @@ library(dplyr)
 library(tools)
 library(gt)
 library(purrr)
-
+library(ggplot2)
+library(tibble)
 ```
 
 Les champs conservés dans la suite de l'étude sont :
@@ -111,22 +112,28 @@ gt_other_licenses
 
 ### Données du champ `Authors@R`
 
-  - fonction `extract_person`
+```{r}
+#| label: authorsR
+
+authorsR <- pkgdb$`Authors@R`
+
+```
+
+  1) fonction `extract_email`
 
 ```{r}
-#| label: extract_person
-#| code-fold: true
+#| label: extract_email_function
 
-extract_person <- function(text) {
+extract_email <- function(text) {
+
+  regex_email    <- "[\"]([^[ ]|[\"]]+?[@]{1}.+?)[\"]"
   
-  delete_vector_item <- function(vector, string_to_delete) {
-    
-    return(vector[vector != string_to_delete])
-    
-  }
-  regex    <- "[[:alnum:][@]-.]+"
-  resultat <- stringi::stri_extract_all(text, regex = regex)[[1]] |> 
-    delete_vector_item(string_to_delete = "c")
+  resultat <- stringi::stri_extract_all(text, regex = regex_email) |>
+    unlist() |> 
+    na.omit() |> 
+    gsub(pattern = "[\"]", replacement = "") |> 
+    as_tibble() |> 
+    rename(email = value)
   
   return(resultat)
   
@@ -134,16 +141,80 @@ extract_person <- function(text) {
 
 ```
 
-  - Récupération des données de personnes
-
+  - extraction des emails
+  
 ```{r}
+#| label: extract_email
 
-personnes <- pkgdb$`Authors@R` |> 
-  map(extract_person)
-
-personnes[1:10]
+emails <- authorsR |> 
+  extract_email()
 
 ```
 
 
+```{r}
+#| label: emails_count
 
+pkg_db_emails_total <- nrow(emails) 
+pkg_db_emails_count <- length(unique(emails$email))
+
+```
+
+::: {.callout-note collapse="false"}
+
+On dénombre `r pkg_db_emails_count` emails sur `pkg_db_emails_total` occurrences.
+  
+:::
+
+  - classement par occurrences
+
+```{r}
+#| label: email_occurrences
+
+email_occurrences <- emails |> 
+  summarize(n = n(), .by="email") |>
+  arrange(desc(n), email)
+
+gt_email_occurrences <- gt(email_occurrences |> dplyr::filter(n >= 10)) |> 
+  tab_header(
+    title    = md("**Email in packages db sorted by occurrences**"),
+    subtitle = md(paste("**( email displayed only for n >= 10 )**"))
+  ) |> 
+  tab_footnote(
+    footnote  = md(paste("Données valables pour le ", Sys.Date())),
+    locations = cells_column_labels()
+    )
+
+gt_email_occurrences
+  
+```
+
+  - graphe log log
+
+```{r}
+
+table_email_occurrences <- table(email_occurrences$n)
+tbl_email_occurences <- table_email_occurrences |> 
+  as.matrix() |> 
+  as_tibble() |> 
+  dplyr::mutate(n = as.numeric(dimnames(table_email_occurrences)[[1]])) |> 
+  rename(frequence = V1)
+
+ggplot(data = tbl_email_occurences) +
+  geom_point(aes(x = log(n), y = log(frequence))) +
+  geom_smooth(method = 'lm', aes(x = log(n), y = log(frequence))) +
+  labs(
+    title = "Log-log graph relatively to email occurrence frequencies",
+    x = "email occurrences (log scale)",
+    y = "frequency (log scale)"
+  )
+
+```
+
+::: {.callout-important collapse="false"}
+
+Il reste à déterminer les paramètres de la droite ...
+  
+:::
+
+  
