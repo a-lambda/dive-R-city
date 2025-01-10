@@ -89,24 +89,29 @@ gt_summary <- gt(tbl_summary) |>
   ) |> 
   tab_footnote(
     footnote  = md("Quantité estimée avec la commande `obj_size`"),
-    locations = cells_column_labels(columns = taille)
+    locations = cells_column_labels(
+      columns   = taille
+    )
   ) |> 
   tab_footnote(
     footnote  = md("Données issues de la commande `available.packages`"),
     locations = cells_body(
-      columns = c(fields_count,n), rows = 1
+      columns = c(fields_count,n), 
+      rows = 1
     )
   ) |> 
   tab_footnote(
     footnote  = md("Données issues de la commande `CRAN_package_db`"),
     locations = cells_body(
-      columns = c(fields_count,n), rows = 2
+      columns = c(fields_count,n), 
+      rows = 2
     )
   ) |> 
   tab_footnote(
     footnote  = md("Données issues de la commande `rvest`"),
     locations = cells_body(
-      columns = c(fields_count,n), rows = 3
+      columns = c(fields_count,n), 
+      rows = 3
     )
   )
   
@@ -167,6 +172,34 @@ pkgdb |>
   dplyr::filter(n > 1) |> 
   dplyr::inner_join(pkgdb) |> 
   dplyr::select(c(Package, Version, Depends)) 
+
+```
+
+### Derniers paquets publiés
+
+  - Donnée `Published`
+  
+```{r}
+#|label: published_field
+
+published <- pkgdb$Published
+
+last_published <- published |> 
+  sort(decreasing = TRUE) |> 
+  head(n = 1) 
+
+last_pkg_published <- pkgdb |> 
+  select(Package, Version, Published, `Date/Publication`) |> 
+  filter(Published == last_published) |> 
+  select(Package, Version, `Date/Publication`) |> 
+  arrange(desc(`Date/Publication`), Package, Version)
+
+gt_last_pkg_published <- gt(last_pkg_published) |> 
+  tab_header(
+    title    = md("**Dernier paquets publiés**"),
+  ) 
+
+gt_last_pkg_published
 
 ```
 
