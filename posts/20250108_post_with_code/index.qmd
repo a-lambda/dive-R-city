@@ -217,4 +217,17 @@ Il reste à déterminer les paramètres de la droite ...
   
 :::
 
+  - Sauvegarde des emails
+  
+```{r}
+#| label: save_emails
+
+saveRDS(
+  object = unique(emails), 
+  file = paste0(Sys.Date(),"_emails.RDS")
+)
+
+```
+
+
   
