@@ -22,6 +22,8 @@ library(tibble)
 
 ```
 
+::: {.callout-note collapse="false"}
+
 Les champs conservés dans la suite de l'étude sont :
 
   - ceux dont les données ne présentent aucune valeur `NA`.
@@ -151,39 +153,129 @@ emails <- authorsR |>
 
 ```
 
+  - Sauvegarde des emails
+  
+```{r}
+#| label: save_emails
+
+saveRDS(
+  object = unique(emails),
+  file = paste0(Sys.Date(),"_emails.RDS")
+)
+
+```
+
+  2) fonction `extract_mail_server`
+  
+```{r}
+#| label: extract_mail_server_function
+
+extract_mail_server <- function(text) {
+
+  regex_mail_server    <- "[@](.+)$"
+  
+  resultat <- stringi::stri_extract_all(text, regex = regex_mail_server) |>
+    unlist() |> 
+    na.omit() |> 
+    gsub(pattern = "[@]", replacement = "") |> 
+    as_tibble() |> 
+    rename(`mail server` = value)
+  
+  return(resultat)
+
+}
+
+```
+
+  - extraction des serveurs de messagerie
+
+```{r}
+#| label: extract_mail_server
+
+mail_servers <- extract_mail_server(emails$email)
+
+```
+
+  3) fonction `extract_TLD`
+  
+```{r}
+#| label: extract_TLD_function
+
+extract_TLD <- function(text) {
+
+  regex_TLD <- "([^[.]]+$)"
+  
+  resultat <- stringi::stri_extract_all(text, regex = regex_TLD) |>
+    unlist() |> 
+    na.omit() |> 
+    gsub(pattern = "[@]", replacement = "") |> 
+    as_tibble() |> 
+    rename(`TLD` = value)
+  
+  return(resultat)
+
+}
+
+```
+
+  - extraction des TLD (Top Level Domain) des serveurs de messagerie
+
+```{r}
+#| label: extract_TLD
+
+mail_server_tlds <- extract_TLD(emails$email)
+
+```
+
+  - réunion des info mails dans le même tibble
+
+```{r}
+#| label: infomails_tbl
+
+tbl_emails <- bind_cols(emails, mail_servers, mail_server_tlds)
+
+```
+
 
 ```{r}
 #| label: emails_count
+#| echo: false
 
-pkg_db_emails_total <- nrow(emails) 
-pkg_db_emails_count <- length(unique(emails$email))
+pkgdb_emails_total <- nrow(tbl_emails) 
+pkgdb_emails_count <- length(unique(tbl_emails$email))
+pkgdb_mail_servers_count <- length(unique(tbl_emails$`mail server`))
+pkgdb_tlds_count <- length(unique(tbl_emails$TLD))
 
 ```
 
 ::: {.callout-note collapse="false"}
 
-On dénombre `r pkg_db_emails_count` emails sur `pkg_db_emails_total` occurrences.
+Sur les `r pkgdb_emails_total` recensés on dénombre :
+
+- `r pkgdb_emails_count` emails différents, 
+- `r pkgdb_mail_servers_count` serveurs de messagerie différents,
+- `r pkgdb_tlds_count` TLD différents,
   
 :::
 
-  - classement par occurrences
+  - classement par occurrences d'emails
 
 ```{r}
 #| label: email_occurrences
 
 email_occurrences <- emails |> 
-  summarize(n = n(), .by="email") |>
+  summarize(n = n(), .by = "email") |>
   arrange(desc(n), email)
 
-gt_email_occurrences <- gt(email_occurrences |> dplyr::filter(n >= 10)) |> 
+gt_email_occurrences <- gt(email_occurrences |> dplyr::filter(n >= 30)) |> 
   tab_header(
     title    = md("**Email in packages db sorted by occurrences**"),
-    subtitle = md(paste("**( email displayed only for n >= 10 )**"))
+    subtitle = md(paste("**( email displayed only for n >= 30 )**"))
   ) |> 
   tab_footnote(
     footnote  = md(paste("Données valables pour le ", Sys.Date())),
     locations = cells_column_labels()
-    )
+  )
 
 gt_email_occurrences
   
@@ -217,16 +309,51 @@ Il reste à déterminer les paramètres de la droite ...
   
 :::
 
-  - Sauvegarde des emails
-  
+  - classement par occurrences de serveurs de messagerie
+
 ```{r}
-#| label: save_emails
+#| label: mail_server_occurrences
 
-saveRDS(
-  object = unique(emails), 
-  file = paste0(Sys.Date(),"_emails.RDS")
-)
+mail_server_occurrences <- tbl_emails |> 
+  summarize(n = n(), .by = `mail server`) |>
+  arrange(desc(n), `mail server`)
 
+gt_mail_server_occurrences <- gt(mail_server_occurrences |> 
+                                   dplyr::filter(n >= 100)) |> 
+  tab_header(
+    title    = md("**Mail server in packages db sorted by occurrences**"),
+    subtitle = md(paste("**( Mail server displayed only for n >= 100 )**"))
+  ) |> 
+  tab_footnote(
+    footnote  = md(paste("Données valables pour le ", Sys.Date())),
+    locations = cells_column_labels()
+  )
+
+gt_mail_server_occurrences
+  
+```
+
+  - classement par occurrences de TLD
+
+```{r}
+#| label: TLD_occurrences
+
+TLD_occurrences <- tbl_emails |> 
+  summarize(n = n(), .by = "TLD") |>
+  arrange(desc(n), TLD)
+
+gt_TLD_occurrences <- gt(TLD_occurrences |> dplyr::filter(n >= 100)) |> 
+  tab_header(
+    title    = md("**Mail server TLDs in packages db sorted by occurrences**"),
+    subtitle = md(paste("**( Mail server TLD displayed only for n >= 100 )**"))
+  ) |> 
+  tab_footnote(
+    footnote  = md(paste("Données valables pour le ", Sys.Date())),
+    locations = cells_column_labels()
+    )
+
+gt_TLD_occurrences
+  
 ```
 
 
