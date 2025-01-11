@@ -19,6 +19,7 @@ library(gt)
 library(purrr)
 library(ggplot2)
 library(tibble)
+
 ```
 
 Les champs conservés dans la suite de l'étude sont :
@@ -33,8 +34,7 @@ Les champs conservés dans la suite de l'étude sont :
 #| 
 pkgdb <- tools::CRAN_package_db()
 
-RDS_bkp_name <- paste0(Sys.Date(), "_pkg.RDS") 
-# saveRDS(pkgdb, file.path(".", "DATA", RDS_bkp_name))
+saveRDS(object = pkgdb, file = paste0(Sys.Date(), "_pkg.RDS"))
 
 ```
 
@@ -228,6 +228,84 @@ saveRDS(
 )
 
 ```
+
+
+
+  - fonction `extract_person`
+
+```{r}
+#| label: extract_person
+#| code-fold: true
+
+delete_vector_item <- function(vector, string_to_delete) {
+  
+  return(vector[vector != string_to_delete])
+  
+}
+
+extract_person <- function(text) {
+  
+
+  regex    <- "[[:alnum:][@]-.]+"
+  resultat <- stringi::stri_extract_all(text, regex = regex)[[1]] |> 
+    delete_vector_item(string_to_delete = "c")
+  
+  return(resultat)
+  
+}
+
+```
+
+
+```{r}
+
+personnes <- pkgdb$`Authors@R` |> 
+  map(extract_person)
+
+personnes[1:10]
+
+chaines <- pkgdb$`Authors@R` |> 
+  map(gsub, pattern = "(\\s+|[\"])+", replace = "")
+chaines[[2]]
+
+```
+
+
+```{r}
+
+
+# unique(pkgdb$Version) |> grepl(pattern = "^0[.]")
+# pkgdb[grepl(pkgdb$Version, pattern = "^0[.]"), "Version"]
+# 
+# unique(gsub(pkgdb$Version, pattern = "\\.[0-9.-]*$", replacement = ""))
+# 
+# res <- pkgdb$Version |> regexpr(pattern = "^([0-9-]*)")
+# resultat <- pkgdb$Version |>  regmatches(res)
+# resultat
+# resultat <- gsub(pattern = "\\.[0-9.-]*$", x = pkgdb$Version, replacement = "")
+
+# pattern = "(^[0-9-]*)"
+# 
+# match_regex <- function(x, pattern) {
+#   
+#   return(regmatches(x = x, regexpr(pattern = pattern, text = x)))
+# 
+# }
+# 
+# match_regex_all <- function(x, pattern) {
+#   
+#   return(regmatches(x = x, gregexpr(pattern = pattern, text = x)))
+# 
+# }
+# 
+# text = pkgs$`Authors@R`[pkgs$Package == "aberrance"]
+# texte1 <- stringi::stri_extract_all(text, regex = "[[:alnum:][@]-.]+")[[1]]
+# texte1
+
+```
+
+
+
 
 
   
