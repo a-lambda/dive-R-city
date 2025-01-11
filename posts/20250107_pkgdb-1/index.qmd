@@ -175,28 +175,23 @@ pkgdb |>
 
 ```
 
-### Derniers paquets publiés
+### Derniers paquets publiés la veille
 
   - Donnée `Published`
   
 ```{r}
 #|label: published_field
 
-published <- pkgdb$Published
-
-last_published <- published |> 
-  sort(decreasing = TRUE) |> 
-  head(n = 1) 
-
 last_pkg_published <- pkgdb |> 
   select(Package, Version, Published, `Date/Publication`) |> 
-  filter(Published == last_published) |> 
+  filter(Published == Sys.Date() - 1) |> 
   select(Package, Version, `Date/Publication`) |> 
   arrange(desc(`Date/Publication`), Package, Version)
 
 gt_last_pkg_published <- gt(last_pkg_published) |> 
   tab_header(
     title    = md("**Derniers paquets publiés**"),
+    subtitle  = md(paste("Total =", nrow(last_pkg_published)))
   ) 
 
 gt_last_pkg_published
