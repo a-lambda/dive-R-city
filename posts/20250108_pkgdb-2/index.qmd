@@ -19,7 +19,7 @@ library(gt)
 library(purrr)
 library(ggplot2)
 library(tibble)
-
+library(stringi)
 ```
 
 ::: {.callout-note collapse="false"}
@@ -34,9 +34,11 @@ Les champs conservés dans la suite de l'étude sont :
 ```{r}
 #| label: CRAN_package_db
 #| 
-pkgdb <- tools::CRAN_package_db()
+pkgdb_CRAN <- tools::CRAN_package_db()
 
-saveRDS(object = pkgdb, file = paste0(Sys.Date(), "_pkg.RDS"))
+saveRDS(object = pkgdb_CRAN, 
+        file = paste(Sys.Date(), "pkgdb_CRAN.RDS", 
+        sep = "_"))
 
 ```
 
@@ -46,11 +48,11 @@ saveRDS(object = pkgdb, file = paste0(Sys.Date(), "_pkg.RDS"))
 #| label: pkgdb_simplified
 
 fields <- c(
-  "Package", "Version", "License", "MD5sum", "NeedsCompilation",
-  "Author", "Authors@R", "Date/Publication", "Description", "Maintainer", "Packaged",
-  "Title", "Published")
+  "Package", "Version", "Depends", "License", "MD5sum", 
+  "NeedsCompilation", "Author", "Authors@R", "Date/Publication", 
+  "Description", "Maintainer", "Packaged", "Title", "Published")
 
-pkgdb <- pkgdb |> 
+pkgdb <- pkgdb_CRAN |> 
   dplyr::select(all_of(fields))
 
 ```
@@ -114,72 +116,47 @@ gt_other_licenses
 
 ### Données du champ `Authors@R`
 
+#### Récupération des informations sur les adresses de messagerie
+
+  - détermination du nombre de mails à trouver 
+
 ```{r}
-#| label: authorsR
+#| label: emails_count
+#| code-fold: true
 
 authorsR <- pkgdb$`Authors@R`
 
-```
+emails_count_per_pkgdb_row <- authorsR |> 
+  stri_count_regex(pattern = "[@]")
 
-  1) fonction `extract_email`
+# NA is considered to be total 0
 
-```{r}
-#| label: extract_email_function
+emails_count_per_pkgdb_row[is.na(emails_count_per_pkgdb_row)] <- 0
 
-extract_email <- function(text) {
+emails_total_estimated <- emails_count_per_pkgdb_row |> sum()
 
-  regex_email    <- "[\"]([^[ ]|[\"]]+?[@]{1}.+?)[\"]"
-  
-  resultat <- stringi::stri_extract_all(text, regex = regex_email) |>
-    unlist() |> 
-    na.omit() |> 
-    gsub(pattern = "[\"]", replacement = "") |> 
-    as_tibble() |> 
-    rename(email = value)
-  
-  return(resultat)
-  
-}
+emails_total_estimated
 
 ```
 
-  - extraction des emails
-  
+::: {.callout-note collapse="false"}
+
+Le nombre de mails à trouver correspond au nombre de symboles `@` présents dans l'ensemble des données de la colonne `Authors@R`, soit ici : **`r emails_total_estimated`**
+
+:::
+
+  1) fonction `match_email_in_authors`
+
 ```{r}
-#| label: extract_email
-
-emails <- authorsR |> 
-  extract_email()
-
-```
-
-  - Sauvegarde des emails
+#| label: match_emails_in_authorsR
+#| 
+match_emails_in_authorsR <- function(str) {
   
-```{r}
-#| label: save_emails
-
-saveRDS(
-  object = unique(emails),
-  file = paste0(Sys.Date(),"_emails.RDS")
-)
-
-```
-
-  2) fonction `extract_mail_server`
-  
-```{r}
-#| label: extract_mail_server_function
-
-extract_mail_server <- function(text) {
-
-  regex_mail_server    <- "[@](.+)$"
-  
-  resultat <- stringi::stri_extract_all(text, regex = regex_mail_server) |>
-    unlist() |> 
-    na.omit() |> 
-    gsub(pattern = "[@]", replacement = "") |> 
-    as_tibble() |> 
-    rename(`mail server` = value)
+  pattern_email    <- "[\"|'|[ ]|[<]]([^\"]+?)[@]{1}(.+?)[\"|'|[ ]|[>]]"
+  resultat <- stringi::stri_match_all_regex(
+              str = str, 
+              pattern = pattern_email,
+              omit_no_match = FALSE)[[1]]
   
   return(resultat)
 
@@ -187,64 +164,189 @@ extract_mail_server <- function(text) {
 
 ```
 
-  - extraction des serveurs de messagerie
+  2) extraction des emails
+
+on récupère les matrices de correspondances de pattern pour chacun des champs `Authors@R`
 
 ```{r}
-#| label: extract_mail_server
+#| label: extract_emails
+#| 
+emails_in_authorsR <- authorsR |> 
+  map(match_emails_in_authorsR)
 
-mail_servers <- extract_mail_server(emails$email)
+head(emails_in_authorsR, n = 3)
+length(emails_in_authorsR)
 
 ```
 
-  3) fonction `extract_TLD`
-  
+  3) Récupération du nombre de lignes pour chacune des matrices 
+
 ```{r}
-#| label: extract_TLD_function
+#| label: match_lines_per_pkgdb_row
 
-extract_TLD <- function(text) {
+match_lines_per_pkgdb_row <- emails_in_authorsR |> 
+  map(nrow) |>
+  unlist()
 
-  regex_TLD <- "([^[.]]+$)"
+match_lines_per_pkgdb_row
+
+```
+
+  4) transformation des `r nrow(pkgdb` matrices en une seule matrice
+
+```{r}
+#| label: mat_emails_in_authorsR
+
+temp_mat_emails_in_authorsR <- do.call(rbind, emails_in_authorsR)
+
+mat_emails_in_authorsR <- cbind(
+  rep(x = pkgdb$Package, match_lines_per_pkgdb_row),
+  rep(x = pkgdb$Version, match_lines_per_pkgdb_row),
+  rep(x = pkgdb$Depends, match_lines_per_pkgdb_row),
+  temp_mat_emails_in_authorsR[,c(2,3)])
+
+mat_emails_in_authorsR[1:10, c(1,4,5)]
+
+```
+
+  5) puis en un tibble
+
+```{r}
+#| label: tbl_emails_in_authorsR
+
+tbl_emails_in_authorsR <- as_tibble(mat_emails_in_authorsR) |> 
+  rename(Package = V1, 
+         Version = V2,
+         Depends = V3,
+        email_id = V4, 
+    email_domain = V5) 
+
+tbl_emails_in_authorsR
+
+```
+
+  6) résumé par ligne du data.frame `pkgdb`
+
+```{r}
+#| label: summary_emails_per_pkgdb_row
+#| 
+summary_emails_per_pkgdb_row <- tbl_emails_in_authorsR |> 
+  mutate(n = if_else(is.na(email_id) & is.na(email_domain), 0, 1)) |> 
+  summarize(.by = c(Package, Version, Depends), emails_count = sum(n)) |> 
+  mutate(emails_count_estimated = emails_count_per_pkgdb_row)
+
+summary_emails_per_pkgdb_row
+
+summary_emails_per_pkgdb_row |> summarize(total_emails = sum(emails_count))
   
-  resultat <- stringi::stri_extract_all(text, regex = regex_TLD) |>
-    unlist() |> 
-    na.omit() |> 
-    gsub(pattern = "[@]", replacement = "") |> 
-    as_tibble() |> 
-    rename(`TLD` = value)
+```
+
+  7) récupération des lignes du data.frame `pkgdb` où il y a un problème
   
-  return(resultat)
+On compare la valeur du champ `emails_count` à celle du champ `emails_count_estimated`
+
+```{r}
+
+bad_emails_count_rows <- summary_emails_per_pkgdb_row |> 
+  mutate(difference = emails_count_estimated - emails_count) |> 
+  filter(difference != 0)
+
+bad_emails_count_rows |> summarize(difference_totale = sum(difference))
+
+print(bad_emails_count_rows, n = nrow(bad_emails_count_rows))
+
+```
+
+L'examen des champs `Authors` correspondant aux packages `r names(bad_emails_count_rows$Package)` montre que le nombre d'emails a été surestimé par le décompte du nombre de symboles `@`.
+
+En effet on note la présence de nombreux items au format `@<chaine de caractères>` qui ne respectent pas le format standart d'une adresse de messagerie. 
+
+Exemple pour le paquet `report`:
+
+```{r}
+#| label: select_bad_row
+
+select_bad_row <- function(pkg) {
+  
+  bad_emails_count_rows |> 
+    left_join(pkgdb, by = c("Package", "Version", "Depends")) |> 
+    select(Package, `Authors@R`) |> 
+    filter(Package == pkg) |> 
+    pull()
+  
+}
+
+select_bad_row(pkg = "report") 
+
+```
+
+  8) fonction `match_tld_in_email_domain`
+
+```{r}
+#| label: match_tld_in_email_domain
+#| 
+match_tld_in_email_domain <- function(str) {
+  
+  pattern_tld    <- "([^[.]]+$)"
+  resultat <- stringi::stri_match_all_regex(
+              str = str, 
+              pattern = pattern_tld,
+              omit_no_match = FALSE)[[1]]
+  
+  return(resultat[,2])
 
 }
 
 ```
 
-  - extraction des TLD (Top Level Domain) des serveurs de messagerie
+  9) Extraction des TLDs
 
 ```{r}
 #| label: extract_TLD
 
-mail_server_tlds <- extract_TLD(emails$email)
+mail_tlds <- tbl_emails_in_authorsR$email_domain |> 
+  map(match_tld_in_email_domain) |> 
+  unlist()
 
 ```
 
-  - réunion des info mails dans le même tibble
-
+  10) Ajout à la table d'information renommée `tbl_emails`
+  
 ```{r}
-#| label: infomails_tbl
 
-tbl_emails <- bind_cols(emails, mail_servers, mail_server_tlds)
+tbl_emails <- tbl_emails_in_authorsR |> 
+  mutate(tld = mail_tlds)
 
 ```
 
+  11) Sauvegarde des informations sur les adresses de messagerie
+  
+```{r}
+#| label: save_tbl_emails
+#| code-fold: true
+#| 
+saveRDS(
+  object = tbl_emails,
+  file = paste(Sys.Date(),"tbl_emails.RDS", sep = "_")
+)
+
+```
+
+  12) Décompte des `email_id`, `email_domain` et `tld`
 
 ```{r}
 #| label: emails_count
 #| echo: false
 
-pkgdb_emails_total <- nrow(tbl_emails) 
+emails <- tbl_emails |> 
+  filter(!is.na(email_id) & !is.na(email_domain)) |> 
+  mutate(email = paste(email_id, email_domain, sep = "@")) |> 
+  pull(email)
+
+pkgdb_emails_total <- nrow(emails)
 pkgdb_emails_count <- length(unique(tbl_emails$email))
-pkgdb_mail_servers_count <- length(unique(tbl_emails$`mail server`))
-pkgdb_tlds_count <- length(unique(tbl_emails$TLD))
+pkgdb_mail_servers_count <- length(unique(tbl_emails$email_domain))
+pkgdb_tlds_count <- length(unique(tbl_emails$tld))
 
 ```
 
@@ -258,6 +360,8 @@ Sur les `r pkgdb_emails_total` recensés on dénombre :
   
 :::
 
+  13) Rapport sur les emails
+  
   - classement par occurrences d'emails
 
 ```{r}
@@ -309,6 +413,8 @@ Il reste à déterminer les paramètres de la droite ...
   
 :::
 
+  14) Rapport sur les noms de domaines
+  
   - classement par occurrences de serveurs de messagerie
 
 ```{r}
@@ -333,6 +439,8 @@ gt_mail_server_occurrences
   
 ```
 
+  15) Rapport sur les noms de domaines
+  
   - classement par occurrences de TLD
 
 ```{r}
@@ -356,8 +464,3 @@ gt_TLD_occurrences
   
 ```
 
-
-
-
-
-  
