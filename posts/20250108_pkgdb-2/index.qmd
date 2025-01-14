@@ -421,8 +421,8 @@ Il reste à déterminer les paramètres de la droite ...
 #| label: mail_server_occurrences
 
 mail_server_occurrences <- tbl_emails |> 
-  summarize(n = n(), .by = `mail server`) |>
-  arrange(desc(n), `mail server`)
+  summarize(n = n(), .by = "email_domain") |>
+  arrange(desc(n), "email_domain")
 
 gt_mail_server_occurrences <- gt(mail_server_occurrences |> 
                                    dplyr::filter(n >= 100)) |> 
@@ -447,8 +447,8 @@ gt_mail_server_occurrences
 #| label: TLD_occurrences
 
 TLD_occurrences <- tbl_emails |> 
-  summarize(n = n(), .by = "TLD") |>
-  arrange(desc(n), TLD)
+  summarize(n = n(), .by = "tld") |>
+  arrange(desc(n), tld)
 
 gt_TLD_occurrences <- gt(TLD_occurrences |> dplyr::filter(n >= 100)) |> 
   tab_header(
