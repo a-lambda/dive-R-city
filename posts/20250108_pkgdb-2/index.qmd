@@ -188,7 +188,7 @@ match_lines_per_pkgdb_row <- emails_in_authorsR |>
   map(nrow) |>
   unlist()
 
-match_lines_per_pkgdb_row
+match_lines_per_pkgdb_row[1:100]
 
 ```
 
@@ -344,7 +344,7 @@ emails <- tbl_emails |>
   select("email")
 
 pkgdb_emails_total <- nrow(emails)
-pkgdb_emails_count <- length(unique(tbl_emails$email))
+pkgdb_emails_count <- length(unique(tbl_emails$email_id))
 pkgdb_mail_servers_count <- length(unique(tbl_emails$email_domain))
 pkgdb_tlds_count <- length(unique(tbl_emails$tld))
 
