@@ -341,7 +341,7 @@ saveRDS(
 emails <- tbl_emails |> 
   filter(!is.na(email_id) & !is.na(email_domain)) |> 
   mutate(email = paste(email_id, email_domain, sep = "@")) |> 
-  pull(email)
+  select("email")
 
 pkgdb_emails_total <- nrow(emails)
 pkgdb_emails_count <- length(unique(tbl_emails$email))
