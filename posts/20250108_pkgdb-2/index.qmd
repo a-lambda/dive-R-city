@@ -483,7 +483,9 @@ gt_TLD_occurrences
   
 ```
 
-#### Trouver les paquets dans lesquels se retrouve un email
+#### Trouver les paquets selon difféntes info contenues dans l'email
+
+  1) via l'email en entier
 
 ```{r}
 #| label: find_pkgs_by_email
@@ -505,6 +507,53 @@ email_id <- "hadley@posit.co"
 find_pkgs_by_email(email_id)
 
 ```
+
+  2) via le nom de domaine
+  
+```{r}
+#| label: find_pkgs_by_domain
+
+find_pkgs_by_domain <- function(domain) {
+  
+  resultat <- tbl_emails |>
+  dplyr::filter(email_domain == domain) |>
+  select(Package) |>
+  distinct() |> 
+  arrange() |> 
+  pull()
+  
+  return(resultat)
+  
+}
+
+domain <- "thinkr.fr"
+find_pkgs_by_domain(domain)
+
+```
+
+  3) via le tld du nom de domaine
+  
+```{r}
+#| label: find_pkgs_by_tld
+
+find_pkgs_by_tld <- function(tld_id) {
+  
+  resultat <- tbl_emails |>
+  dplyr::filter(tld == tld_id) |>
+  select(Package) |>
+  distinct() |> 
+  arrange() |> 
+  pull()
+  
+  return(resultat)
+  
+}
+
+tld_id <- "fr"
+find_pkgs_by_tld(tld_id) |> length()
+
+```
+
 
 
 
