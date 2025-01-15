@@ -483,13 +483,28 @@ gt_TLD_occurrences
   
 ```
 
+#### Trouver les paquets dans lesquels se retrouve un email
 
+```{r}
+#| label: find_pkgs_by_email
 
-
-
+find_pkgs_by_email <- function(email_id) {
   
+  resultat <- emails |>
+  filter(email == email_id) |>
+  select(Package) |>
+  distinct() |> 
+  arrange() |> 
+  pull()
+  
+  return(resultat)
+  
+}
 
+email_id <- "hadley@posit.co"
+find_pkgs_by_email(email_id)
 
+```
 
 
 
