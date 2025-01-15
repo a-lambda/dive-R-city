@@ -341,7 +341,7 @@ saveRDS(
 emails <- tbl_emails |> 
   filter(!is.na(email_id) & !is.na(email_domain)) |> 
   mutate(email = paste(email_id, email_domain, sep = "@")) |> 
-  select("email")
+  select("Package", "email")
 
 pkgdb_emails_total <- nrow(emails)
 pkgdb_emails_count <- length(unique(tbl_emails$email_id))
@@ -362,6 +362,15 @@ Sur les `r pkgdb_emails_total` recensés on dénombre :
 
   13) Rapport sur les emails
   
+  - classement du nombre d'emails (dans le champ `Authors@R`) par package R
+  
+```{r}
+#| label: email_per_pkg 
+
+tbl_emails |> summarize(email_per_pkg = n(), .by = "Package") |>  arrange(desc(email_per_pkg)) |> print(n = 20)
+
+```
+
   - classement par occurrences d'emails
 
 ```{r}
