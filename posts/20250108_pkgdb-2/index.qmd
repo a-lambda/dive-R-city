@@ -367,7 +367,10 @@ Sur les `r pkgdb_emails_total` recensés on dénombre :
 ```{r}
 #| label: email_per_pkg 
 
-tbl_emails |> summarize(email_per_pkg = n(), .by = "Package") |>  arrange(desc(email_per_pkg)) |> print(n = 20)
+tbl_emails |> 
+  summarize(email_per_pkg = n(), .by = "Package") |>  
+  arrange(desc(email_per_pkg)) |>
+  print(n = 20)
 
 ```
 
@@ -441,7 +444,8 @@ avec $a =$ `r eq$coefficients[[2]]` et $b =$ `r eq$coefficients[[1]]`
 ```{r}
 #| label: mail_server_occurrences
 
-mail_server_occurrences <- tbl_emails |> 
+mail_server_occurrences <- tbl_emails |>
+  filter(!is.na(email_id) & !is.na(email_domain)) |> 
   summarize(n = n(), .by = "email_domain") |>
   arrange(desc(n), "email_domain")
 
@@ -466,6 +470,7 @@ gt_mail_server_occurrences
 #| label: TLD_occurrences
 
 TLD_occurrences <- tbl_emails |> 
+  filter(!is.na(email_id) & !is.na(email_domain)) |> 
   summarize(n = n(), .by = "tld") |>
   arrange(desc(n), tld)
 
