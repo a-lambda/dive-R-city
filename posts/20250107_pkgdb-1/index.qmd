@@ -176,34 +176,6 @@ pkgdb |>
 
 ```
 
-### Derniers paquets publiés la veille
-
-  - Donnée `Published`
-  
-```{r}
-#|label: published_field
-
-cran_repo <- "https://cran.r-project.org/web/packages/"
-
-last_pkg_published <- pkgdb |> 
-  select(Package, Version, Published, `Date/Publication`) |> 
-  filter(Published == Sys.Date() - 1) |> 
-  select(Package, Version, `Date/Publication`) |> 
-  arrange(desc(`Date/Publication`), Package, Version) |> 
-  mutate(lien = paste0(cran_repo, Package),
-         lien = glue::glue("[{Package}]({lien})"),
-         lien = map(lien, gt::md))
-
-gt_last_pkg_published <- gt(last_pkg_published) |> 
-  tab_header(
-    title    = md("**Derniers paquets publiés**"),
-    subtitle  = md(paste("Total =", nrow(last_pkg_published))),
-  ) 
-
-gt_last_pkg_published
-
-```
-
 ### Informations communes et différentes
 
   - Champs communs

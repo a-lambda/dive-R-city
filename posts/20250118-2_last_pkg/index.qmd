@@ -1,0 +1,61 @@
+---
+title: "R packages database (1/?)"
+author: "Alcor"
+date: "2025-01-18"
+categories: [news, code, analysis]
+image: "image.jpg"
+---
+
+## Paquets R
+
+```{r}
+#| label: load_libraries
+#| code-fold: true
+#| warning: false
+#| 
+library(purrr)
+library(dplyr)
+library(gt)
+library(tools)
+library(tibble)
+library(lubridate)
+
+```
+
+### Récupération des données CRAN
+
+```{r}
+#| label: CRAN_package_db
+#| 
+pdb <- tools::CRAN_package_db()
+
+```
+
+### Derniers paquets publiés la veille
+
+  - Donnée `Published`
+  
+```{r}
+#|label: published_field
+
+cran_repo <- "https://cran.r-project.org/web/packages/"
+
+last_pkg_published <- pdb |> 
+  dplyr::select(Package, Version, `Date/Publication`) |> 
+  dplyr::filter(
+    date(lubridate::ymd_hms(`Date/Publication`)) == (Sys.Date() - 1)
+  ) |> 
+  dplyr::arrange(dplyr::desc(`Date/Publication`), Package, Version) |> 
+  dplyr::mutate(lien = paste0(cran_repo, Package),
+         lien = glue::glue("[{Package}]({lien})"),
+         lien = purrr::map(lien, gt::md))
+
+gt_last_pkg_published <- gt::gt(last_pkg_published) |> 
+  tab_header(
+    title    = gt::md("**Derniers paquets publiés**"),
+    subtitle  = gt::md(paste("Total =", nrow(last_pkg_published))),
+  ) 
+
+gt_last_pkg_published
+
+```
