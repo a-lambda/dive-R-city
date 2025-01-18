@@ -1,5 +1,5 @@
 ---
-title: "last R packages"
+title: "Last R packages published"
 author: "Alcor"
 date: "2025-01-18"
 categories: [news, code, analysis]
@@ -38,7 +38,8 @@ pdb <- tools::CRAN_package_db()
   - Donnée `Published`
   
 ```{r}
-#|label: published_field
+#| label: published_field
+#| code-fold: true
 
 cran_repo <- "https://cran.r-project.org/web/packages/"
 
@@ -133,7 +134,9 @@ CREATE TABLE dev.paquets(
 
 ```{r}
 #| label: add_info_last_pkg_to_psql_table
-
+#| code-fold: true
+#| message: false
+#| 
 RPostgres::dbAppendTable(
   conn = conn, 
   name = Id(schema = 'dev', table = 'paquets'), 
@@ -146,6 +149,8 @@ RPostgres::dbAppendTable(
 
 ```{r}
 #| label: verif_data_inserted
+#| code-fold: true
+#| message: false
 
 result <- RPostgres::dbGetQuery(
   conn, 
