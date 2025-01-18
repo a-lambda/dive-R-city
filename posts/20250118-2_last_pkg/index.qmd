@@ -1,5 +1,5 @@
 ---
-title: "R packages database (1/?)"
+title: "last R packages"
 author: "Alcor"
 date: "2025-01-18"
 categories: [news, code, analysis]
@@ -19,6 +19,8 @@ library(gt)
 library(tools)
 library(tibble)
 library(lubridate)
+library(RPostgres)
+
 
 ```
 
@@ -45,12 +47,18 @@ last_pkg_published <- pdb |>
   dplyr::filter(
     date(lubridate::ymd_hms(`Date/Publication`)) == (Sys.Date() - 1)
   ) |> 
-  dplyr::arrange(dplyr::desc(`Date/Publication`), Package, Version) |> 
-  dplyr::mutate(lien = paste0(cran_repo, Package),
-         lien = glue::glue("[{Package}]({lien})"),
-         lien = purrr::map(lien, gt::md))
-
-gt_last_pkg_published <- gt::gt(last_pkg_published) |> 
+  dplyr::arrange(dplyr::desc(`Date/Publication`), Package, Version) |>
+  dplyr::rename(
+    paquet = Package,
+    version = Version,
+    date_publication = `Date/Publication`
+  ) |> 
+  dplyr::mutate(lien = paste0(cran_repo, paquet),
+         lien = glue::glue("[{paquet}]({lien})"))
+         
+gt_last_pkg_published <- last_pkg_published |> 
+  dplyr::mutate(lien = purrr::map(lien, gt::md)) |> 
+  gt::gt() |>   
   tab_header(
     title    = gt::md("**Derniers paquets publiés**"),
     subtitle  = gt::md(paste("Total =", nrow(last_pkg_published))),
@@ -59,3 +67,93 @@ gt_last_pkg_published <- gt::gt(last_pkg_published) |>
 gt_last_pkg_published
 
 ```
+
+### Sauvegarde des derniers paquets publiés
+
+  1 .Etablissement de la connexion `postgresql`
+  
+```{r}
+#| label: create_conn
+#| code-fold: true
+
+DB_HOSTNAME <- Sys.getenv("DB_HOSTNAME")
+DB_USER <- Sys.getenv("DB_USER")
+DB_PASSWORD <- Sys.getenv("DB_PASSWORD")
+DB_PORT <- Sys.getenv("DB_PORT")
+DB_NAME <- Sys.getenv("DB_NAME")
+
+conn <- RPostgres::dbConnect(
+  drv = RPostgres::Postgres(), 
+  dbname = DB_NAME,
+  host = DB_HOSTNAME,
+  port = DB_PORT,
+  user = DB_USER,
+  password = DB_PASSWORD
+)
+
+```
+  
+  2. Bascule sur le schéma `dev` par défaut
+  
+```{r}
+#| label: set_schema_default
+#| code-fold: true
+#| message: false
+
+query <- paste(
+  "ALTER DATABASE",
+  DB_NAME,
+  "SET SEARCH_PATH TO dev;"
+)
+RPostgres::dbSendQuery(
+  conn,
+  query
+)
+
+```
+
+  3. Ajout des nouveaux paquets R à la table `paquets`
+
+::: {.callout-note collapse="false"}
+
+La table paquets a été créée en avance de phase avec les requête SQL :
+
+```SQL
+CREATE SCHEMA dev;
+
+CREATE TABLE dev.paquets(
+  id SERIAL PRIMARY KEY,
+  paquet VARCHAR(50) NOT NULL,
+  version VARCHAR(20) NOT NULL,
+  date_publication TIMESTAMP NOT NULL, 
+  lien VARCHAR(100),
+  UNIQUE(paquet, version));
+```
+:::
+
+```{r}
+#| label: add_info_last_pkg_to_psql_table
+
+RPostgres::dbAppendTable(
+  conn = conn, 
+  name = Id(schema = 'dev', table = 'paquets'), 
+  value = last_pkg_published
+)
+
+```
+
+  4. Vérification des ajouts d'information `paquets`
+
+```{r}
+#| label: verif_data_inserted
+
+result <- RPostgres::dbGetQuery(
+  conn, 
+  "SELECT count(paquet) AS nb_paquets, date_publication::date
+  FROM dev.paquets
+  GROUP BY date_publication::date;")
+
+print(result)
+
+```
+
