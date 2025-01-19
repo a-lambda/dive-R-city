@@ -9,7 +9,7 @@
 <meta name="author" content="Alcor">
 <meta name="dcterms.date" content="2025-01-18">
 
-<title>last R packages – dive-R-city</title>
+<title>Last R packages published – dive-R-city</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -147,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">last R packages</h1>
+      <h1 class="title">Last R packages published</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">news</div>
                 <div class="quarto-category">code</div>
@@ -214,51 +214,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Donnée <code>Published</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: published_field</span></span>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cran_repo <span class="ot">&lt;-</span> <span class="st">"https://cran.r-project.org/web/packages/"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cran_repo <span class="ot">&lt;-</span> <span class="st">"https://cran.r-project.org/web/packages/"</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>last_pkg_published <span class="ot">&lt;-</span> pdb <span class="sc">|&gt;</span> </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Package, Version, <span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">date</span>(lubridate<span class="sc">::</span><span class="fu">ymd_hms</span>(<span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>)) <span class="sc">==</span> (<span class="fu">Sys.Date</span>() <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(<span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>), Package, Version) <span class="sc">|&gt;</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">paquet =</span> Package,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">version =</span> Version,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_publication =</span> <span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">lien =</span> <span class="fu">paste0</span>(cran_repo, paquet),</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">lien =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"[{paquet}]({lien})"</span>))</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>         </span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>gt_last_pkg_published <span class="ot">&lt;-</span> last_pkg_published <span class="sc">|&gt;</span> </span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">lien =</span> purrr<span class="sc">::</span><span class="fu">map</span>(lien, gt<span class="sc">::</span>md)) <span class="sc">|&gt;</span> </span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>() <span class="sc">|&gt;</span>   </span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> gt<span class="sc">::</span><span class="fu">md</span>(<span class="st">"**Derniers paquets publiés**"</span>),</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle  =</span> gt<span class="sc">::</span><span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Total ="</span>, <span class="fu">nrow</span>(last_pkg_published))),</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>gt_last_pkg_published</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>last_pkg_published <span class="ot">&lt;-</span> pdb <span class="sc">|&gt;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Package, Version, <span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">date</span>(lubridate<span class="sc">::</span><span class="fu">ymd_hms</span>(<span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>)) <span class="sc">==</span> (<span class="fu">Sys.Date</span>() <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(<span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>), Package, Version) <span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">paquet =</span> Package,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">version =</span> Version,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_publication =</span> <span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">lien =</span> <span class="fu">paste0</span>(cran_repo, paquet),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">lien =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"[{paquet}]({lien})"</span>))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>         </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>gt_last_pkg_published <span class="ot">&lt;-</span> last_pkg_published <span class="sc">|&gt;</span> </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">lien =</span> purrr<span class="sc">::</span><span class="fu">map</span>(lien, gt<span class="sc">::</span>md)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>() <span class="sc">|&gt;</span>   </span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> gt<span class="sc">::</span><span class="fu">md</span>(<span class="st">"**Derniers paquets publiés**"</span>),</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle  =</span> gt<span class="sc">::</span><span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Total ="</span>, <span class="fu">nrow</span>(last_pkg_published))),</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>gt_last_pkg_published</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<div id="ekjwsgmhfl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ekjwsgmhfl table {
+<div id="jkbddvzohl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jkbddvzohl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ekjwsgmhfl thead, #ekjwsgmhfl tbody, #ekjwsgmhfl tfoot, #ekjwsgmhfl tr, #ekjwsgmhfl td, #ekjwsgmhfl th {
+#jkbddvzohl thead, #jkbddvzohl tbody, #jkbddvzohl tfoot, #jkbddvzohl tr, #jkbddvzohl td, #jkbddvzohl th {
   border-style: none;
 }
 
-#ekjwsgmhfl p {
+#jkbddvzohl p {
   margin: 0;
   padding: 0;
 }
 
-#ekjwsgmhfl .gt_table {
+#jkbddvzohl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -284,12 +285,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#ekjwsgmhfl .gt_caption {
+#jkbddvzohl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ekjwsgmhfl .gt_title {
+#jkbddvzohl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -301,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#ekjwsgmhfl .gt_subtitle {
+#jkbddvzohl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -313,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#ekjwsgmhfl .gt_heading {
+#jkbddvzohl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -325,13 +326,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ekjwsgmhfl .gt_bottom_border {
+#jkbddvzohl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ekjwsgmhfl .gt_col_headings {
+#jkbddvzohl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -346,7 +347,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ekjwsgmhfl .gt_col_heading {
+#jkbddvzohl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -366,7 +367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#ekjwsgmhfl .gt_column_spanner_outer {
+#jkbddvzohl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -378,15 +379,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#ekjwsgmhfl .gt_column_spanner_outer:first-child {
+#jkbddvzohl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ekjwsgmhfl .gt_column_spanner_outer:last-child {
+#jkbddvzohl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ekjwsgmhfl .gt_column_spanner {
+#jkbddvzohl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -398,11 +399,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#ekjwsgmhfl .gt_spanner_row {
+#jkbddvzohl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ekjwsgmhfl .gt_group_heading {
+#jkbddvzohl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -428,7 +429,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#ekjwsgmhfl .gt_empty_group_heading {
+#jkbddvzohl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -443,15 +444,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#ekjwsgmhfl .gt_from_md > :first-child {
+#jkbddvzohl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ekjwsgmhfl .gt_from_md > :last-child {
+#jkbddvzohl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ekjwsgmhfl .gt_row {
+#jkbddvzohl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -470,7 +471,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#ekjwsgmhfl .gt_stub {
+#jkbddvzohl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -483,7 +484,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ekjwsgmhfl .gt_stub_row_group {
+#jkbddvzohl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -497,15 +498,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#ekjwsgmhfl .gt_row_group_first td {
+#jkbddvzohl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ekjwsgmhfl .gt_row_group_first th {
+#jkbddvzohl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ekjwsgmhfl .gt_summary_row {
+#jkbddvzohl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -515,16 +516,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ekjwsgmhfl .gt_first_summary_row {
+#jkbddvzohl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ekjwsgmhfl .gt_first_summary_row.thick {
+#jkbddvzohl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ekjwsgmhfl .gt_last_summary_row {
+#jkbddvzohl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -534,7 +535,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#ekjwsgmhfl .gt_grand_summary_row {
+#jkbddvzohl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -544,7 +545,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ekjwsgmhfl .gt_first_grand_summary_row {
+#jkbddvzohl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -554,7 +555,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#ekjwsgmhfl .gt_last_grand_summary_row_top {
+#jkbddvzohl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -564,11 +565,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#ekjwsgmhfl .gt_striped {
+#jkbddvzohl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ekjwsgmhfl .gt_table_body {
+#jkbddvzohl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -577,7 +578,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#ekjwsgmhfl .gt_footnotes {
+#jkbddvzohl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -591,7 +592,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ekjwsgmhfl .gt_footnote {
+#jkbddvzohl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -600,7 +601,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ekjwsgmhfl .gt_sourcenotes {
+#jkbddvzohl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -614,7 +615,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ekjwsgmhfl .gt_sourcenote {
+#jkbddvzohl .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -622,72 +623,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ekjwsgmhfl .gt_left {
+#jkbddvzohl .gt_left {
   text-align: left;
 }
 
-#ekjwsgmhfl .gt_center {
+#jkbddvzohl .gt_center {
   text-align: center;
 }
 
-#ekjwsgmhfl .gt_right {
+#jkbddvzohl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ekjwsgmhfl .gt_font_normal {
+#jkbddvzohl .gt_font_normal {
   font-weight: normal;
 }
 
-#ekjwsgmhfl .gt_font_bold {
+#jkbddvzohl .gt_font_bold {
   font-weight: bold;
 }
 
-#ekjwsgmhfl .gt_font_italic {
+#jkbddvzohl .gt_font_italic {
   font-style: italic;
 }
 
-#ekjwsgmhfl .gt_super {
+#jkbddvzohl .gt_super {
   font-size: 65%;
 }
 
-#ekjwsgmhfl .gt_footnote_marks {
+#jkbddvzohl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ekjwsgmhfl .gt_asterisk {
+#jkbddvzohl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ekjwsgmhfl .gt_indent_1 {
+#jkbddvzohl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ekjwsgmhfl .gt_indent_2 {
+#jkbddvzohl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ekjwsgmhfl .gt_indent_3 {
+#jkbddvzohl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ekjwsgmhfl .gt_indent_4 {
+#jkbddvzohl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ekjwsgmhfl .gt_indent_5 {
+#jkbddvzohl .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ekjwsgmhfl .katex-display {
+#jkbddvzohl .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ekjwsgmhfl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#jkbddvzohl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -698,7 +699,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th colspan="4" class="gt_heading gt_title gt_font_normal"><strong>Derniers paquets publiés</strong></th>
 </tr>
 <tr class="gt_heading even">
-<th colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Total = 49</th>
+<th colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Total = 19</th>
 </tr>
 <tr class="gt_col_headings header">
 <th id="paquet" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">paquet</th>
@@ -709,298 +710,118 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="paquet">agriutilities</td>
-<td class="gt_row gt_right" headers="version">1.2.1</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 23:40:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/agriutilities">agriutilities</a></td>
+<td class="gt_row gt_left" headers="paquet">SpaCCI</td>
+<td class="gt_row gt_right" headers="version">1.0.3</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 23:10:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/SpaCCI">SpaCCI</a></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="paquet">eDNAjoint</td>
-<td class="gt_row gt_right" headers="version">0.3</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 22:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/eDNAjoint">eDNAjoint</a></td>
+<td class="gt_row gt_left" headers="paquet">evola</td>
+<td class="gt_row gt_right" headers="version">1.0.4</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 22:20:01 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/evola">evola</a></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="paquet">hypervolume</td>
-<td class="gt_row gt_right" headers="version">3.1.5</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 20:50:16 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/hypervolume">hypervolume</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">rgl</td>
-<td class="gt_row gt_right" headers="version">1.3.17</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 20:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/rgl">rgl</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">TimeDepFrail</td>
-<td class="gt_row gt_right" headers="version">0.0.1</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 20:10:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/TimeDepFrail">TimeDepFrail</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">NatureSounds</td>
-<td class="gt_row gt_right" headers="version">1.0.5</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 19:40:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/NatureSounds">NatureSounds</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">PhenotypeR</td>
-<td class="gt_row gt_right" headers="version">0.1.1</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 19:00:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/PhenotypeR">PhenotypeR</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">handwriter</td>
-<td class="gt_row gt_right" headers="version">3.2.4</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 18:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/handwriter">handwriter</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">sts</td>
-<td class="gt_row gt_right" headers="version">1.3</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 18:30:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/sts">sts</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">TH.data</td>
-<td class="gt_row gt_right" headers="version">1.1-3</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 18:20:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/TH.data">TH.data</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">matsbyname</td>
-<td class="gt_row gt_right" headers="version">0.6.11</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 17:40:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/matsbyname">matsbyname</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">visualFields</td>
-<td class="gt_row gt_right" headers="version">1.0.7</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 17:20:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/visualFields">visualFields</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">ontologics</td>
-<td class="gt_row gt_right" headers="version">0.7.4</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 16:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/ontologics">ontologics</a></td>
-</tr>
-<tr class="even">
 <td class="gt_row gt_left" headers="paquet">Qindex.data</td>
-<td class="gt_row gt_right" headers="version">0.1.2</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 16:30:02 UTC</td>
+<td class="gt_row gt_right" headers="version">0.1.3</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 22:10:05 UTC</td>
 <td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/Qindex.data">Qindex.data</a></td>
 </tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">basefun</td>
-<td class="gt_row gt_right" headers="version">1.2-1</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 16:10:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/basefun">basefun</a></td>
-</tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="paquet">MultiscaleDTM</td>
-<td class="gt_row gt_right" headers="version">0.9</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 15:50:08 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/MultiscaleDTM">MultiscaleDTM</a></td>
+<td class="gt_row gt_left" headers="paquet">mutualinf</td>
+<td class="gt_row gt_right" headers="version">2.0.2</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 22:10:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/mutualinf">mutualinf</a></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="paquet">bayestestR</td>
-<td class="gt_row gt_right" headers="version">0.15.1</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 15:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/bayestestR">bayestestR</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">gmresls</td>
+<td class="gt_row gt_left" headers="paquet">quantities</td>
 <td class="gt_row gt_right" headers="version">0.2.3</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 15:20:01 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/gmresls">gmresls</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">anticlust</td>
-<td class="gt_row gt_right" headers="version">0.8.9</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 15:10:14 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/anticlust">anticlust</a></td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 21:20:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/quantities">quantities</a></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="paquet">cherry</td>
-<td class="gt_row gt_right" headers="version">0.6-15</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 15:10:11 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/cherry">cherry</a></td>
+<td class="gt_row gt_left" headers="paquet">errors</td>
+<td class="gt_row gt_right" headers="version">0.4.3</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 18:10:05 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/errors">errors</a></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="paquet">grates</td>
-<td class="gt_row gt_right" headers="version">1.4.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 15:10:06 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/grates">grates</a></td>
+<td class="gt_row gt_left" headers="paquet">s3.resourcer</td>
+<td class="gt_row gt_right" headers="version">1.1.2</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 18:10:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/s3.resourcer">s3.resourcer</a></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="paquet">gslnls</td>
-<td class="gt_row gt_right" headers="version">1.4.1</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 15:10:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/gslnls">gslnls</a></td>
+<td class="gt_row gt_left" headers="paquet">nlmixr2est</td>
+<td class="gt_row gt_right" headers="version">3.0.3</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 17:50:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/nlmixr2est">nlmixr2est</a></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="paquet">scam</td>
-<td class="gt_row gt_right" headers="version">1.2-18</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 15:00:06 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/scam">scam</a></td>
+<td class="gt_row gt_left" headers="paquet">hoardr</td>
+<td class="gt_row gt_right" headers="version">0.5.5</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 16:20:06 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/hoardr">hoardr</a></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="paquet">tidyfit</td>
-<td class="gt_row gt_right" headers="version">0.7.3</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 15:00:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/tidyfit">tidyfit</a></td>
+<td class="gt_row gt_left" headers="paquet">httr2</td>
+<td class="gt_row gt_right" headers="version">1.1.0</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 16:20:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/httr2">httr2</a></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="paquet">SAMprior</td>
-<td class="gt_row gt_right" headers="version">2.0.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 14:50:06 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/SAMprior">SAMprior</a></td>
+<td class="gt_row gt_left" headers="paquet">CalibrationCurves</td>
+<td class="gt_row gt_right" headers="version">2.0.4</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 12:10:06 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/CalibrationCurves">CalibrationCurves</a></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="paquet">gld</td>
-<td class="gt_row gt_right" headers="version">2.6.7</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 14:50:01 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/gld">gld</a></td>
+<td class="gt_row gt_left" headers="paquet">Coxmos</td>
+<td class="gt_row gt_right" headers="version">1.1.0</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 11:30:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/Coxmos">Coxmos</a></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="paquet">CohortConstructor</td>
-<td class="gt_row gt_right" headers="version">0.3.4</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 14:40:08 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/CohortConstructor">CohortConstructor</a></td>
+<td class="gt_row gt_left" headers="paquet">MHCtools</td>
+<td class="gt_row gt_right" headers="version">1.5.5</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 11:00:06 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/MHCtools">MHCtools</a></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="paquet">warbleR</td>
-<td class="gt_row gt_right" headers="version">1.1.34</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 14:40:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/warbleR">warbleR</a></td>
+<td class="gt_row gt_left" headers="paquet">windfarmGA</td>
+<td class="gt_row gt_right" headers="version">4.0.0</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 11:00:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/windfarmGA">windfarmGA</a></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="paquet">plm</td>
-<td class="gt_row gt_right" headers="version">2.6-5</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 14:30:12 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/plm">plm</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">rlang</td>
-<td class="gt_row gt_right" headers="version">1.1.5</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 14:30:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/rlang">rlang</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">shinyscholar</td>
-<td class="gt_row gt_right" headers="version">0.2.3</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 13:20:01 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/shinyscholar">shinyscholar</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">lrstat</td>
-<td class="gt_row gt_right" headers="version">0.2.12</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 12:30:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/lrstat">lrstat</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">georob</td>
-<td class="gt_row gt_right" headers="version">0.3-22</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 12:20:04 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/georob">georob</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">unhcrdown</td>
-<td class="gt_row gt_right" headers="version">0.6.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 12:10:05 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/unhcrdown">unhcrdown</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">rtables.officer</td>
-<td class="gt_row gt_right" headers="version">0.0.2</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 10:50:01 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/rtables.officer">rtables.officer</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">MonotonicityTest</td>
-<td class="gt_row gt_right" headers="version">1.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 10:30:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/MonotonicityTest">MonotonicityTest</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">veesa</td>
-<td class="gt_row gt_right" headers="version">0.1.6</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 10:10:01 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/veesa">veesa</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">LLMR</td>
+<td class="gt_row gt_left" headers="paquet">ctypesio</td>
 <td class="gt_row gt_right" headers="version">0.1.2</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 09:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/LLMR">LLMR</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">autoslider.core</td>
-<td class="gt_row gt_right" headers="version">0.2.3</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 09:20:05 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/autoslider.core">autoslider.core</a></td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 07:30:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/ctypesio">ctypesio</a></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="paquet">chartreview</td>
-<td class="gt_row gt_right" headers="version">1.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 09:20:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/chartreview">chartreview</a></td>
+<td class="gt_row gt_left" headers="paquet">ftsa</td>
+<td class="gt_row gt_right" headers="version">6.5</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 07:10:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/ftsa">ftsa</a></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="paquet">pvda</td>
-<td class="gt_row gt_right" headers="version">0.0.4</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 09:10:14 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/pvda">pvda</a></td>
+<td class="gt_row gt_left" headers="paquet">spatstat.geom</td>
+<td class="gt_row gt_right" headers="version">3.3-5</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 05:40:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/spatstat.geom">spatstat.geom</a></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="paquet">rms</td>
-<td class="gt_row gt_right" headers="version">7.0-0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 09:10:05 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/rms">rms</a></td>
+<td class="gt_row gt_left" headers="paquet">lme4breeding</td>
+<td class="gt_row gt_right" headers="version">1.0.50</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 00:00:06 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/lme4breeding">lme4breeding</a></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="paquet">zephyr</td>
-<td class="gt_row gt_right" headers="version">0.1.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 09:10:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/zephyr">zephyr</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">SeedMaker</td>
-<td class="gt_row gt_right" headers="version">1.0.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 09:00:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/SeedMaker">SeedMaker</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">duet</td>
-<td class="gt_row gt_right" headers="version">0.1.1</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 08:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/duet">duet</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">spacesXYZ</td>
-<td class="gt_row gt_right" headers="version">1.4-0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 06:10:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/spacesXYZ">spacesXYZ</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">tern</td>
-<td class="gt_row gt_right" headers="version">0.9.7</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 06:00:01 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/tern">tern</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">glmnetr</td>
-<td class="gt_row gt_right" headers="version">0.5-5</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 05:20:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/glmnetr">glmnetr</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">gcplyr</td>
-<td class="gt_row gt_right" headers="version">1.11.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-01-17 00:00:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/gcplyr">gcplyr</a></td>
+<td class="gt_row gt_left" headers="paquet">miLAG</td>
+<td class="gt_row gt_right" headers="version">1.0.5</td>
+<td class="gt_row gt_left" headers="date_publication">2025-01-18 00:00:02 UTC</td>
+<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/miLAG">miLAG</a></td>
 </tr>
 </tbody>
 </table>
@@ -1083,31 +904,41 @@ Note
 </div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>RPostgres<span class="sc">::</span><span class="fu">dbAppendTable</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> conn, </span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">Id</span>(<span class="at">schema =</span> <span class="st">'dev'</span>, <span class="at">table =</span> <span class="st">'paquets'</span>), </span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> last_pkg_published</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 49</code></pre>
+<pre><code>[1] 19</code></pre>
 </div>
 </div>
 <ol start="4" type="1">
 <li>Vérification des ajouts d’information <code>paquets</code></li>
 </ol>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> RPostgres<span class="sc">::</span><span class="fu">dbGetQuery</span>(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  conn, </span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT count(paquet) AS nb_paquets, date_publication::date</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM dev.paquets</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY date_publication::date;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Closing open result set, cancelling previous query</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  nb_paquets date_publication
-1         49       2025-01-17</code></pre>
+1         49       2025-01-17
+2         19       2025-01-18</code></pre>
 </div>
 </div>
 
