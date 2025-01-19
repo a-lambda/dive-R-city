@@ -63,7 +63,7 @@ tbl_pkg <- utils::available.packages() |>
 ```{r}
 #| label: CRAN_package_db
 #| 
-pkgdb <- tools::CRAN_package_db()
+pdb <- tools::CRAN_package_db()
 
 ```
 
@@ -75,11 +75,11 @@ pkgdb <- tools::CRAN_package_db()
 
 tbl_summary <- tibble(
              n = c(length(unique(tbl_pkg$Package)), 
-                   length(unique(pkgdb$Package)),
+                   length(unique(pdb$Package)),
                    length(unique(tbl_pkg_rvest$Package))),
-  fields_count = c(ncol(tbl_pkg), ncol(pkgdb), ncol(tbl_pkg_rvest)), 
+  fields_count = c(ncol(tbl_pkg), ncol(pdb), ncol(tbl_pkg_rvest)), 
         taille = c(lobstr::obj_size(tbl_pkg), 
-                   lobstr::obj_size(pkgdb),
+                   lobstr::obj_size(pdb),
                    lobstr::obj_size(tbl_pkg_rvest)) 
 )
 
@@ -128,15 +128,15 @@ gt_summary
 
 e1 <- unique(tbl_pkg_rvest$Package)
 e2 <- unique(tbl_pkg$Package)
-e3 <- unique(pkgdb$Package)
+e3 <- unique(pdb$Package)
 
 similar_pkgs <- intersect(intersect(e1, e2), e3)
 
 dissimilar_tbl_pkg_rvest <- e1[!e1 %in% similar_pkgs]
 dissimilar_tbl_pkg       <- e2[!e2 %in% similar_pkgs]
-dissimilar_pkgdb         <- e3[!e3 %in% similar_pkgs]
+dissimilar_pdb         <- e3[!e3 %in% similar_pkgs]
 
-identical(dissimilar_tbl_pkg_rvest, dissimilar_pkgdb)
+identical(dissimilar_tbl_pkg_rvest, dissimilar_pdb)
 
 ```
 
@@ -145,7 +145,7 @@ identical(dissimilar_tbl_pkg_rvest, dissimilar_pkgdb)
 
  - Nous avons `r length(similar_pkgs)` paquets en commun
 
- - Tous les paquets du tibble `tbl_pkg` sont présents dans le data.frame `pkgdb` et le tibble `tbl_pkg_rvest`puisque :
+ - Tous les paquets du tibble `tbl_pkg` sont présents dans le data.frame `pdb` et le tibble `tbl_pkg_rvest`puisque :
 
    - **length(dissimilar_tbl_pkg) == `r length(dissimilar_tbl_pkg)`**
    
@@ -157,7 +157,7 @@ identical(dissimilar_tbl_pkg_rvest, dissimilar_pkgdb)
 #| label: dissimilar_pkgs
 #| code-fold: true
 
-dissimilar_pkgs <- pkgdb$Package[!pkgdb$Package %in% similar_pkgs]
+dissimilar_pkgs <- pdb$Package[!pdb$Package %in% similar_pkgs]
 dissimilar_pkgs
 
 ```
@@ -168,10 +168,10 @@ dissimilar_pkgs
 #| label: twin_pkgs
 #| code-fold: true
 
-pkgdb |>
+pdb |>
   summarize(n = dplyr::n(), .by = Package) |> 
   dplyr::filter(n > 1) |> 
-  dplyr::inner_join(pkgdb) |> 
+  dplyr::inner_join(pdb) |> 
   dplyr::select(c(Package, Version, Depends)) 
 
 ```
@@ -184,7 +184,7 @@ pkgdb |>
 #| label: similar_fields
 #| code-fold: true
 #| 
-similar_fields <- names(tbl_pkg)[names(tbl_pkg) %in% names(pkgdb)]
+similar_fields <- names(tbl_pkg)[names(tbl_pkg) %in% names(pdb)]
 similar_fields
 
 ```
@@ -195,9 +195,9 @@ similar_fields
 #| label: dissimilar_fields
 #| code-fold: true
 #| 
-dissimilar_fields_tbl_pkg <- names(tbl_pkg)[!names(tbl_pkg) %in% names(pkgdb)]
-dissimilar_fields_pkgdb <- names(pkgdb)[!names(pkgdb) %in% names(tbl_pkg)]
-dissimilar_fields <- c(dissimilar_fields_tbl_pkg, dissimilar_fields_pkgdb)
+dissimilar_fields_tbl_pkg <- names(tbl_pkg)[!names(tbl_pkg) %in% names(pdb)]
+dissimilar_fields_pdb <- names(pdb)[!names(pdb) %in% names(tbl_pkg)]
+dissimilar_fields <- c(dissimilar_fields_tbl_pkg, dissimilar_fields_pdb)
 dissimilar_fields
 
 ```
@@ -206,7 +206,7 @@ dissimilar_fields
 
 ::: {.callout-note collapse="false"}
 
-Tous les données contenues dans `tbl_pkg` et `pkgdb` sont de type **character**
+Tous les données contenues dans `tbl_pkg` et `pdb` sont de type **character**
 
 On peut donc calculer la taille maximale de caractères utilisés pour les données de chaque champ.
 
@@ -275,19 +275,19 @@ gt_summary_tbl_pkg
 
 ```
 
-  - de la table `pgkdb`
+  - de la table `pdb`
 
 ```{r}
-#|label: summary_pkgdb
+#|label: summary_pdb
 
-gt_summary_pkgdb <- get_gt_summary(pkgdb)
-gt_summary_pkgdb
+gt_summary_pdb <- get_gt_summary(pdb)
+gt_summary_pdb
 
 ```
 
 ::: {.callout-note collapse="false"}
 
-Le data.frame `pkgdb` contient les données les plus à jour.
+Le data.frame `pdb` contient les données les plus à jour.
 
 Ce fichier sera étudié plus précisément dans le second épisode de cette série de posts sur les paquets R.
 
