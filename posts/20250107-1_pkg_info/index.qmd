@@ -74,6 +74,9 @@ pdb <- tools::CRAN_package_db()
 #| code-fold: true
 
 tbl_summary <- tibble(
+       methode = c("utils::available.packages",
+                   "tools::CRAN_package_db",
+                   "rvest (webscraping)"),
              n = c(length(unique(tbl_pkg$Package)), 
                    length(unique(pdb$Package)),
                    length(unique(tbl_pkg_rvest$Package))),
@@ -85,36 +88,15 @@ tbl_summary <- tibble(
 
 gt_summary <- gt(tbl_summary) |> 
   tab_header(
-    title    = md("**packages R disponibles**"),
-    subtitle = md(paste("(en date du", Sys.Date(), ")"))
+    title    = md("**packages R recensés**"),
+    subtitle = md(paste("(le", Sys.Date(), ")"))
   ) |> 
   tab_footnote(
     footnote  = md("Quantité estimée avec la commande `obj_size`"),
     locations = cells_column_labels(
       columns   = taille
     )
-  ) |> 
-  tab_footnote(
-    footnote  = md("Données issues de la commande `available.packages`"),
-    locations = cells_body(
-      columns = c(fields_count,n), 
-      rows = 1
-    )
-  ) |> 
-  tab_footnote(
-    footnote  = md("Données issues de la commande `CRAN_package_db`"),
-    locations = cells_body(
-      columns = c(fields_count,n), 
-      rows = 2
-    )
-  ) |> 
-  tab_footnote(
-    footnote  = md("Données issues de la commande `rvest`"),
-    locations = cells_body(
-      columns = c(fields_count,n), 
-      rows = 3
-    )
-  )
+  ) 
   
 gt_summary
 
@@ -139,7 +121,6 @@ dissimilar_pdb         <- e3[!e3 %in% similar_pkgs]
 identical(dissimilar_tbl_pkg_rvest, dissimilar_pdb)
 
 ```
-
 
 ::: {.callout-note collapse="false"}
 
