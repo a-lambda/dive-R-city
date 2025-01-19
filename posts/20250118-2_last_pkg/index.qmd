@@ -1,5 +1,5 @@
 ---
-title: "Last R packages published"
+title: "Paquets R publiés la veille"
 author: "Alcor"
 date: "2025-01-18"
 categories: [news, code, analysis]
@@ -8,6 +8,7 @@ image: "image.jpg"
 
 ## Paquets R
 
+#### Chargement des paquets nécessaires
 ```{r}
 #| label: load_libraries
 #| code-fold: true
@@ -18,13 +19,13 @@ library(dplyr)
 library(gt)
 library(tools)
 library(tibble)
+library(glue)
 library(lubridate)
 library(RPostgres)
 
-
 ```
 
-### Récupération des données CRAN
+### Récupération des données `packages` du CRAN
 
 ```{r}
 #| label: CRAN_package_db
@@ -35,7 +36,7 @@ pdb <- tools::CRAN_package_db()
 
 ### Derniers paquets publiés la veille
 
-  - Donnée `Published`
+On se base sur la date de publication issue du timestamp provenant du champ `Date\Publication`
   
 ```{r}
 #| label: published_field
@@ -44,25 +45,25 @@ pdb <- tools::CRAN_package_db()
 cran_repo <- "https://cran.r-project.org/web/packages/"
 
 last_pkg_published <- pdb |> 
-  dplyr::select(Package, Version, `Date/Publication`) |> 
-  dplyr::filter(
-    date(lubridate::ymd_hms(`Date/Publication`)) == (Sys.Date() - 1)
+  select(Package, Version, `Date/Publication`) |> 
+  filter(
+    date(ymd_hms(`Date/Publication`)) == (Sys.Date() - 1)
   ) |> 
-  dplyr::arrange(dplyr::desc(`Date/Publication`), Package, Version) |>
-  dplyr::rename(
+  arrange(desc(`Date/Publication`), Package, Version) |>
+  rename(
     paquet = Package,
     version = Version,
     date_publication = `Date/Publication`
   ) |> 
-  dplyr::mutate(lien = paste0(cran_repo, paquet),
-         lien = glue::glue("[{paquet}]({lien})"))
+  mutate(lien = paste0(cran_repo, paquet),
+    lien = glue::glue("[{paquet}]({lien})"))
          
 gt_last_pkg_published <- last_pkg_published |> 
-  dplyr::mutate(lien = purrr::map(lien, gt::md)) |> 
-  gt::gt() |>   
+  mutate(lien = map(lien, md)) |> 
+  gt() |>   
   tab_header(
-    title    = gt::md("**Derniers paquets publiés**"),
-    subtitle  = gt::md(paste("Total =", nrow(last_pkg_published))),
+    title    = md("**Derniers paquets publiés**"),
+    subtitle  = md(paste("Total =", nrow(last_pkg_published))),
   ) 
 
 gt_last_pkg_published
@@ -117,7 +118,7 @@ RPostgres::dbSendQuery(
 
 ::: {.callout-note collapse="false"}
 
-La table paquets a été créée en avance de phase avec les requête SQL :
+La table `paquets` a été créée en avance de phase avec les requêtes SQL :
 
 ```SQL
 CREATE SCHEMA dev;
@@ -145,7 +146,7 @@ RPostgres::dbAppendTable(
 
 ```
 
-  4. Vérification des ajouts d'information `paquets`
+  4. Vérification des ajouts d'information dans la table `paquets`
 
 ```{r}
 #| label: verif_data_inserted
