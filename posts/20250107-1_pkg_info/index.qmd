@@ -8,6 +8,8 @@ image: "image.jpg"
 
 ## Paquets R
 
+#### Chargement des paquets nécessaires
+
 ```{r}
 #| label: load_libraries
 #| code-fold: true
@@ -21,11 +23,12 @@ library(lobstr)
 library(tibble)
 library(rvest)
 library(glue)
+library(stringi)
 ```
 
-### Nombre de paquets R disponibles
+### Récupération des données sur les paquets R disponibles
 
-  - utilisation de `rvest` sur le repo [/src/contrib](https://cloud.r-project.org/src/contrib/) 
+  1. utilisation de `rvest` sur le repo [/src/contrib](https://cloud.r-project.org/src/contrib/) 
 
 ```{r}
 #| label: rvest_scraping
@@ -48,7 +51,7 @@ tbl_pkg_rvest <- links[grep("[.]tar[.]gz$", links)] |>
 
 ```
 
-  - utilisation de la fonction **`available.packages`** du paquet `utils`
+  2. utilisation de la fonction **`available.packages`** du paquet `utils`
   
 ```{r}
 #| label: available_packages
@@ -58,7 +61,7 @@ tbl_pkg <- utils::available.packages() |>
 
 ```
 
-  - Utilisation de la fonction `CRAN_package_db` du paquet **`tools`**
+  3. Utilisation de la fonction `CRAN_package_db` du paquet **`tools`**
 
 ```{r}
 #| label: CRAN_package_db
@@ -67,34 +70,35 @@ pdb <- tools::CRAN_package_db()
 
 ```
 
-  - comparaisons du nombre d'informations entre les 3 bases
+### comparaisons du nombre d'informations entre les 3 bases
+
+  1. Tableau récapitulatif
 
 ```{r}
 #| label: db_comparisons
 #| code-fold: true
 
 tbl_summary <- tibble(
-       methode = c("utils::available.packages",
-                   "tools::CRAN_package_db",
-                   "rvest (webscraping)"),
-             n = c(length(unique(tbl_pkg$Package)), 
-                   length(unique(pdb$Package)),
-                   length(unique(tbl_pkg_rvest$Package))),
-  fields_count = c(ncol(tbl_pkg), ncol(pdb), ncol(tbl_pkg_rvest)), 
-        taille = c(lobstr::obj_size(tbl_pkg), 
-                   lobstr::obj_size(pdb),
-                   lobstr::obj_size(tbl_pkg_rvest)) 
-)
+  `Méthode` = c("utils::available.packages",
+                "tools::CRAN_package_db",
+                "rvest (webscraping)"),
+  `Quantité` = c(length(unique(tbl_pkg$Package)), 
+                 length(unique(pdb$Package)),
+                 length(unique(tbl_pkg_rvest$Package))),
+  `Nombre de champs` = c(ncol(tbl_pkg), ncol(pdb), ncol(tbl_pkg_rvest)), 
+  Taille = c(lobstr::obj_size(tbl_pkg), 
+             lobstr::obj_size(pdb),
+             lobstr::obj_size(tbl_pkg_rvest)))
 
 gt_summary <- gt(tbl_summary) |> 
   tab_header(
-    title    = md("**packages R recensés**"),
-    subtitle = md(paste("(le", Sys.Date(), ")"))
+    title    = md("**Paquets R distincts (nom unique) recensés**"),
+    subtitle = md(paste("(en date du", Sys.Date(), ")"))
   ) |> 
   tab_footnote(
-    footnote  = md("Quantité estimée avec la commande `obj_size`"),
+    footnote  = md("Mesure estimée avec la commande `obj_size`"),
     locations = cells_column_labels(
-      columns   = taille
+      columns   = Taille
     )
   ) 
   
@@ -102,7 +106,7 @@ gt_summary
 
 ```
 
-### Paquets communs pour les 3 sources de données
+  2. Paquets communs pour les 3 sources de données
 
 ```{r}
 #| label: similar_pkgs
@@ -116,7 +120,7 @@ similar_pkgs <- intersect(intersect(e1, e2), e3)
 
 dissimilar_tbl_pkg_rvest <- e1[!e1 %in% similar_pkgs]
 dissimilar_tbl_pkg       <- e2[!e2 %in% similar_pkgs]
-dissimilar_pdb         <- e3[!e3 %in% similar_pkgs]
+dissimilar_pdb           <- e3[!e3 %in% similar_pkgs]
 
 identical(dissimilar_tbl_pkg_rvest, dissimilar_pdb)
 
@@ -132,7 +136,7 @@ identical(dissimilar_tbl_pkg_rvest, dissimilar_pdb)
    
 :::
 
-### Paquets différents
+  3. Paquets en plus dans `pdb` et `tbl_pkg_rvest` (par rapport à `tbl_pkg`)
 
 ```{r}
 #| label: dissimilar_pkgs
@@ -143,11 +147,12 @@ dissimilar_pkgs
 
 ```
 
-### Paquets doublons
+  4. Paquets doublons
 
 ```{r}
 #| label: twin_pkgs
 #| code-fold: true
+#| message: false
 
 pdb |>
   summarize(n = dplyr::n(), .by = Package) |> 
@@ -157,9 +162,9 @@ pdb |>
 
 ```
 
-### Informations communes et différentes
+### Informations sur les champs
 
-  - Champs communs
+  1. Détermination des champs communs
   
 ```{r}
 #| label: similar_fields
@@ -170,20 +175,94 @@ similar_fields
 
 ```
 
-  - Champs différents
+  2. Recherche des lignes communes sur la base de ces champs commun
+  
+```{r}
+#| label: compare_supposed_identical_rows
+#| code-fold: true
+
+tlb_pkg_same_rows <- tbl_pkg |> 
+  select(all_of(similar_fields)) |> 
+  arrange(stri_trans_tolower(Package))
+
+pdb_same_rows <- pdb |> 
+  select(all_of(similar_fields)) |> 
+  arrange(stri_trans_tolower(Package)) |> 
+  as_tibble()
+
+tbl_same_rows <- pdb_same_rows |> 
+  inner_join(tlb_pkg_same_rows, by = similar_fields)
+
+```
+
+  3. Lignes présentes dans `pdb` et absentes de `tbl_pkg` 
+
+```{r}
+#| label: rows_inside_of_pdb_outside_of_tbk_pkg
+#| code-fold: true
+#| 
+pdb_diff_rows <- dplyr::setdiff(pdb_same_rows, tbl_same_rows) |> 
+  arrange(stri_trans_tolower(Package))
+
+pdb_diff_rows[,c("Package", "Version", "Depends")]
+
+```
+
+  4. Lignes présentes dans `tbl_pkg` et absentes de `pdb`
+  
+```{r}
+
+tbl_pkg_diff_rows <- dplyr::setdiff(tlb_pkg_same_rows, tbl_same_rows) |> 
+  arrange(stri_trans_tolower(Package))
+
+tbl_pkg_diff_rows[,c("Package", "Version", "Depends")]
+
+```
+
+Sur l'ensemble des champs communs `r paste(similar_fields, collapse = ", ")`, le nombre de lignes différentes vaut : `r nrow(tbl_pkg_diff_rows)`.
+
+
+
+::: {.callout-note collapse="false"}
+
+Cette différence reste à expliquer car on aurait pu croire que l'intégralité des données de `tbl_pkg` seraient présentes dans `pdb`.
+   
+:::
+
+On peut ainsi passablement conclure que le data.frame `pdb` contient toutes les informations relatives à l'ensemble des paquets R disponibles sur le CRAN. 
+
+  5. Champs de `tbl_pkg` absents de `pdb`
   
 ```{r}
 #| label: dissimilar_fields
 #| code-fold: true
 #| 
-dissimilar_fields_tbl_pkg <- names(tbl_pkg)[!names(tbl_pkg) %in% names(pdb)]
-dissimilar_fields_pdb <- names(pdb)[!names(pdb) %in% names(tbl_pkg)]
-dissimilar_fields <- c(dissimilar_fields_tbl_pkg, dissimilar_fields_pdb)
+dissimilar_fields <- names(tbl_pkg)[!names(tbl_pkg) %in% names(pdb)]
 dissimilar_fields
 
 ```
 
-### Informations sur les champs
+Sachant que toutes les lignes de la colonne `File` contiennent des valeurs `NA`,
+
+```{r}
+#| label: all_File_value_are_NA
+#| 
+all(is.na(tbl_pkg$File))
+
+```
+
+et que toutes les lignes de la colonne `Repository` contiennent la même valeur,
+
+```{r}
+#| label: all_Repository_value_are_identical
+#| 
+unique(tbl_pkg$Repository)
+
+```
+
+cela confirme l'inutilité du tibble `tbl_pkg`.
+
+  6. Taille des champs
 
 ::: {.callout-note collapse="false"}
 
@@ -246,7 +325,7 @@ get_gt_summary <- function(tbl) {
 
 ```
 
-  -  de la table `tbl_pkg`
+    - de la table `tbl_pkg`
 
 ```{r}
 #|label: summary_tbl_pkg
@@ -256,7 +335,7 @@ gt_summary_tbl_pkg
 
 ```
 
-  - de la table `pdb`
+    - de la table `pdb`
 
 ```{r}
 #|label: summary_pdb
@@ -266,10 +345,10 @@ gt_summary_pdb
 
 ```
 
+Les tailles maximales identiques pour les champs communs dans `pdb` et `tlb_pkg` vient corroborer le fait que l'ensemble des données correspondantes sont intégralement contenues dans `pdb` (à l'exception près signalée au point 4. supra) 
+
 ::: {.callout-note collapse="false"}
 
-Le data.frame `pdb` contient les données les plus à jour.
-
-Ce fichier sera étudié plus précisément dans le second épisode de cette série de posts sur les paquets R.
+Le data.frame `pdb` contient les données les plus à jour et sera donc pris comme référence pour l'étude des données concernant les paquets R disponibles sur le CRAN.
 
 :::
