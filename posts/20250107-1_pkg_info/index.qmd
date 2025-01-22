@@ -33,21 +33,29 @@ library(stringi)
 ```{r}
 #| label: rvest_scraping
 
-url_repo <- "https://cloud.r-project.org/src/contrib/"
+get_tbl_pkg_rvest <- function() {
+  
+  url_repo <- "https://cloud.r-project.org/src/contrib/"
 
-links <- read_html(url_repo) |> 
-  html_elements("a") |> 
-  html_attr("href")
+  links <- read_html(url_repo) |> 
+    html_elements("a") |> 
+    html_attr("href")
+  
+  tbl_pkg_rvest <- links[grep("[.]tar[.]gz$", links)] |> 
+    gsub(pattern = ".tar.gz", replacement = "") |> 
+    strsplit(split = "_") |> 
+    unlist() |> 
+    matrix(ncol = 2, 
+           byrow = TRUE, 
+           dimnames = list(NULL, c("Package", "Version"))
+           ) |> 
+    as_tibble()
+  
+  return(tbl_pkg_rvest)
 
-tbl_pkg_rvest <- links[grep("[.]tar[.]gz$", links)] |> 
-  gsub(pattern = ".tar.gz", replacement = "") |> 
-  strsplit(split = "_") |> 
-  unlist() |> 
-  matrix(ncol = 2, 
-         byrow = TRUE, 
-         dimnames = list(NULL, c("Package", "Version"))
-         ) |> 
-  as_tibble()
+}
+
+tbl_pkg_rvest <- get_tbl_pkg_rvest()
 
 ```
 
@@ -56,8 +64,7 @@ tbl_pkg_rvest <- links[grep("[.]tar[.]gz$", links)] |>
 ```{r}
 #| label: available_packages
 
-tbl_pkg <- utils::available.packages() |> 
-  as_tibble()
+tbl_pkg <- utils::available.packages() |> as_tibble()
 
 ```
 
