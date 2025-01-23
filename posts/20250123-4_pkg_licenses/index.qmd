@@ -1,0 +1,87 @@
+---
+title: "R packages Licenses"
+author: "Alcor"
+date: "2025-01-23"
+categories: [news, code, analysis]
+image: "image.jpg"
+---
+
+### Chargement des paquets nécessaires
+
+```{r}
+#| label: load_libraries
+#| code-fold: true
+#| warning: false
+#| 
+library(tools)
+library(dplyr)
+library(tibble)
+library(gt)
+```
+
+### Chargement des données
+
+```{r}
+#| label: CRAN_package_db
+#|  
+pdb <- tools::CRAN_package_db()
+
+```
+
+### Types de licences utilisées
+
+```{r}
+#| label: licences_used
+#| code-fold: true
+#| warning: false
+
+table_licenses <- table(pdb$License)
+tbl_licenses   <- table_licenses |> 
+  as.matrix() |> 
+  as_tibble() |> 
+  dplyr::mutate(license = dimnames(table_licenses)[[1]]) |> 
+  rename("Nom licence" = license,
+          occurrences = V1,
+        ) |> 
+  dplyr::relocate("Nom licence")
+
+```
+
+  - Licences à usage unique
+
+```{r}
+#|label: orphan_licenses
+
+tbl_orphan_licenses <- tbl_licenses |> 
+    dplyr::filter(occurrences == 1) |> 
+    left_join(pdb, join_by("Nom licence" == License)) |> 
+    select(Package, "Nom licence")
+
+gt_orphan_licenses <- gt(tbl_orphan_licenses) |> 
+  tab_header(
+    title    = md("**Licences orphelines**"),
+    subtitle = md("(occurrence de licence égale à 1 pour un paquet donné)")
+  ) 
+
+gt_orphan_licenses
+
+```
+
+  - Autres licences
+
+```{r}
+#|label: other_licenses
+
+tbl_other_licenses <- tbl_licenses |> 
+  filter(occurrences > 1)
+
+gt_other_licenses <- gt(tbl_other_licenses) |> 
+  tab_header(
+    title    = md("**Licences non orphelines**"),
+    subtitle = md("(occurrences de licence supérieure à 1 pour un paquet donné)")
+  ) 
+
+gt_other_licenses
+
+```
+
