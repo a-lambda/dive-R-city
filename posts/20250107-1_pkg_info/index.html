@@ -213,28 +213,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>utilisation de <code>rvest</code> sur le repo <a href="https://cloud.r-project.org/src/contrib/">/src/contrib</a></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>url_repo <span class="ot">&lt;-</span> <span class="st">"https://cloud.r-project.org/src/contrib/"</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url_repo) <span class="sc">|&gt;</span> </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">"a"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">"href"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>tbl_pkg_rvest <span class="ot">&lt;-</span> links[<span class="fu">grep</span>(<span class="st">"[.]tar[.]gz$"</span>, links)] <span class="sc">|&gt;</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">".tar.gz"</span>, <span class="at">replacement =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">strsplit</span>(<span class="at">split =</span> <span class="st">"_"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>, </span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">byrow =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">"Package"</span>, <span class="st">"Version"</span>))</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">|&gt;</span> </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>get_tbl_pkg_rvest <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  url_repo <span class="ot">&lt;-</span> <span class="st">"https://cloud.r-project.org/src/contrib/"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  links <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url_repo) <span class="sc">|&gt;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_elements</span>(<span class="st">"a"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_attr</span>(<span class="st">"href"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  tbl_pkg_rvest <span class="ot">&lt;-</span> links[<span class="fu">grep</span>(<span class="st">"[.]tar[.]gz$"</span>, links)] <span class="sc">|&gt;</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">".tar.gz"</span>, <span class="at">replacement =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">strsplit</span>(<span class="at">split =</span> <span class="st">"_"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unlist</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>, </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">byrow =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">"Package"</span>, <span class="st">"Version"</span>))</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>           ) <span class="sc">|&gt;</span> </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_tibble</span>()</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(tbl_pkg_rvest)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>tbl_pkg_rvest <span class="ot">&lt;-</span> <span class="fu">get_tbl_pkg_rvest</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li>utilisation de la fonction <strong><code>available.packages</code></strong> du paquet <code>utils</code></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tbl_pkg <span class="ot">&lt;-</span> utils<span class="sc">::</span><span class="fu">available.packages</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tbl_pkg <span class="ot">&lt;-</span> utils<span class="sc">::</span><span class="fu">available.packages</span>() <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
 <li>Utilisation de la fonction <code>CRAN_package_db</code> du paquet <strong><code>tools</code></strong></li>
@@ -278,23 +285,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>gt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="zzcqlrhlqe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zzcqlrhlqe table {
+<div id="mookyjyeic" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mookyjyeic table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zzcqlrhlqe thead, #zzcqlrhlqe tbody, #zzcqlrhlqe tfoot, #zzcqlrhlqe tr, #zzcqlrhlqe td, #zzcqlrhlqe th {
+#mookyjyeic thead, #mookyjyeic tbody, #mookyjyeic tfoot, #mookyjyeic tr, #mookyjyeic td, #mookyjyeic th {
   border-style: none;
 }
 
-#zzcqlrhlqe p {
+#mookyjyeic p {
   margin: 0;
   padding: 0;
 }
 
-#zzcqlrhlqe .gt_table {
+#mookyjyeic .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -320,12 +327,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#zzcqlrhlqe .gt_caption {
+#mookyjyeic .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zzcqlrhlqe .gt_title {
+#mookyjyeic .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -337,7 +344,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#zzcqlrhlqe .gt_subtitle {
+#mookyjyeic .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -349,7 +356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#zzcqlrhlqe .gt_heading {
+#mookyjyeic .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -361,13 +368,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#zzcqlrhlqe .gt_bottom_border {
+#mookyjyeic .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zzcqlrhlqe .gt_col_headings {
+#mookyjyeic .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -382,7 +389,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#zzcqlrhlqe .gt_col_heading {
+#mookyjyeic .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -402,7 +409,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#zzcqlrhlqe .gt_column_spanner_outer {
+#mookyjyeic .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -414,15 +421,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#zzcqlrhlqe .gt_column_spanner_outer:first-child {
+#mookyjyeic .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zzcqlrhlqe .gt_column_spanner_outer:last-child {
+#mookyjyeic .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zzcqlrhlqe .gt_column_spanner {
+#mookyjyeic .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -434,11 +441,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#zzcqlrhlqe .gt_spanner_row {
+#mookyjyeic .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zzcqlrhlqe .gt_group_heading {
+#mookyjyeic .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -464,7 +471,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#zzcqlrhlqe .gt_empty_group_heading {
+#mookyjyeic .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -479,15 +486,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#zzcqlrhlqe .gt_from_md > :first-child {
+#mookyjyeic .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zzcqlrhlqe .gt_from_md > :last-child {
+#mookyjyeic .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zzcqlrhlqe .gt_row {
+#mookyjyeic .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -506,7 +513,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#zzcqlrhlqe .gt_stub {
+#mookyjyeic .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -519,7 +526,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#zzcqlrhlqe .gt_stub_row_group {
+#mookyjyeic .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -533,15 +540,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#zzcqlrhlqe .gt_row_group_first td {
+#mookyjyeic .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zzcqlrhlqe .gt_row_group_first th {
+#mookyjyeic .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zzcqlrhlqe .gt_summary_row {
+#mookyjyeic .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -551,16 +558,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#zzcqlrhlqe .gt_first_summary_row {
+#mookyjyeic .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zzcqlrhlqe .gt_first_summary_row.thick {
+#mookyjyeic .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zzcqlrhlqe .gt_last_summary_row {
+#mookyjyeic .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -570,7 +577,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#zzcqlrhlqe .gt_grand_summary_row {
+#mookyjyeic .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -580,7 +587,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#zzcqlrhlqe .gt_first_grand_summary_row {
+#mookyjyeic .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -590,7 +597,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#zzcqlrhlqe .gt_last_grand_summary_row_top {
+#mookyjyeic .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -600,11 +607,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#zzcqlrhlqe .gt_striped {
+#mookyjyeic .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zzcqlrhlqe .gt_table_body {
+#mookyjyeic .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -613,7 +620,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#zzcqlrhlqe .gt_footnotes {
+#mookyjyeic .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -627,7 +634,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#zzcqlrhlqe .gt_footnote {
+#mookyjyeic .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -636,7 +643,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#zzcqlrhlqe .gt_sourcenotes {
+#mookyjyeic .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -650,7 +657,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#zzcqlrhlqe .gt_sourcenote {
+#mookyjyeic .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -658,72 +665,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#zzcqlrhlqe .gt_left {
+#mookyjyeic .gt_left {
   text-align: left;
 }
 
-#zzcqlrhlqe .gt_center {
+#mookyjyeic .gt_center {
   text-align: center;
 }
 
-#zzcqlrhlqe .gt_right {
+#mookyjyeic .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zzcqlrhlqe .gt_font_normal {
+#mookyjyeic .gt_font_normal {
   font-weight: normal;
 }
 
-#zzcqlrhlqe .gt_font_bold {
+#mookyjyeic .gt_font_bold {
   font-weight: bold;
 }
 
-#zzcqlrhlqe .gt_font_italic {
+#mookyjyeic .gt_font_italic {
   font-style: italic;
 }
 
-#zzcqlrhlqe .gt_super {
+#mookyjyeic .gt_super {
   font-size: 65%;
 }
 
-#zzcqlrhlqe .gt_footnote_marks {
+#mookyjyeic .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zzcqlrhlqe .gt_asterisk {
+#mookyjyeic .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zzcqlrhlqe .gt_indent_1 {
+#mookyjyeic .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zzcqlrhlqe .gt_indent_2 {
+#mookyjyeic .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zzcqlrhlqe .gt_indent_3 {
+#mookyjyeic .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zzcqlrhlqe .gt_indent_4 {
+#mookyjyeic .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zzcqlrhlqe .gt_indent_5 {
+#mookyjyeic .gt_indent_5 {
   text-indent: 25px;
 }
 
-#zzcqlrhlqe .katex-display {
+#mookyjyeic .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#zzcqlrhlqe div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#mookyjyeic div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -734,7 +741,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th colspan="4" class="gt_heading gt_title gt_font_normal"><strong>Paquets R distincts (nom unique) recensés</strong></th>
 </tr>
 <tr class="gt_heading even">
-<th colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">(en date du 2025-01-22 )</th>
+<th colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">(en date du 2025-01-23 )</th>
 </tr>
 <tr class="gt_col_headings header">
 <th id="Méthode" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Méthode</th>
@@ -746,19 +753,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="Méthode">utils::available.packages</td>
-<td class="gt_row gt_right" headers="Quantité">21913</td>
+<td class="gt_row gt_right" headers="Quantité">21921</td>
 <td class="gt_row gt_right" headers="Nombre de champs">17</td>
 <td class="gt_row gt_center" headers="Taille">10.13 MB</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Méthode">tools::CRAN_package_db</td>
-<td class="gt_row gt_right" headers="Quantité">21939</td>
+<td class="gt_row gt_right" headers="Quantité">21947</td>
 <td class="gt_row gt_right" headers="Nombre de champs">69</td>
-<td class="gt_row gt_center" headers="Taille">54.01 MB</td>
+<td class="gt_row gt_center" headers="Taille">54.03 MB</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Méthode">rvest (webscraping)</td>
-<td class="gt_row gt_right" headers="Quantité">21939</td>
+<td class="gt_row gt_right" headers="Quantité">21947</td>
 <td class="gt_row gt_right" headers="Nombre de champs">2</td>
 <td class="gt_row gt_center" headers="Taille">1.82 MB</td>
 </tr>
@@ -808,7 +815,7 @@ Note
 <div id="callout-1" class="callout-1-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <ul>
-<li><p>Nous avons 21913 paquets en commun</p></li>
+<li><p>Nous avons 21921 paquets en commun</p></li>
 <li><p>Tous les paquets du tibble <code>tbl_pkg</code> sont présents dans le data.frame <code>pdb</code> et le tibble <code>tbl_pkg_rvest</code>puisque :</p>
 <ul>
 <li><strong>length(dissimilar_tbl_pkg) == 0</strong></li>
@@ -1085,23 +1092,23 @@ Note
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>gt_summary_tbl_pkg <span class="ot">&lt;-</span> <span class="fu">get_gt_summary</span>(tbl_pkg)</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>gt_summary_tbl_pkg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="ymoaigqqmi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ymoaigqqmi table {
+<div id="pddmyuulkn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pddmyuulkn table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ymoaigqqmi thead, #ymoaigqqmi tbody, #ymoaigqqmi tfoot, #ymoaigqqmi tr, #ymoaigqqmi td, #ymoaigqqmi th {
+#pddmyuulkn thead, #pddmyuulkn tbody, #pddmyuulkn tfoot, #pddmyuulkn tr, #pddmyuulkn td, #pddmyuulkn th {
   border-style: none;
 }
 
-#ymoaigqqmi p {
+#pddmyuulkn p {
   margin: 0;
   padding: 0;
 }
 
-#ymoaigqqmi .gt_table {
+#pddmyuulkn .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1127,12 +1134,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#ymoaigqqmi .gt_caption {
+#pddmyuulkn .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ymoaigqqmi .gt_title {
+#pddmyuulkn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1144,7 +1151,7 @@ Note
   border-bottom-width: 0;
 }
 
-#ymoaigqqmi .gt_subtitle {
+#pddmyuulkn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1156,7 +1163,7 @@ Note
   border-top-width: 0;
 }
 
-#ymoaigqqmi .gt_heading {
+#pddmyuulkn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1168,13 +1175,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ymoaigqqmi .gt_bottom_border {
+#pddmyuulkn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ymoaigqqmi .gt_col_headings {
+#pddmyuulkn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1189,7 +1196,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ymoaigqqmi .gt_col_heading {
+#pddmyuulkn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1209,7 +1216,7 @@ Note
   overflow-x: hidden;
 }
 
-#ymoaigqqmi .gt_column_spanner_outer {
+#pddmyuulkn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1221,15 +1228,15 @@ Note
   padding-right: 4px;
 }
 
-#ymoaigqqmi .gt_column_spanner_outer:first-child {
+#pddmyuulkn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ymoaigqqmi .gt_column_spanner_outer:last-child {
+#pddmyuulkn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ymoaigqqmi .gt_column_spanner {
+#pddmyuulkn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1241,11 +1248,11 @@ Note
   width: 100%;
 }
 
-#ymoaigqqmi .gt_spanner_row {
+#pddmyuulkn .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ymoaigqqmi .gt_group_heading {
+#pddmyuulkn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1271,7 +1278,7 @@ Note
   text-align: left;
 }
 
-#ymoaigqqmi .gt_empty_group_heading {
+#pddmyuulkn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1286,15 +1293,15 @@ Note
   vertical-align: middle;
 }
 
-#ymoaigqqmi .gt_from_md > :first-child {
+#pddmyuulkn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ymoaigqqmi .gt_from_md > :last-child {
+#pddmyuulkn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ymoaigqqmi .gt_row {
+#pddmyuulkn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1313,7 +1320,7 @@ Note
   overflow-x: hidden;
 }
 
-#ymoaigqqmi .gt_stub {
+#pddmyuulkn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1326,7 +1333,7 @@ Note
   padding-right: 5px;
 }
 
-#ymoaigqqmi .gt_stub_row_group {
+#pddmyuulkn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1340,15 +1347,15 @@ Note
   vertical-align: top;
 }
 
-#ymoaigqqmi .gt_row_group_first td {
+#pddmyuulkn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ymoaigqqmi .gt_row_group_first th {
+#pddmyuulkn .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ymoaigqqmi .gt_summary_row {
+#pddmyuulkn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1358,16 +1365,16 @@ Note
   padding-right: 5px;
 }
 
-#ymoaigqqmi .gt_first_summary_row {
+#pddmyuulkn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ymoaigqqmi .gt_first_summary_row.thick {
+#pddmyuulkn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ymoaigqqmi .gt_last_summary_row {
+#pddmyuulkn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1377,7 +1384,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#ymoaigqqmi .gt_grand_summary_row {
+#pddmyuulkn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1387,7 +1394,7 @@ Note
   padding-right: 5px;
 }
 
-#ymoaigqqmi .gt_first_grand_summary_row {
+#pddmyuulkn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1397,7 +1404,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#ymoaigqqmi .gt_last_grand_summary_row_top {
+#pddmyuulkn .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1407,11 +1414,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#ymoaigqqmi .gt_striped {
+#pddmyuulkn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ymoaigqqmi .gt_table_body {
+#pddmyuulkn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1420,7 +1427,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#ymoaigqqmi .gt_footnotes {
+#pddmyuulkn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1434,7 +1441,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ymoaigqqmi .gt_footnote {
+#pddmyuulkn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1443,7 +1450,7 @@ Note
   padding-right: 5px;
 }
 
-#ymoaigqqmi .gt_sourcenotes {
+#pddmyuulkn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1457,7 +1464,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ymoaigqqmi .gt_sourcenote {
+#pddmyuulkn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1465,72 +1472,72 @@ Note
   padding-right: 5px;
 }
 
-#ymoaigqqmi .gt_left {
+#pddmyuulkn .gt_left {
   text-align: left;
 }
 
-#ymoaigqqmi .gt_center {
+#pddmyuulkn .gt_center {
   text-align: center;
 }
 
-#ymoaigqqmi .gt_right {
+#pddmyuulkn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ymoaigqqmi .gt_font_normal {
+#pddmyuulkn .gt_font_normal {
   font-weight: normal;
 }
 
-#ymoaigqqmi .gt_font_bold {
+#pddmyuulkn .gt_font_bold {
   font-weight: bold;
 }
 
-#ymoaigqqmi .gt_font_italic {
+#pddmyuulkn .gt_font_italic {
   font-style: italic;
 }
 
-#ymoaigqqmi .gt_super {
+#pddmyuulkn .gt_super {
   font-size: 65%;
 }
 
-#ymoaigqqmi .gt_footnote_marks {
+#pddmyuulkn .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ymoaigqqmi .gt_asterisk {
+#pddmyuulkn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ymoaigqqmi .gt_indent_1 {
+#pddmyuulkn .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ymoaigqqmi .gt_indent_2 {
+#pddmyuulkn .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ymoaigqqmi .gt_indent_3 {
+#pddmyuulkn .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ymoaigqqmi .gt_indent_4 {
+#pddmyuulkn .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ymoaigqqmi .gt_indent_5 {
+#pddmyuulkn .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ymoaigqqmi .katex-display {
+#pddmyuulkn .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ymoaigqqmi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#pddmyuulkn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1541,7 +1548,7 @@ Note
 <th colspan="5" class="gt_heading gt_title gt_font_normal">Données relatives aux différents champs</th>
 </tr>
 <tr class="gt_heading even">
-<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Nombre de lignes = 21913</th>
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Nombre de lignes = 21921</th>
 </tr>
 <tr class="gt_col_headings header">
 <th id="Nom-du-champ" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Nom du champ</th>
@@ -1554,63 +1561,63 @@ Note
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Package</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21913</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21921</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">21913</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">21921</td>
 <td class="gt_row gt_right" headers="taille max.">35</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Version</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21913</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21921</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">2368</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">2367</td>
 <td class="gt_row gt_right" headers="taille max.">14</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Priority</td>
 <td class="gt_row gt_right" headers="# lignes avec données">23</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21890</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21898</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">11</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Depends</td>
-<td class="gt_row gt_right" headers="# lignes avec données">16142</td>
+<td class="gt_row gt_right" headers="# lignes avec données">16150</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">5771</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">4491</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">4490</td>
 <td class="gt_row gt_right" headers="taille max.">284</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Imports</td>
-<td class="gt_row gt_right" headers="# lignes avec données">17719</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">4194</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">15070</td>
+<td class="gt_row gt_right" headers="# lignes avec données">17726</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">4195</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">15077</td>
 <td class="gt_row gt_right" headers="taille max.">585</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">LinkingTo</td>
-<td class="gt_row gt_right" headers="# lignes avec données">3085</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">18828</td>
+<td class="gt_row gt_right" headers="# lignes avec données">3086</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">18835</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">560</td>
 <td class="gt_row gt_right" headers="taille max.">193</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Suggests</td>
-<td class="gt_row gt_right" headers="# lignes avec données">14778</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">7135</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">9131</td>
+<td class="gt_row gt_right" headers="# lignes avec données">14784</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">7137</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">9134</td>
 <td class="gt_row gt_right" headers="taille max.">1267</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Enhances</td>
 <td class="gt_row gt_right" headers="# lignes avec données">229</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21684</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21692</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">204</td>
 <td class="gt_row gt_right" headers="taille max.">601</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">License</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21913</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21921</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">159</td>
 <td class="gt_row gt_right" headers="taille max.">54</td>
@@ -1618,41 +1625,41 @@ Note
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">License_is_FOSS</td>
 <td class="gt_row gt_right" headers="# lignes avec données">16</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21897</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21905</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">3</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">License_restricts_use</td>
 <td class="gt_row gt_right" headers="# lignes avec données">12</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21901</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21909</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">3</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">OS_type</td>
 <td class="gt_row gt_right" headers="# lignes avec données">13</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21900</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21908</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">1</td>
 <td class="gt_row gt_right" headers="taille max.">7</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Archs</td>
 <td class="gt_row gt_right" headers="# lignes avec données">20</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21893</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21901</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">9</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">MD5sum</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21913</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21921</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">21913</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">21921</td>
 <td class="gt_row gt_right" headers="taille max.">32</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">NeedsCompilation</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21913</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21921</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">3</td>
@@ -1660,13 +1667,13 @@ Note
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">File</td>
 <td class="gt_row gt_right" headers="# lignes avec données">0</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21913</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21921</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">0</td>
 <td class="gt_row gt_right" headers="taille max.">0</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Repository</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21913</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21921</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">1</td>
 <td class="gt_row gt_right" headers="taille max.">39</td>
@@ -1692,23 +1699,23 @@ Note
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>gt_summary_pdb <span class="ot">&lt;-</span> <span class="fu">get_gt_summary</span>(pdb)</span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>gt_summary_pdb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="bruxdzvnck" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bruxdzvnck table {
+<div id="yconxrqsaf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#yconxrqsaf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bruxdzvnck thead, #bruxdzvnck tbody, #bruxdzvnck tfoot, #bruxdzvnck tr, #bruxdzvnck td, #bruxdzvnck th {
+#yconxrqsaf thead, #yconxrqsaf tbody, #yconxrqsaf tfoot, #yconxrqsaf tr, #yconxrqsaf td, #yconxrqsaf th {
   border-style: none;
 }
 
-#bruxdzvnck p {
+#yconxrqsaf p {
   margin: 0;
   padding: 0;
 }
 
-#bruxdzvnck .gt_table {
+#yconxrqsaf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1734,12 +1741,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#bruxdzvnck .gt_caption {
+#yconxrqsaf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bruxdzvnck .gt_title {
+#yconxrqsaf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1751,7 +1758,7 @@ Note
   border-bottom-width: 0;
 }
 
-#bruxdzvnck .gt_subtitle {
+#yconxrqsaf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1763,7 +1770,7 @@ Note
   border-top-width: 0;
 }
 
-#bruxdzvnck .gt_heading {
+#yconxrqsaf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1775,13 +1782,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#bruxdzvnck .gt_bottom_border {
+#yconxrqsaf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bruxdzvnck .gt_col_headings {
+#yconxrqsaf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1796,7 +1803,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#bruxdzvnck .gt_col_heading {
+#yconxrqsaf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1816,7 +1823,7 @@ Note
   overflow-x: hidden;
 }
 
-#bruxdzvnck .gt_column_spanner_outer {
+#yconxrqsaf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1828,15 +1835,15 @@ Note
   padding-right: 4px;
 }
 
-#bruxdzvnck .gt_column_spanner_outer:first-child {
+#yconxrqsaf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bruxdzvnck .gt_column_spanner_outer:last-child {
+#yconxrqsaf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bruxdzvnck .gt_column_spanner {
+#yconxrqsaf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1848,11 +1855,11 @@ Note
   width: 100%;
 }
 
-#bruxdzvnck .gt_spanner_row {
+#yconxrqsaf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bruxdzvnck .gt_group_heading {
+#yconxrqsaf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1878,7 +1885,7 @@ Note
   text-align: left;
 }
 
-#bruxdzvnck .gt_empty_group_heading {
+#yconxrqsaf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1893,15 +1900,15 @@ Note
   vertical-align: middle;
 }
 
-#bruxdzvnck .gt_from_md > :first-child {
+#yconxrqsaf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bruxdzvnck .gt_from_md > :last-child {
+#yconxrqsaf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bruxdzvnck .gt_row {
+#yconxrqsaf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1920,7 +1927,7 @@ Note
   overflow-x: hidden;
 }
 
-#bruxdzvnck .gt_stub {
+#yconxrqsaf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1933,7 +1940,7 @@ Note
   padding-right: 5px;
 }
 
-#bruxdzvnck .gt_stub_row_group {
+#yconxrqsaf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1947,15 +1954,15 @@ Note
   vertical-align: top;
 }
 
-#bruxdzvnck .gt_row_group_first td {
+#yconxrqsaf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bruxdzvnck .gt_row_group_first th {
+#yconxrqsaf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bruxdzvnck .gt_summary_row {
+#yconxrqsaf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1965,16 +1972,16 @@ Note
   padding-right: 5px;
 }
 
-#bruxdzvnck .gt_first_summary_row {
+#yconxrqsaf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bruxdzvnck .gt_first_summary_row.thick {
+#yconxrqsaf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bruxdzvnck .gt_last_summary_row {
+#yconxrqsaf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1984,7 +1991,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#bruxdzvnck .gt_grand_summary_row {
+#yconxrqsaf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1994,7 +2001,7 @@ Note
   padding-right: 5px;
 }
 
-#bruxdzvnck .gt_first_grand_summary_row {
+#yconxrqsaf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2004,7 +2011,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#bruxdzvnck .gt_last_grand_summary_row_top {
+#yconxrqsaf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2014,11 +2021,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#bruxdzvnck .gt_striped {
+#yconxrqsaf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bruxdzvnck .gt_table_body {
+#yconxrqsaf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2027,7 +2034,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#bruxdzvnck .gt_footnotes {
+#yconxrqsaf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2041,7 +2048,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#bruxdzvnck .gt_footnote {
+#yconxrqsaf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2050,7 +2057,7 @@ Note
   padding-right: 5px;
 }
 
-#bruxdzvnck .gt_sourcenotes {
+#yconxrqsaf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2064,7 +2071,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#bruxdzvnck .gt_sourcenote {
+#yconxrqsaf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2072,72 +2079,72 @@ Note
   padding-right: 5px;
 }
 
-#bruxdzvnck .gt_left {
+#yconxrqsaf .gt_left {
   text-align: left;
 }
 
-#bruxdzvnck .gt_center {
+#yconxrqsaf .gt_center {
   text-align: center;
 }
 
-#bruxdzvnck .gt_right {
+#yconxrqsaf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bruxdzvnck .gt_font_normal {
+#yconxrqsaf .gt_font_normal {
   font-weight: normal;
 }
 
-#bruxdzvnck .gt_font_bold {
+#yconxrqsaf .gt_font_bold {
   font-weight: bold;
 }
 
-#bruxdzvnck .gt_font_italic {
+#yconxrqsaf .gt_font_italic {
   font-style: italic;
 }
 
-#bruxdzvnck .gt_super {
+#yconxrqsaf .gt_super {
   font-size: 65%;
 }
 
-#bruxdzvnck .gt_footnote_marks {
+#yconxrqsaf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bruxdzvnck .gt_asterisk {
+#yconxrqsaf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bruxdzvnck .gt_indent_1 {
+#yconxrqsaf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bruxdzvnck .gt_indent_2 {
+#yconxrqsaf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bruxdzvnck .gt_indent_3 {
+#yconxrqsaf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bruxdzvnck .gt_indent_4 {
+#yconxrqsaf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bruxdzvnck .gt_indent_5 {
+#yconxrqsaf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#bruxdzvnck .katex-display {
+#yconxrqsaf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#bruxdzvnck div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#yconxrqsaf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2148,7 +2155,7 @@ Note
 <th colspan="5" class="gt_heading gt_title gt_font_normal">Données relatives aux différents champs</th>
 </tr>
 <tr class="gt_heading even">
-<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Nombre de lignes = 21954</th>
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Nombre de lignes = 21962</th>
 </tr>
 <tr class="gt_col_headings header">
 <th id="Nom-du-champ" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Nom du champ</th>
@@ -2161,63 +2168,63 @@ Note
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Package</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">21939</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">21947</td>
 <td class="gt_row gt_right" headers="taille max.">35</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Version</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">2371</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">2370</td>
 <td class="gt_row gt_right" headers="taille max.">14</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Priority</td>
 <td class="gt_row gt_right" headers="# lignes avec données">38</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21916</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21924</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">11</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Depends</td>
-<td class="gt_row gt_right" headers="# lignes avec données">16172</td>
+<td class="gt_row gt_right" headers="# lignes avec données">16180</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">5782</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">4506</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">4505</td>
 <td class="gt_row gt_right" headers="taille max.">284</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Imports</td>
-<td class="gt_row gt_right" headers="# lignes avec données">17740</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">4214</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">15077</td>
+<td class="gt_row gt_right" headers="# lignes avec données">17747</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">4215</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">15084</td>
 <td class="gt_row gt_right" headers="taille max.">585</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">LinkingTo</td>
-<td class="gt_row gt_right" headers="# lignes avec données">3093</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">18861</td>
+<td class="gt_row gt_right" headers="# lignes avec données">3094</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">18868</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">563</td>
 <td class="gt_row gt_right" headers="taille max.">193</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Suggests</td>
-<td class="gt_row gt_right" headers="# lignes avec données">14806</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">7148</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">9140</td>
+<td class="gt_row gt_right" headers="# lignes avec données">14812</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">7150</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">9143</td>
 <td class="gt_row gt_right" headers="taille max.">1267</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Enhances</td>
 <td class="gt_row gt_right" headers="# lignes avec données">233</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21721</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21729</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">205</td>
 <td class="gt_row gt_right" headers="taille max.">601</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">License</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">159</td>
 <td class="gt_row gt_right" headers="taille max.">54</td>
@@ -2225,41 +2232,41 @@ Note
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">License_is_FOSS</td>
 <td class="gt_row gt_right" headers="# lignes avec données">16</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21938</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21946</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">3</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">License_restricts_use</td>
 <td class="gt_row gt_right" headers="# lignes avec données">12</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21942</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21950</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">3</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">OS_type</td>
 <td class="gt_row gt_right" headers="# lignes avec données">39</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21915</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21923</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">7</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Archs</td>
 <td class="gt_row gt_right" headers="# lignes avec données">20</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21934</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21942</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">9</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">MD5sum</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">21939</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">21947</td>
 <td class="gt_row gt_right" headers="taille max.">32</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">NeedsCompilation</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">3</td>
@@ -2267,174 +2274,174 @@ Note
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Additional_repositories</td>
 <td class="gt_row gt_right" headers="# lignes avec données">162</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21792</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21800</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">94</td>
 <td class="gt_row gt_right" headers="taille max.">75</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Author</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">18788</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">18793</td>
 <td class="gt_row gt_right" headers="taille max.">4319</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Authors@R</td>
-<td class="gt_row gt_right" headers="# lignes avec données">16643</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">5311</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">15016</td>
+<td class="gt_row gt_right" headers="# lignes avec données">16653</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">5309</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">15023</td>
 <td class="gt_row gt_right" headers="taille max.">18532</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Biarch</td>
 <td class="gt_row gt_right" headers="# lignes avec données">226</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21728</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21736</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">6</td>
 <td class="gt_row gt_right" headers="taille max.">5</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">BugReports</td>
-<td class="gt_row gt_right" headers="# lignes avec données">9991</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">11963</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">9919</td>
+<td class="gt_row gt_right" headers="# lignes avec données">9995</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">11967</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">9923</td>
 <td class="gt_row gt_right" headers="taille max.">84</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">BuildKeepEmpty</td>
 <td class="gt_row gt_right" headers="# lignes avec données">2</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21952</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21960</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">4</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">BuildManual</td>
 <td class="gt_row gt_right" headers="# lignes avec données">17</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21937</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21945</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">3</td>
 <td class="gt_row gt_right" headers="taille max.">4</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">BuildResaveData</td>
 <td class="gt_row gt_right" headers="# lignes avec données">34</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21920</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21928</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">3</td>
 <td class="gt_row gt_right" headers="taille max.">4</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">BuildVignettes</td>
 <td class="gt_row gt_right" headers="# lignes avec données">74</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21880</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21888</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">4</td>
 <td class="gt_row gt_right" headers="taille max.">4</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Built</td>
 <td class="gt_row gt_right" headers="# lignes avec données">0</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21962</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">0</td>
 <td class="gt_row gt_right" headers="taille max.">0</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">ByteCompile</td>
 <td class="gt_row gt_right" headers="# lignes avec données">773</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21181</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21189</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">6</td>
 <td class="gt_row gt_right" headers="taille max.">5</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Classification/ACM</td>
 <td class="gt_row gt_right" headers="# lignes avec données">17</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21937</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21945</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">8</td>
 <td class="gt_row gt_right" headers="taille max.">19</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Classification/ACM-2012</td>
 <td class="gt_row gt_right" headers="# lignes avec données">1</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21953</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21961</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">1</td>
 <td class="gt_row gt_right" headers="taille max.">255</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Classification/JEL</td>
 <td class="gt_row gt_right" headers="# lignes avec données">6</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21948</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21956</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">6</td>
 <td class="gt_row gt_right" headers="taille max.">23</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Classification/MSC</td>
 <td class="gt_row gt_right" headers="# lignes avec données">25</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21929</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21937</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">16</td>
 <td class="gt_row gt_right" headers="taille max.">61</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Classification/MSC-2010</td>
 <td class="gt_row gt_right" headers="# lignes avec données">7</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21947</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21955</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">7</td>
 <td class="gt_row gt_right" headers="taille max.">33</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Collate</td>
-<td class="gt_row gt_right" headers="# lignes avec données">1083</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">20871</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">1083</td>
+<td class="gt_row gt_right" headers="# lignes avec données">1084</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">20878</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">1084</td>
 <td class="gt_row gt_right" headers="taille max.">5524</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Collate.unix</td>
 <td class="gt_row gt_right" headers="# lignes avec données">0</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21962</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">0</td>
 <td class="gt_row gt_right" headers="taille max.">0</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Collate.windows</td>
 <td class="gt_row gt_right" headers="# lignes avec données">0</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21962</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">0</td>
 <td class="gt_row gt_right" headers="taille max.">0</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Contact</td>
 <td class="gt_row gt_right" headers="# lignes avec données">68</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21886</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21894</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">47</td>
 <td class="gt_row gt_right" headers="taille max.">176</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Copyright</td>
 <td class="gt_row gt_right" headers="# lignes avec données">433</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21521</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21529</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">309</td>
 <td class="gt_row gt_right" headers="taille max.">1082</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Date</td>
-<td class="gt_row gt_right" headers="# lignes avec données">9126</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">12828</td>
+<td class="gt_row gt_right" headers="# lignes avec données">9129</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">12833</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">3207</td>
 <td class="gt_row gt_right" headers="taille max.">32</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Date/Publication</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">21939</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">21947</td>
 <td class="gt_row gt_right" headers="taille max.">23</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Description</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">21935</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">21943</td>
 <td class="gt_row gt_right" headers="taille max.">7372</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Encoding</td>
-<td class="gt_row gt_right" headers="# lignes avec données">15935</td>
+<td class="gt_row gt_right" headers="# lignes avec données">15943</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">6019</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">1</td>
 <td class="gt_row gt_right" headers="taille max.">5</td>
@@ -2442,204 +2449,204 @@ Note
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">KeepSource</td>
 <td class="gt_row gt_right" headers="# lignes avec données">16</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21938</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21946</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">3</td>
 <td class="gt_row gt_right" headers="taille max.">4</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Language</td>
-<td class="gt_row gt_right" headers="# lignes avec données">2231</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">19723</td>
+<td class="gt_row gt_right" headers="# lignes avec données">2234</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">19728</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">31</td>
 <td class="gt_row gt_right" headers="taille max.">9</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">LazyData</td>
-<td class="gt_row gt_right" headers="# lignes avec données">9445</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">12509</td>
+<td class="gt_row gt_right" headers="# lignes avec données">9449</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">12513</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">10</td>
 <td class="gt_row gt_right" headers="taille max.">5</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">LazyDataCompression</td>
-<td class="gt_row gt_right" headers="# lignes avec données">283</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21671</td>
+<td class="gt_row gt_right" headers="# lignes avec données">284</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21678</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">3</td>
 <td class="gt_row gt_right" headers="taille max.">5</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">LazyLoad</td>
-<td class="gt_row gt_right" headers="# lignes avec données">1619</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">20335</td>
+<td class="gt_row gt_right" headers="# lignes avec données">1620</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">20342</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">9</td>
 <td class="gt_row gt_right" headers="taille max.">5</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">MailingList</td>
 <td class="gt_row gt_right" headers="# lignes avec données">22</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21932</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21940</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">15</td>
 <td class="gt_row gt_right" headers="taille max.">94</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Maintainer</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">12361</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">12365</td>
 <td class="gt_row gt_right" headers="taille max.">86</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Note</td>
 <td class="gt_row gt_right" headers="# lignes avec données">82</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21872</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21880</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">62</td>
 <td class="gt_row gt_right" headers="taille max.">701</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Packaged</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">21928</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">21936</td>
 <td class="gt_row gt_right" headers="taille max.">156</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">RdMacros</td>
 <td class="gt_row gt_right" headers="# lignes avec données">554</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21400</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21408</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">11</td>
 <td class="gt_row gt_right" headers="taille max.">17</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">StagedInstall</td>
 <td class="gt_row gt_right" headers="# lignes avec données">12</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21942</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21950</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">3</td>
 <td class="gt_row gt_right" headers="taille max.">4</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">SysDataCompression</td>
 <td class="gt_row gt_right" headers="# lignes avec données">4</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21950</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21958</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">4</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">SystemRequirements</td>
-<td class="gt_row gt_right" headers="# lignes avec données">1455</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">20499</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">722</td>
+<td class="gt_row gt_right" headers="# lignes avec données">1456</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">20506</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">723</td>
 <td class="gt_row gt_right" headers="taille max.">530</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Title</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">21861</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">21869</td>
 <td class="gt_row gt_right" headers="taille max.">246</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Type</td>
-<td class="gt_row gt_right" headers="# lignes avec données">13398</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">8556</td>
+<td class="gt_row gt_right" headers="# lignes avec données">13402</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">8560</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">1</td>
 <td class="gt_row gt_right" headers="taille max.">7</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">URL</td>
-<td class="gt_row gt_right" headers="# lignes avec données">12610</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">9344</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">12221</td>
+<td class="gt_row gt_right" headers="# lignes avec données">12617</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">9345</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">12228</td>
 <td class="gt_row gt_right" headers="taille max.">527</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">UseLTO</td>
 <td class="gt_row gt_right" headers="# lignes avec données">9</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21945</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21953</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">4</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">VignetteBuilder</td>
-<td class="gt_row gt_right" headers="# lignes avec données">8377</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">13577</td>
+<td class="gt_row gt_right" headers="# lignes avec données">8381</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">13581</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">54</td>
 <td class="gt_row gt_right" headers="taille max.">73</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">ZipData</td>
 <td class="gt_row gt_right" headers="# lignes avec données">41</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21913</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21921</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">5</td>
 <td class="gt_row gt_right" headers="taille max.">4</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Path</td>
 <td class="gt_row gt_right" headers="# lignes avec données">15</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21939</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21947</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">1</td>
 <td class="gt_row gt_right" headers="taille max.">17</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">X-CRAN-Comment</td>
 <td class="gt_row gt_right" headers="# lignes avec données">2</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21952</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21960</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">2</td>
 <td class="gt_row gt_right" headers="taille max.">67</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Published</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21954</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21962</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">0</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">3166</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">3167</td>
 <td class="gt_row gt_right" headers="taille max.">10</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Reverse depends</td>
 <td class="gt_row gt_right" headers="# lignes avec données">1733</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">20221</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">20229</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">1596</td>
 <td class="gt_row gt_right" headers="taille max.">5153</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Reverse imports</td>
 <td class="gt_row gt_right" headers="# lignes avec données">5227</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">16727</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">4838</td>
-<td class="gt_row gt_right" headers="taille max.">44442</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">16735</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">4839</td>
+<td class="gt_row gt_right" headers="taille max.">44487</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Reverse linking to</td>
 <td class="gt_row gt_right" headers="# lignes avec données">164</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21790</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21798</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">156</td>
-<td class="gt_row gt_right" headers="taille max.">30864</td>
+<td class="gt_row gt_right" headers="taille max.">30875</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Reverse suggests</td>
 <td class="gt_row gt_right" headers="# lignes avec données">4249</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">17705</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">17713</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">3733</td>
-<td class="gt_row gt_right" headers="taille max.">109627</td>
+<td class="gt_row gt_right" headers="taille max.">109678</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">Reverse enhances</td>
 <td class="gt_row gt_right" headers="# lignes avec données">377</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21577</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21585</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">231</td>
 <td class="gt_row gt_right" headers="taille max.">153</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom du champ">Deadline</td>
-<td class="gt_row gt_right" headers="# lignes avec données">145</td>
-<td class="gt_row gt_right" headers="# lignes avec NA">21809</td>
+<td class="gt_row gt_right" headers="# lignes avec données">146</td>
+<td class="gt_row gt_right" headers="# lignes avec NA">21816</td>
 <td class="gt_row gt_right" headers="# valeurs différentes">20</td>
 <td class="gt_row gt_right" headers="taille max.">10</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom du champ">DOI</td>
-<td class="gt_row gt_right" headers="# lignes avec données">21952</td>
+<td class="gt_row gt_right" headers="# lignes avec données">21960</td>
 <td class="gt_row gt_right" headers="# lignes avec NA">2</td>
-<td class="gt_row gt_right" headers="# valeurs différentes">21937</td>
+<td class="gt_row gt_right" headers="# valeurs différentes">21945</td>
 <td class="gt_row gt_right" headers="taille max.">57</td>
 </tr>
 </tbody><tfoot class="gt_footnotes">
