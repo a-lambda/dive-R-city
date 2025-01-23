@@ -8,7 +8,7 @@ image: "image.jpg"
 
 ## Paquets R
 
-#### Chargement des paquets nécessaires
+### Chargement des paquets nécessaires
 
 ```{r}
 #| label: load_libraries
@@ -77,7 +77,7 @@ pdb <- tools::CRAN_package_db()
 
 ```
 
-### comparaisons du nombre d'informations entre les 3 bases
+### Comparaisons du nombre d'informations entre les 3 bases
 
   1. Tableau récapitulatif
 
@@ -182,7 +182,7 @@ similar_fields
 
 ```
 
-  2. Recherche des lignes communes sur la base de ces champs commun
+  2. Recherche des lignes communes sur la base de ces champs communs
   
 ```{r}
 #| label: compare_supposed_identical_rows
@@ -218,7 +218,9 @@ pdb_diff_rows[,c("Package", "Version", "Depends")]
   4. Lignes présentes dans `tbl_pkg` et absentes de `pdb`
   
 ```{r}
-
+#| label: rows_inside_of_tbk_pkg_outside_of_pdb
+#| code-fold: true
+#| 
 tbl_pkg_diff_rows <- dplyr::setdiff(tlb_pkg_same_rows, tbl_same_rows) |> 
   arrange(stri_trans_tolower(Package))
 
@@ -226,17 +228,17 @@ tbl_pkg_diff_rows[,c("Package", "Version", "Depends")]
 
 ```
 
-Sur l'ensemble des champs communs `r paste(similar_fields, collapse = ", ")`, le nombre de lignes différentes vaut : `r nrow(tbl_pkg_diff_rows)`.
-
-
-
 ::: {.callout-note collapse="false"}
 
-Cette différence reste à expliquer car on aurait pu croire que l'intégralité des données de `tbl_pkg` seraient présentes dans `pdb`.
+Sur l'ensemble des champs communs **`r paste(similar_fields, collapse = ", ")`**, le nombre de lignes différentes vaut : **`r nrow(tbl_pkg_diff_rows)`**.
+
+Conclusion :
+
+Pour les colonnes communes, `tbl_pkg` présnte les mêmes données que `pdb`.
+
+On peut donc se passer de `tbl_pkg`.
    
 :::
-
-On peut ainsi passablement conclure que le data.frame `pdb` contient toutes les informations relatives à l'ensemble des paquets R disponibles sur le CRAN. 
 
   5. Champs de `tbl_pkg` absents de `pdb`
   
@@ -267,7 +269,7 @@ unique(tbl_pkg$Repository)
 
 ```
 
-cela confirme l'inutilité du tibble `tbl_pkg`.
+Les données de `tbl_pkg`, pour les champs de même nom, sont identiques à celles de `pdb`.
 
   6. Taille des champs
 
@@ -335,8 +337,9 @@ get_gt_summary <- function(tbl) {
     - de la table `tbl_pkg`
 
 ```{r}
-#|label: summary_tbl_pkg
-
+#| label: summary_tbl_pkg
+#| code-fold: true
+#| 
 gt_summary_tbl_pkg <- get_gt_summary(tbl_pkg)
 gt_summary_tbl_pkg
 
@@ -345,17 +348,18 @@ gt_summary_tbl_pkg
     - de la table `pdb`
 
 ```{r}
-#|label: summary_pdb
-
+#| label: summary_pdb
+#| code-fold: true
+#| 
 gt_summary_pdb <- get_gt_summary(pdb)
 gt_summary_pdb
 
 ```
 
-Les tailles maximales identiques pour les champs communs dans `pdb` et `tlb_pkg` vient corroborer le fait que l'ensemble des données correspondantes sont intégralement contenues dans `pdb` (à l'exception près signalée au point 4. supra) 
+Les tailles maximales identiques pour les champs communs dans `pdb` et `tlb_pkg` vient corroborer le fait que les données de `tbl_pkg` sont intégralement contenues dans `pdb` (à l'exception près signalée au point 4. supra) 
 
 ::: {.callout-note collapse="false"}
 
-Le data.frame `pdb` contient les données les plus à jour et sera donc pris comme référence pour l'étude des données concernant les paquets R disponibles sur le CRAN.
+Le data.frame `pdb` sera donc pris comme référence pour l'étude des données concernant les paquets R disponibles sur le CRAN.
 
 :::
