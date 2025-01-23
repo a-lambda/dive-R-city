@@ -16,14 +16,14 @@ image: "image.jpg"
 #| warning: false
 #| 
 library(purrr)
-library(dplyr)
-library(gt)
 library(tools)
 library(lobstr)
-library(tibble)
 library(rvest)
-library(glue)
+library(dplyr)
+library(tibble)
 library(stringi)
+library(gt)
+library(glue)
 ```
 
 ### Récupération des données sur les paquets R disponibles
@@ -93,9 +93,9 @@ tbl_summary <- tibble(
                  length(unique(pdb$Package)),
                  length(unique(tbl_pkg_rvest$Package))),
   `Nombre de champs` = c(ncol(tbl_pkg), ncol(pdb), ncol(tbl_pkg_rvest)), 
-  Taille = c(lobstr::obj_size(tbl_pkg), 
-             lobstr::obj_size(pdb),
-             lobstr::obj_size(tbl_pkg_rvest)))
+  Taille = c(obj_size(tbl_pkg), 
+             obj_size(pdb),
+             obj_size(tbl_pkg_rvest)))
 
 gt_summary <- gt(tbl_summary) |> 
   tab_header(
