@@ -6,7 +6,7 @@ categories: [news, code, analysis]
 image: "image.jpg"
 ---
 
-## Etude des données obtenues sur les paquets à partir de `CRAN_package_db`
+## Données du champ `Authors@R`
 
 ```{r}
 #| label: load_libraries
@@ -31,90 +31,22 @@ Les champs conservés dans la suite de l'étude sont :
   
 :::
 
-```{r}
-#| label: CRAN_package_db
-#| 
-pkgdb_CRAN <- tools::CRAN_package_db()
-
-saveRDS(object = pkgdb_CRAN,
-        file = paste(Sys.Date(), "pkgdb_CRAN.RDS",
-        sep = "_"))
-
-```
-
 ### Simplification du data.frame d'étude
 
 ```{r}
-#| label: pkgdb_simplified
+#| label: CRAN_package_db_simplified
+
+pdb_CRAN <- tools::CRAN_package_db()
 
 fields <- c(
   "Package", "Version", "Depends", "License", "MD5sum", 
   "NeedsCompilation", "Author", "Authors@R", "Date/Publication", 
   "Description", "Maintainer", "Packaged", "Title", "Published")
 
-pkgdb <- pkgdb_CRAN |> 
+pdb <- pdb_CRAN |> 
   dplyr::select(all_of(fields))
 
 ```
-
-### Types de licences utilisées
-
-```{r}
-#| label: licences_used
-#| code-fold: true
-#| warning: false
-
-table_licenses <- table(pkgdb$License)
-tbl_licenses   <- table_licenses |> 
-  as.matrix() |> 
-  as_tibble() |> 
-  dplyr::mutate(license = dimnames(table_licenses)[[1]]) |> 
-  rename("Nom licence" = license,
-          occurrences = V1,
-        ) |> 
-  dplyr::relocate("Nom licence")
-
-```
-
-  - Licences à usage unique
-
-```{r}
-#|label: orphan_licenses
-
-tbl_orphan_licenses <- tbl_licenses |> 
-    dplyr::filter(occurrences == 1) |> 
-    left_join(pkgdb, join_by("Nom licence" == License)) |> 
-    select(Package, "Nom licence")
-
-gt_orphan_licenses <- gt(tbl_orphan_licenses) |> 
-  tab_header(
-    title    = md("**Licences orphelines**"),
-    subtitle = md("(occurrence de licence égale à 1 pour un paquet donné)")
-  ) 
-
-gt_orphan_licenses
-
-```
-
-  - Autres licences
-
-```{r}
-#|label: other_licenses
-
-tbl_other_licenses <- tbl_licenses |> 
-  filter(occurrences > 1)
-
-gt_other_licenses <- gt(tbl_other_licenses) |> 
-  tab_header(
-    title    = md("**Licences non orphelines**"),
-    subtitle = md("(occurrences de licence supérieure à 1 pour un paquet donné)")
-  ) 
-
-gt_other_licenses
-
-```
-
-### Données du champ `Authors@R`
 
 #### Récupération des informations sur les adresses de messagerie
 
@@ -124,16 +56,16 @@ gt_other_licenses
 #| label: emails_count_estimated
 #| code-fold: true
 
-authorsR <- pkgdb$`Authors@R`
+authorsR <- pdb$`Authors@R`
 
-emails_count_per_pkgdb_row <- authorsR |> 
+emails_count_per_pdb_row <- authorsR |> 
   stri_count_regex(pattern = "[@]")
 
 # NA is considered to be total 0
 
-emails_count_per_pkgdb_row[is.na(emails_count_per_pkgdb_row)] <- 0
+emails_count_per_pdb_row[is.na(emails_count_per_pdb_row)] <- 0
 
-emails_total_estimated <- emails_count_per_pkgdb_row |> sum()
+emails_total_estimated <- emails_count_per_pdb_row |> sum()
 
 emails_total_estimated
 
@@ -182,17 +114,17 @@ length(emails_in_authorsR)
   3) Récupération du nombre de lignes pour chacune des matrices 
 
 ```{r}
-#| label: match_lines_per_pkgdb_row
+#| label: match_lines_per_pdb_row
 
-match_lines_per_pkgdb_row <- emails_in_authorsR |> 
+match_lines_per_pdb_row <- emails_in_authorsR |> 
   map(nrow) |>
   unlist()
 
-match_lines_per_pkgdb_row[1:100]
+match_lines_per_pdb_row[1:100]
 
 ```
 
-  4) transformation des `r nrow(pkgdb)` matrices en une seule matrice
+  4) transformation des `r nrow(pdb)` matrices en une seule matrice
 
 ```{r}
 #| label: mat_emails_in_authorsR
@@ -200,9 +132,9 @@ match_lines_per_pkgdb_row[1:100]
 temp_mat_emails_in_authorsR <- do.call(rbind, emails_in_authorsR)
 
 mat_emails_in_authorsR <- cbind(
-  rep(x = pkgdb$Package, match_lines_per_pkgdb_row),
-  rep(x = pkgdb$Version, match_lines_per_pkgdb_row),
-  rep(x = pkgdb$Depends, match_lines_per_pkgdb_row),
+  rep(x = pdb$Package, match_lines_per_pdb_row),
+  rep(x = pdb$Version, match_lines_per_pdb_row),
+  rep(x = pdb$Depends, match_lines_per_pdb_row),
   temp_mat_emails_in_authorsR[,c(2,3)])
 
 mat_emails_in_authorsR[1:10, c(1,4,5)]
@@ -225,29 +157,29 @@ tbl_emails_in_authorsR
 
 ```
 
-  6) résumé par ligne du data.frame `pkgdb`
+  6) résumé par ligne du data.frame `pdb`
 
 ```{r}
-#| label: summary_emails_per_pkgdb_row
+#| label: summary_emails_per_pdb_row
 #| 
-summary_emails_per_pkgdb_row <- tbl_emails_in_authorsR |> 
+summary_emails_per_pdb_row <- tbl_emails_in_authorsR |> 
   mutate(n = if_else(is.na(email_id) & is.na(email_domain), 0, 1)) |> 
   summarize(.by = c(Package, Version, Depends), emails_count = sum(n)) |> 
-  mutate(emails_count_estimated = emails_count_per_pkgdb_row)
+  mutate(emails_count_estimated = emails_count_per_pdb_row)
 
-summary_emails_per_pkgdb_row
+summary_emails_per_pdb_row
 
-summary_emails_per_pkgdb_row |> summarize(total_emails = sum(emails_count))
+summary_emails_per_pdb_row |> summarize(total_emails = sum(emails_count))
   
 ```
 
-  7) récupération des lignes du data.frame `pkgdb` où il y a un problème
+  7) récupération des lignes du data.frame `pdb` où il y a un problème
   
 On compare la valeur du champ `emails_count` à celle du champ `emails_count_estimated`
 
 ```{r}
 
-bad_emails_count_rows <- summary_emails_per_pkgdb_row |> 
+bad_emails_count_rows <- summary_emails_per_pdb_row |> 
   mutate(difference = emails_count_estimated - emails_count) |> 
   filter(difference != 0)
 
@@ -269,7 +201,7 @@ Exemple pour le paquet `report`:
 select_bad_row <- function(pkg) {
   
   bad_emails_count_rows |> 
-    left_join(pkgdb, by = c("Package", "Version", "Depends")) |> 
+    left_join(pdb, by = c("Package", "Version", "Depends")) |> 
     select(Package, `Authors@R`) |> 
     filter(Package == pkg) |> 
     pull()
@@ -343,20 +275,20 @@ emails <- tbl_emails |>
   mutate(email = paste(email_id, email_domain, sep = "@")) |> 
   select("Package", "email")
 
-pkgdb_emails_total <- nrow(emails)
-pkgdb_emails_count <- length(unique(tbl_emails$email_id))
-pkgdb_mail_servers_count <- length(unique(tbl_emails$email_domain))
-pkgdb_tlds_count <- length(unique(tbl_emails$tld))
+pdb_emails_total <- nrow(emails)
+pdb_emails_count <- length(unique(tbl_emails$email_id))
+pdb_mail_servers_count <- length(unique(tbl_emails$email_domain))
+pdb_tlds_count <- length(unique(tbl_emails$tld))
 
 ```
 
 ::: {.callout-note collapse="false"}
 
-Sur les `r pkgdb_emails_total` recensés on dénombre :
+Sur les `r pdb_emails_total` recensés on dénombre :
 
-- `r pkgdb_emails_count` emails différents, 
-- `r pkgdb_mail_servers_count` serveurs de messagerie différents,
-- `r pkgdb_tlds_count` TLD différents,
+- `r pdb_emails_count` emails différents, 
+- `r pdb_mail_servers_count` serveurs de messagerie différents,
+- `r pdb_tlds_count` TLD différents,
   
 :::
 
