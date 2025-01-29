@@ -152,17 +152,68 @@ RPostgres::dbAppendTable(
 #| code-fold: true
 #| message: false
 
-result <- RPostgres::dbGetQuery(
-  conn, 
-  "SELECT count(paquet) AS nb_paquets, date_publication::date
-  FROM dev.paquets
-  GROUP BY date_publication::date;")
+request <- "SELECT COUNT(DISTINCT paquet) AS total_paquets
+            FROM paquets";
 
-print(result)
+total_paquets <- RPostgres::dbGetQuery(conn, statement = request)$total_paquets
+
+request <- "SELECT MAX(date_publication::date) -
+                   MIN(date_publication::date) + 
+                   1 AS duree
+           FROM paquets;"
+
+duree <- RPostgres::dbGetQuery(conn, statement = request)$duree
+
+request <- "SELECT count(paquet) AS nb_paquets, date_publication::date,
+            SUM(COUNT(paquet)) OVER (ORDER BY date_publication::date) AS total
+            FROM dev.paquets
+            GROUP BY date_publication::date;"
+
+result <- RPostgres::dbGetQuery(conn, statement = request)
+
+gt(result) |> tab_header(
+  title    = md(paste("**Total des versions de paquets sur", duree, "jours**")),
+  subtitle = md(paste("(sur", total_paquets, "paquets versionnés)"))
+)
 
 ```
 
-  5. Déconnexion
+  5. Sélection des paquets ayant été versionné plus d'une fois depuis
+
+```{r}
+#| label: verif_data_inserted
+#| code-fold: true
+#| message: false
+
+request <- "SELECT MIN(date_publication)::date AS date_min
+            FROM paquets;"
+
+date_min <- RPostgres::dbGetQuery(conn, statement = request)$date_min
+
+request <- "SELECT paquet, version, date_publication, 
+           RANK() OVER(PARTITION BY paquet ORDER BY version) AS revision 
+           FROM paquets 
+           WHERE paquet IN (
+	           SELECT paquet 
+	           FROM (
+		           SELECT COUNT(*), paquet 
+		           FROM paquets 
+		           GROUP by paquet 
+		       HAVING COUNT(*) > 1
+	           )
+           );"
+
+result <- RPostgres::dbGetQuery(conn, statement = request)
+
+gt(result) |> 
+  tab_header(
+    title    = md("**Paquets versionnés plus d'une fois**"),
+    subtitle = md(paste0("(depuis le ", as.Date(date_min), ")"))
+  )
+
+```
+
+  6. Déconnexion
 
 ```{r}
 #| label: dbDisconnect
