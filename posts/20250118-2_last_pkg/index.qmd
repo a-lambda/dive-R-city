@@ -181,7 +181,7 @@ gt(result) |> tab_header(
   5. Sélection des paquets ayant été versionné plus d'une fois depuis
 
 ```{r}
-#| label: verif_data_inserted
+#| label: versioned_more_than_once
 #| code-fold: true
 #| message: false
 
@@ -213,7 +213,37 @@ gt(result) |>
 
 ```
 
-  6. Déconnexion
+  6. Affichage des paquets déjà enregistrés avec leur lien CRAN
+  
+```{r}
+#| label: paquet_with_CRAN_links
+#| code-fold: true
+#| message: false
+
+request <- "SELECT MIN(date_publication)::date AS date_min
+            FROM paquets;"
+
+date_min <- RPostgres::dbGetQuery(conn, statement = request)$date_min
+
+request <- "SELECT DISTINCT(LOWER(paquet)) AS paquet, lien,
+            ROW_NUMBER() OVER(ORDER BY paquet) AS rang
+            FROM paquets
+            GROUP BY paquet, lien
+            ORDER BY paquet;"
+
+result <- RPostgres::dbGetQuery(conn, statement = request)
+
+result |> 
+  mutate(lien = map(lien, md)) |> 
+  gt() |> 
+  tab_header(
+    title    = md("**Liens vers les paquets déjà versionnés**"),
+    subtitle = md(paste0("(depuis le ", as.Date(date_min), ")"))
+  ) 
+
+```
+
+  7. Déconnexion
 
 ```{r}
 #| label: dbDisconnect
