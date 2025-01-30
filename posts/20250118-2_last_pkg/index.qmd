@@ -243,7 +243,37 @@ result |>
 
 ```
 
-  7. Déconnexion
+  7. dernière version de chaque paquet enregistré dans la base
+
+```{r}
+#| label: latest_versions
+#| code-fold: true
+#| message: false
+request <- "WITH rankedpackages AS (
+	            SELECT
+		          paquet,
+		          version,
+		          ROW_NUMBER() OVER (
+		            PARTITION BY paquet ORDER BY version DESC
+		            ) AS row_num
+	            FROM dev.paquets
+            )
+            SELECT paquet, version
+            FROM rankedpackages
+            WHERE row_num = 1;"
+
+result <- RPostgres::dbGetQuery(conn, statement = request)
+
+result |> 
+  gt() |> 
+  tab_header(
+    title    = md("**Dernières versions des paquets enregistrés**"),
+    subtitle = md(paste0("(depuis le ", as.Date(date_min), ")"))
+  ) 
+
+```
+
+  8. Déconnexion
 
 ```{r}
 #| label: dbDisconnect
