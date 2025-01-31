@@ -137,11 +137,11 @@ CREATE TABLE dev.paquets(
 #| code-fold: true
 #| message: false
 #| 
-# RPostgres::dbAppendTable(
-#   conn = conn, 
-#   name = Id(schema = 'dev', table = 'paquets'), 
-#   value = last_pkg_published
-# )
+RPostgres::dbAppendTable(
+  conn = conn, 
+  name = Id(schema = 'dev', table = 'paquets'), 
+  value = last_pkg_published
+)
 
 ```
 
