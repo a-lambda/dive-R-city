@@ -153,14 +153,14 @@ RPostgres::dbAppendTable(
 #| message: false
 
 request <- "SELECT COUNT(DISTINCT paquet) AS total_paquets
-            FROM paquets";
+            FROM dev.paquets";
 
 total_paquets <- RPostgres::dbGetQuery(conn, statement = request)$total_paquets
 
 request <- "SELECT MAX(date_publication::date) -
                    MIN(date_publication::date) + 
                    1 AS duree
-           FROM paquets;"
+           FROM dev.paquets;"
 
 duree <- RPostgres::dbGetQuery(conn, statement = request)$duree
 
@@ -186,18 +186,18 @@ gt(result) |> tab_header(
 #| message: false
 
 request <- "SELECT MIN(date_publication)::date AS date_min
-            FROM paquets;"
+            FROM dev.paquets;"
 
 date_min <- RPostgres::dbGetQuery(conn, statement = request)$date_min
 
 request <- "SELECT paquet, version, date_publication, 
            RANK() OVER(PARTITION BY paquet ORDER BY version) AS revision 
-           FROM paquets 
+           FROM dev.paquets 
            WHERE paquet IN (
 	           SELECT paquet 
 	           FROM (
 		           SELECT COUNT(*), paquet 
-		           FROM paquets 
+		           FROM dev.paquets 
 		           GROUP by paquet 
 		       HAVING COUNT(*) > 1
 	           )
@@ -221,13 +221,13 @@ gt(result) |>
 #| message: false
 
 request <- "SELECT MIN(date_publication)::date AS date_min
-            FROM paquets;"
+            FROM dev.paquets;"
 
 date_min <- RPostgres::dbGetQuery(conn, statement = request)$date_min
 
 request <- "SELECT DISTINCT(LOWER(paquet)) AS paquet, lien,
             ROW_NUMBER() OVER(ORDER BY paquet) AS rang
-            FROM paquets
+            FROM dev.paquets
             GROUP BY paquet, lien
             ORDER BY paquet;"
 
