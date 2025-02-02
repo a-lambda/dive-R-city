@@ -300,7 +300,7 @@ Note
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>emails_total_estimated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 32893</code></pre>
+<pre><code>[1] 32899</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -315,7 +315,7 @@ Note
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Le nombre de mails à trouver correspond au nombre de symboles <code>@</code> présents dans l’ensemble des données de la colonne <code>Authors@R</code>, soit ici : <strong>3.2893^{4}</strong></p>
+<p>Le nombre de mails à trouver correspond au nombre de symboles <code>@</code> présents dans l’ensemble des données de la colonne <code>Authors@R</code>, soit ici : <strong>3.2899^{4}</strong></p>
 </div>
 </div>
 </div>
@@ -360,7 +360,7 @@ Note
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(emails_in_authorsR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 21996</code></pre>
+<pre><code>[1] 21997</code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -380,7 +380,7 @@ Note
 </div>
 </div>
 <ol start="4" type="1">
-<li>transformation des 21996 matrices en une seule matrice</li>
+<li>transformation des 21997 matrices en une seule matrice</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>temp_mat_emails_in_authorsR <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, emails_in_authorsR)</span>
@@ -423,7 +423,7 @@ Note
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tbl_emails_in_authorsR</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 38,127 × 5
+<pre><code># A tibble: 38,132 × 5
    Package       Version Depends                           email_id email_domain
    &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;                             &lt;chr&gt;    &lt;chr&gt;       
  1 A3            1.0.0   R (&gt;= 2.15.0), xtable, pbapply    &lt;NA&gt;     &lt;NA&gt;        
@@ -436,7 +436,7 @@ Note
  8 abc           2.2.2   R (&gt;= 2.10), abc.data, nnet, qua… kati.cs… gmail.com   
  9 abc           2.2.2   R (&gt;= 2.10), abc.data, nnet, qua… michael… gmail.com   
 10 abc.data      1.1     R (&gt;= 2.10)                       kati.cs… gmail.com   
-# ℹ 38,117 more rows</code></pre>
+# ℹ 38,122 more rows</code></pre>
 </div>
 </div>
 <ol start="6" type="1">
@@ -450,7 +450,7 @@ Note
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>summary_emails_per_pdb_row</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 21,996 × 5
+<pre><code># A tibble: 21,997 × 5
    Package       Version Depends             emails_count emails_count_estimated
    &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;                      &lt;dbl&gt;                  &lt;dbl&gt;
  1 A3            1.0.0   R (&gt;= 2.15.0), xta…            0                      0
@@ -463,14 +463,14 @@ Note
  8 abc.data      1.1     R (&gt;= 2.10)                    2                      2
  9 ABC.RAP       0.9.0   R (&gt;= 3.1.0)                   0                      0
 10 ABCanalysis   1.2.1   R (&gt;= 2.10)                    0                      0
-# ℹ 21,986 more rows</code></pre>
+# ℹ 21,987 more rows</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>summary_emails_per_pdb_row <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">total_emails =</span> <span class="fu">sum</span>(emails_count))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   total_emails
          &lt;dbl&gt;
-1        32857</code></pre>
+1        32863</code></pre>
 </div>
 </div>
 <ol start="7" type="1">
@@ -598,9 +598,9 @@ Note
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Sur les 32857 recensés on dénombre :</p>
+<p>Sur les 32863 recensés on dénombre :</p>
 <ul>
-<li>18468 emails différents,</li>
+<li>18473 emails différents,</li>
 <li>4152 serveurs de messagerie différents,</li>
 <li>160 TLD différents,</li>
 </ul>
@@ -619,7 +619,7 @@ Note
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(email_per_pkg)) <span class="sc">|&gt;</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 21,981 × 2
+<pre><code># A tibble: 21,982 × 2
    Package         email_per_pkg
    &lt;chr&gt;                   &lt;int&gt;
  1 mlpack                    145
@@ -642,7 +642,7 @@ Note
 18 Rage                       18
 19 refund                     18
 20 wallace                    18
-# ℹ 21,961 more rows</code></pre>
+# ℹ 21,962 more rows</code></pre>
 </div>
 </div>
 <ul>
@@ -665,23 +665,23 @@ Note
 <span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>gt_email_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="ybyxagzgct" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ybyxagzgct table {
+<div id="xzsyptiufz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xzsyptiufz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ybyxagzgct thead, #ybyxagzgct tbody, #ybyxagzgct tfoot, #ybyxagzgct tr, #ybyxagzgct td, #ybyxagzgct th {
+#xzsyptiufz thead, #xzsyptiufz tbody, #xzsyptiufz tfoot, #xzsyptiufz tr, #xzsyptiufz td, #xzsyptiufz th {
   border-style: none;
 }
 
-#ybyxagzgct p {
+#xzsyptiufz p {
   margin: 0;
   padding: 0;
 }
 
-#ybyxagzgct .gt_table {
+#xzsyptiufz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -707,12 +707,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#ybyxagzgct .gt_caption {
+#xzsyptiufz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ybyxagzgct .gt_title {
+#xzsyptiufz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -724,7 +724,7 @@ Note
   border-bottom-width: 0;
 }
 
-#ybyxagzgct .gt_subtitle {
+#xzsyptiufz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -736,7 +736,7 @@ Note
   border-top-width: 0;
 }
 
-#ybyxagzgct .gt_heading {
+#xzsyptiufz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -748,13 +748,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ybyxagzgct .gt_bottom_border {
+#xzsyptiufz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ybyxagzgct .gt_col_headings {
+#xzsyptiufz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -769,7 +769,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ybyxagzgct .gt_col_heading {
+#xzsyptiufz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -789,7 +789,7 @@ Note
   overflow-x: hidden;
 }
 
-#ybyxagzgct .gt_column_spanner_outer {
+#xzsyptiufz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -801,15 +801,15 @@ Note
   padding-right: 4px;
 }
 
-#ybyxagzgct .gt_column_spanner_outer:first-child {
+#xzsyptiufz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ybyxagzgct .gt_column_spanner_outer:last-child {
+#xzsyptiufz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ybyxagzgct .gt_column_spanner {
+#xzsyptiufz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -821,11 +821,11 @@ Note
   width: 100%;
 }
 
-#ybyxagzgct .gt_spanner_row {
+#xzsyptiufz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ybyxagzgct .gt_group_heading {
+#xzsyptiufz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -851,7 +851,7 @@ Note
   text-align: left;
 }
 
-#ybyxagzgct .gt_empty_group_heading {
+#xzsyptiufz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -866,15 +866,15 @@ Note
   vertical-align: middle;
 }
 
-#ybyxagzgct .gt_from_md > :first-child {
+#xzsyptiufz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ybyxagzgct .gt_from_md > :last-child {
+#xzsyptiufz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ybyxagzgct .gt_row {
+#xzsyptiufz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -893,7 +893,7 @@ Note
   overflow-x: hidden;
 }
 
-#ybyxagzgct .gt_stub {
+#xzsyptiufz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -906,7 +906,7 @@ Note
   padding-right: 5px;
 }
 
-#ybyxagzgct .gt_stub_row_group {
+#xzsyptiufz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -920,15 +920,15 @@ Note
   vertical-align: top;
 }
 
-#ybyxagzgct .gt_row_group_first td {
+#xzsyptiufz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ybyxagzgct .gt_row_group_first th {
+#xzsyptiufz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ybyxagzgct .gt_summary_row {
+#xzsyptiufz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -938,16 +938,16 @@ Note
   padding-right: 5px;
 }
 
-#ybyxagzgct .gt_first_summary_row {
+#xzsyptiufz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ybyxagzgct .gt_first_summary_row.thick {
+#xzsyptiufz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ybyxagzgct .gt_last_summary_row {
+#xzsyptiufz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -957,7 +957,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#ybyxagzgct .gt_grand_summary_row {
+#xzsyptiufz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -967,7 +967,7 @@ Note
   padding-right: 5px;
 }
 
-#ybyxagzgct .gt_first_grand_summary_row {
+#xzsyptiufz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -977,7 +977,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#ybyxagzgct .gt_last_grand_summary_row_top {
+#xzsyptiufz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -987,11 +987,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#ybyxagzgct .gt_striped {
+#xzsyptiufz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ybyxagzgct .gt_table_body {
+#xzsyptiufz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1000,7 +1000,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#ybyxagzgct .gt_footnotes {
+#xzsyptiufz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1014,7 +1014,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ybyxagzgct .gt_footnote {
+#xzsyptiufz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1023,7 +1023,7 @@ Note
   padding-right: 5px;
 }
 
-#ybyxagzgct .gt_sourcenotes {
+#xzsyptiufz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1037,7 +1037,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ybyxagzgct .gt_sourcenote {
+#xzsyptiufz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1045,72 +1045,72 @@ Note
   padding-right: 5px;
 }
 
-#ybyxagzgct .gt_left {
+#xzsyptiufz .gt_left {
   text-align: left;
 }
 
-#ybyxagzgct .gt_center {
+#xzsyptiufz .gt_center {
   text-align: center;
 }
 
-#ybyxagzgct .gt_right {
+#xzsyptiufz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ybyxagzgct .gt_font_normal {
+#xzsyptiufz .gt_font_normal {
   font-weight: normal;
 }
 
-#ybyxagzgct .gt_font_bold {
+#xzsyptiufz .gt_font_bold {
   font-weight: bold;
 }
 
-#ybyxagzgct .gt_font_italic {
+#xzsyptiufz .gt_font_italic {
   font-style: italic;
 }
 
-#ybyxagzgct .gt_super {
+#xzsyptiufz .gt_super {
   font-size: 65%;
 }
 
-#ybyxagzgct .gt_footnote_marks {
+#xzsyptiufz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ybyxagzgct .gt_asterisk {
+#xzsyptiufz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ybyxagzgct .gt_indent_1 {
+#xzsyptiufz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ybyxagzgct .gt_indent_2 {
+#xzsyptiufz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ybyxagzgct .gt_indent_3 {
+#xzsyptiufz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ybyxagzgct .gt_indent_4 {
+#xzsyptiufz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ybyxagzgct .gt_indent_5 {
+#xzsyptiufz .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ybyxagzgct .katex-display {
+#xzsyptiufz .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ybyxagzgct div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xzsyptiufz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1203,7 +1203,7 @@ Note
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-01</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-02</td>
 </tr>
 </tfoot>
 
@@ -1246,7 +1246,7 @@ Note
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>eq<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)      log(n) 
-   9.334665   -2.429676 </code></pre>
+   9.334808   -2.429721 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -1264,7 +1264,7 @@ Note
 <p>Soit <code>n</code> le nombre d’occurrences d’un email</p>
 <p>Soit <code>freq</code> le nombre d’emails apparaissant avec cette occurrence <code>n</code></p>
 <p>On a <span class="math display">\[log(freq) = a \times log(n) + b\]</span> Soit <span class="math display">\[freq = exp(b) \times n^a\]</span></p>
-<p>avec <span class="math inline">\(a =\)</span> -2.4296758 et <span class="math inline">\(b =\)</span> 9.3346645</p>
+<p>avec <span class="math inline">\(a =\)</span> -2.4297207 et <span class="math inline">\(b =\)</span> 9.3348083</p>
 </div>
 </div>
 </div>
@@ -1293,23 +1293,23 @@ Note
 <span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>gt_mail_server_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="agscorzbfm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#agscorzbfm table {
+<div id="dfzacpaehu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dfzacpaehu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#agscorzbfm thead, #agscorzbfm tbody, #agscorzbfm tfoot, #agscorzbfm tr, #agscorzbfm td, #agscorzbfm th {
+#dfzacpaehu thead, #dfzacpaehu tbody, #dfzacpaehu tfoot, #dfzacpaehu tr, #dfzacpaehu td, #dfzacpaehu th {
   border-style: none;
 }
 
-#agscorzbfm p {
+#dfzacpaehu p {
   margin: 0;
   padding: 0;
 }
 
-#agscorzbfm .gt_table {
+#dfzacpaehu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1335,12 +1335,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#agscorzbfm .gt_caption {
+#dfzacpaehu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#agscorzbfm .gt_title {
+#dfzacpaehu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1352,7 +1352,7 @@ Note
   border-bottom-width: 0;
 }
 
-#agscorzbfm .gt_subtitle {
+#dfzacpaehu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1364,7 +1364,7 @@ Note
   border-top-width: 0;
 }
 
-#agscorzbfm .gt_heading {
+#dfzacpaehu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1376,13 +1376,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#agscorzbfm .gt_bottom_border {
+#dfzacpaehu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#agscorzbfm .gt_col_headings {
+#dfzacpaehu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1397,7 +1397,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#agscorzbfm .gt_col_heading {
+#dfzacpaehu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1417,7 +1417,7 @@ Note
   overflow-x: hidden;
 }
 
-#agscorzbfm .gt_column_spanner_outer {
+#dfzacpaehu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1429,15 +1429,15 @@ Note
   padding-right: 4px;
 }
 
-#agscorzbfm .gt_column_spanner_outer:first-child {
+#dfzacpaehu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#agscorzbfm .gt_column_spanner_outer:last-child {
+#dfzacpaehu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#agscorzbfm .gt_column_spanner {
+#dfzacpaehu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1449,11 +1449,11 @@ Note
   width: 100%;
 }
 
-#agscorzbfm .gt_spanner_row {
+#dfzacpaehu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#agscorzbfm .gt_group_heading {
+#dfzacpaehu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1479,7 +1479,7 @@ Note
   text-align: left;
 }
 
-#agscorzbfm .gt_empty_group_heading {
+#dfzacpaehu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1494,15 +1494,15 @@ Note
   vertical-align: middle;
 }
 
-#agscorzbfm .gt_from_md > :first-child {
+#dfzacpaehu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#agscorzbfm .gt_from_md > :last-child {
+#dfzacpaehu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#agscorzbfm .gt_row {
+#dfzacpaehu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1521,7 +1521,7 @@ Note
   overflow-x: hidden;
 }
 
-#agscorzbfm .gt_stub {
+#dfzacpaehu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1534,7 +1534,7 @@ Note
   padding-right: 5px;
 }
 
-#agscorzbfm .gt_stub_row_group {
+#dfzacpaehu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1548,15 +1548,15 @@ Note
   vertical-align: top;
 }
 
-#agscorzbfm .gt_row_group_first td {
+#dfzacpaehu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#agscorzbfm .gt_row_group_first th {
+#dfzacpaehu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#agscorzbfm .gt_summary_row {
+#dfzacpaehu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1566,16 +1566,16 @@ Note
   padding-right: 5px;
 }
 
-#agscorzbfm .gt_first_summary_row {
+#dfzacpaehu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#agscorzbfm .gt_first_summary_row.thick {
+#dfzacpaehu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#agscorzbfm .gt_last_summary_row {
+#dfzacpaehu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1585,7 +1585,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#agscorzbfm .gt_grand_summary_row {
+#dfzacpaehu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1595,7 +1595,7 @@ Note
   padding-right: 5px;
 }
 
-#agscorzbfm .gt_first_grand_summary_row {
+#dfzacpaehu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1605,7 +1605,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#agscorzbfm .gt_last_grand_summary_row_top {
+#dfzacpaehu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1615,11 +1615,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#agscorzbfm .gt_striped {
+#dfzacpaehu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#agscorzbfm .gt_table_body {
+#dfzacpaehu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1628,7 +1628,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#agscorzbfm .gt_footnotes {
+#dfzacpaehu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1642,7 +1642,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#agscorzbfm .gt_footnote {
+#dfzacpaehu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1651,7 +1651,7 @@ Note
   padding-right: 5px;
 }
 
-#agscorzbfm .gt_sourcenotes {
+#dfzacpaehu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1665,7 +1665,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#agscorzbfm .gt_sourcenote {
+#dfzacpaehu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1673,72 +1673,72 @@ Note
   padding-right: 5px;
 }
 
-#agscorzbfm .gt_left {
+#dfzacpaehu .gt_left {
   text-align: left;
 }
 
-#agscorzbfm .gt_center {
+#dfzacpaehu .gt_center {
   text-align: center;
 }
 
-#agscorzbfm .gt_right {
+#dfzacpaehu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#agscorzbfm .gt_font_normal {
+#dfzacpaehu .gt_font_normal {
   font-weight: normal;
 }
 
-#agscorzbfm .gt_font_bold {
+#dfzacpaehu .gt_font_bold {
   font-weight: bold;
 }
 
-#agscorzbfm .gt_font_italic {
+#dfzacpaehu .gt_font_italic {
   font-style: italic;
 }
 
-#agscorzbfm .gt_super {
+#dfzacpaehu .gt_super {
   font-size: 65%;
 }
 
-#agscorzbfm .gt_footnote_marks {
+#dfzacpaehu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#agscorzbfm .gt_asterisk {
+#dfzacpaehu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#agscorzbfm .gt_indent_1 {
+#dfzacpaehu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#agscorzbfm .gt_indent_2 {
+#dfzacpaehu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#agscorzbfm .gt_indent_3 {
+#dfzacpaehu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#agscorzbfm .gt_indent_4 {
+#dfzacpaehu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#agscorzbfm .gt_indent_5 {
+#dfzacpaehu .gt_indent_5 {
   text-indent: 25px;
 }
 
-#agscorzbfm .katex-display {
+#dfzacpaehu .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#agscorzbfm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#dfzacpaehu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1759,7 +1759,7 @@ Note
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="email_domain">gmail.com</td>
-<td class="gt_row gt_right" headers="n">10031</td>
+<td class="gt_row gt_right" headers="n">10033</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="email_domain">posit.co</td>
@@ -1823,7 +1823,7 @@ Note
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-01</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-02</td>
 </tr>
 </tfoot>
 
@@ -1853,23 +1853,23 @@ Note
 <span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>gt_TLD_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="oeuvurgzfn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#oeuvurgzfn table {
+<div id="aggfizkict" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#aggfizkict table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#oeuvurgzfn thead, #oeuvurgzfn tbody, #oeuvurgzfn tfoot, #oeuvurgzfn tr, #oeuvurgzfn td, #oeuvurgzfn th {
+#aggfizkict thead, #aggfizkict tbody, #aggfizkict tfoot, #aggfizkict tr, #aggfizkict td, #aggfizkict th {
   border-style: none;
 }
 
-#oeuvurgzfn p {
+#aggfizkict p {
   margin: 0;
   padding: 0;
 }
 
-#oeuvurgzfn .gt_table {
+#aggfizkict .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1895,12 +1895,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#oeuvurgzfn .gt_caption {
+#aggfizkict .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#oeuvurgzfn .gt_title {
+#aggfizkict .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1912,7 +1912,7 @@ Note
   border-bottom-width: 0;
 }
 
-#oeuvurgzfn .gt_subtitle {
+#aggfizkict .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1924,7 +1924,7 @@ Note
   border-top-width: 0;
 }
 
-#oeuvurgzfn .gt_heading {
+#aggfizkict .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1936,13 +1936,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#oeuvurgzfn .gt_bottom_border {
+#aggfizkict .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oeuvurgzfn .gt_col_headings {
+#aggfizkict .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1957,7 +1957,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#oeuvurgzfn .gt_col_heading {
+#aggfizkict .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1977,7 +1977,7 @@ Note
   overflow-x: hidden;
 }
 
-#oeuvurgzfn .gt_column_spanner_outer {
+#aggfizkict .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1989,15 +1989,15 @@ Note
   padding-right: 4px;
 }
 
-#oeuvurgzfn .gt_column_spanner_outer:first-child {
+#aggfizkict .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oeuvurgzfn .gt_column_spanner_outer:last-child {
+#aggfizkict .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oeuvurgzfn .gt_column_spanner {
+#aggfizkict .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2009,11 +2009,11 @@ Note
   width: 100%;
 }
 
-#oeuvurgzfn .gt_spanner_row {
+#aggfizkict .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#oeuvurgzfn .gt_group_heading {
+#aggfizkict .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2039,7 +2039,7 @@ Note
   text-align: left;
 }
 
-#oeuvurgzfn .gt_empty_group_heading {
+#aggfizkict .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2054,15 +2054,15 @@ Note
   vertical-align: middle;
 }
 
-#oeuvurgzfn .gt_from_md > :first-child {
+#aggfizkict .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oeuvurgzfn .gt_from_md > :last-child {
+#aggfizkict .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oeuvurgzfn .gt_row {
+#aggfizkict .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2081,7 +2081,7 @@ Note
   overflow-x: hidden;
 }
 
-#oeuvurgzfn .gt_stub {
+#aggfizkict .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2094,7 +2094,7 @@ Note
   padding-right: 5px;
 }
 
-#oeuvurgzfn .gt_stub_row_group {
+#aggfizkict .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2108,15 +2108,15 @@ Note
   vertical-align: top;
 }
 
-#oeuvurgzfn .gt_row_group_first td {
+#aggfizkict .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oeuvurgzfn .gt_row_group_first th {
+#aggfizkict .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#oeuvurgzfn .gt_summary_row {
+#aggfizkict .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2126,16 +2126,16 @@ Note
   padding-right: 5px;
 }
 
-#oeuvurgzfn .gt_first_summary_row {
+#aggfizkict .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oeuvurgzfn .gt_first_summary_row.thick {
+#aggfizkict .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oeuvurgzfn .gt_last_summary_row {
+#aggfizkict .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2145,7 +2145,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#oeuvurgzfn .gt_grand_summary_row {
+#aggfizkict .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2155,7 +2155,7 @@ Note
   padding-right: 5px;
 }
 
-#oeuvurgzfn .gt_first_grand_summary_row {
+#aggfizkict .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2165,7 +2165,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#oeuvurgzfn .gt_last_grand_summary_row_top {
+#aggfizkict .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2175,11 +2175,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#oeuvurgzfn .gt_striped {
+#aggfizkict .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oeuvurgzfn .gt_table_body {
+#aggfizkict .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2188,7 +2188,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#oeuvurgzfn .gt_footnotes {
+#aggfizkict .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2202,7 +2202,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#oeuvurgzfn .gt_footnote {
+#aggfizkict .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2211,7 +2211,7 @@ Note
   padding-right: 5px;
 }
 
-#oeuvurgzfn .gt_sourcenotes {
+#aggfizkict .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2225,7 +2225,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#oeuvurgzfn .gt_sourcenote {
+#aggfizkict .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2233,72 +2233,72 @@ Note
   padding-right: 5px;
 }
 
-#oeuvurgzfn .gt_left {
+#aggfizkict .gt_left {
   text-align: left;
 }
 
-#oeuvurgzfn .gt_center {
+#aggfizkict .gt_center {
   text-align: center;
 }
 
-#oeuvurgzfn .gt_right {
+#aggfizkict .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oeuvurgzfn .gt_font_normal {
+#aggfizkict .gt_font_normal {
   font-weight: normal;
 }
 
-#oeuvurgzfn .gt_font_bold {
+#aggfizkict .gt_font_bold {
   font-weight: bold;
 }
 
-#oeuvurgzfn .gt_font_italic {
+#aggfizkict .gt_font_italic {
   font-style: italic;
 }
 
-#oeuvurgzfn .gt_super {
+#aggfizkict .gt_super {
   font-size: 65%;
 }
 
-#oeuvurgzfn .gt_footnote_marks {
+#aggfizkict .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#oeuvurgzfn .gt_asterisk {
+#aggfizkict .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oeuvurgzfn .gt_indent_1 {
+#aggfizkict .gt_indent_1 {
   text-indent: 5px;
 }
 
-#oeuvurgzfn .gt_indent_2 {
+#aggfizkict .gt_indent_2 {
   text-indent: 10px;
 }
 
-#oeuvurgzfn .gt_indent_3 {
+#aggfizkict .gt_indent_3 {
   text-indent: 15px;
 }
 
-#oeuvurgzfn .gt_indent_4 {
+#aggfizkict .gt_indent_4 {
   text-indent: 20px;
 }
 
-#oeuvurgzfn .gt_indent_5 {
+#aggfizkict .gt_indent_5 {
   text-indent: 25px;
 }
 
-#oeuvurgzfn .katex-display {
+#aggfizkict .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#oeuvurgzfn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#aggfizkict div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2319,7 +2319,7 @@ Note
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="tld">com</td>
-<td class="gt_row gt_right" headers="n">13539</td>
+<td class="gt_row gt_right" headers="n">13541</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="tld">edu</td>
@@ -2343,7 +2343,7 @@ Note
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="tld">ca</td>
-<td class="gt_row gt_right" headers="n">927</td>
+<td class="gt_row gt_right" headers="n">931</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="tld">es</td>
@@ -2439,7 +2439,7 @@ Note
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-01</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-02</td>
 </tr>
 </tfoot>
 
