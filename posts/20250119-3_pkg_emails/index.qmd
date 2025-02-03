@@ -60,13 +60,9 @@ authorsR <- pdb$`Authors@R`
 
 emails_count_per_pdb_row <- authorsR |> 
   stri_count_regex(pattern = "[@]")
-
 # NA is considered to be total 0
-
 emails_count_per_pdb_row[is.na(emails_count_per_pdb_row)] <- 0
-
 emails_total_estimated <- emails_count_per_pdb_row |> sum()
-
 emails_total_estimated
 
 ```
@@ -151,7 +147,8 @@ tbl_emails_in_authorsR <- as_tibble(mat_emails_in_authorsR) |>
          Version = V2,
          Depends = V3,
         email_id = V4, 
-    email_domain = V5) 
+    email_domain = V5) |> 
+  unique()
 
 tbl_emails_in_authorsR
 
@@ -193,22 +190,24 @@ L'examen des champs `Authors` correspondant aux packages `r names(bad_emails_cou
 
 En effet on note la présence de nombreux items au format `@<chaine de caractères>` qui ne respectent pas le format standart d'une adresse de messagerie. 
 
-Exemple pour le paquet `report`:
+Exemple pour le paquet `easystats`:
 
 ```{r}
 #| label: select_bad_row
 
 select_bad_row <- function(pkg) {
   
-  bad_emails_count_rows |> 
+  bad_emails <- bad_emails_count_rows |> 
     left_join(pdb, by = c("Package", "Version", "Depends")) |> 
     select(Package, `Authors@R`) |> 
     filter(Package == pkg) |> 
-    pull()
+    pull() |> 
+    stri_match_all_regex(pattern = "\"([@][A-Za-z\\.]+)")
+  return(bad_emails[[1]][,2])
   
 }
 
-select_bad_row(pkg = "report") 
+select_bad_row(pkg = "easystats") 
 
 ```
 
@@ -276,9 +275,17 @@ emails <- tbl_emails |>
   select("Package", "email")
 
 pdb_emails_total <- nrow(emails)
-pdb_emails_count <- length(unique(tbl_emails$email_id))
-pdb_mail_servers_count <- length(unique(tbl_emails$email_domain))
-pdb_tlds_count <- length(unique(tbl_emails$tld))
+pdb_emails_count <- length(unique(emails$email))
+pdb_mail_servers_count <- tbl_emails |> 
+  select(email_domain) |> 
+  filter(!is.na(email_domain)) |>
+  unique() |> 
+  nrow()
+pdb_tlds_count <- tbl_emails |> 
+  select(tld) |> 
+  filter(!is.na(tld)) |>
+  unique() |> 
+  nrow()
 
 ```
 
@@ -377,15 +384,17 @@ avec $a =$ `r eq$coefficients[[2]]` et $b =$ `r eq$coefficients[[1]]`
 #| label: mail_server_occurrences
 
 mail_server_occurrences <- tbl_emails |>
-  filter(!is.na(email_id) & !is.na(email_domain)) |> 
+  select(email_id, email_domain) |> 
+  filter(!is.na(email_id) & !is.na(email_domain)) |>
+  unique() |> 
   summarize(n = n(), .by = "email_domain") |>
   arrange(desc(n), "email_domain")
 
 gt_mail_server_occurrences <- gt(mail_server_occurrences |> 
-                                   dplyr::filter(n >= 100)) |> 
+                                   dplyr::filter(n >= 50)) |> 
   tab_header(
     title    = md("**Mail server in packages db sorted by occurrences**"),
-    subtitle = md(paste("**( Mail server displayed only for n >= 100 )**"))
+    subtitle = md(paste("**( Mail server displayed only for n >= 50 )**"))
   ) |> 
   tab_footnote(
     footnote  = md(paste("Données valables pour le ", Sys.Date())),
@@ -402,7 +411,9 @@ gt_mail_server_occurrences
 #| label: TLD_occurrences
 
 TLD_occurrences <- tbl_emails |> 
+  select(email_id, email_domain, tld) |> 
   filter(!is.na(email_id) & !is.na(email_domain)) |> 
+  unique() |> 
   summarize(n = n(), .by = "tld") |>
   arrange(desc(n), tld)
 
