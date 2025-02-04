@@ -290,17 +290,13 @@ Note
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>emails_count_per_pdb_row <span class="ot">&lt;-</span> authorsR <span class="sc">|&gt;</span> </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stri_count_regex</span>(<span class="at">pattern =</span> <span class="st">"[@]"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># NA is considered to be total 0</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>emails_count_per_pdb_row[<span class="fu">is.na</span>(emails_count_per_pdb_row)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>emails_total_estimated <span class="ot">&lt;-</span> emails_count_per_pdb_row <span class="sc">|&gt;</span> <span class="fu">sum</span>()</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>emails_total_estimated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># NA is considered to be total 0</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>emails_count_per_pdb_row[<span class="fu">is.na</span>(emails_count_per_pdb_row)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>emails_total_estimated <span class="ot">&lt;-</span> emails_count_per_pdb_row <span class="sc">|&gt;</span> <span class="fu">sum</span>()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>emails_total_estimated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 32885</code></pre>
+<pre><code>[1] 32917</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -315,7 +311,7 @@ Note
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Le nombre de mails à trouver correspond au nombre de symboles <code>@</code> présents dans l’ensemble des données de la colonne <code>Authors@R</code>, soit ici : <strong>3.2885^{4}</strong></p>
+<p>Le nombre de mails à trouver correspond au nombre de symboles <code>@</code> présents dans l’ensemble des données de la colonne <code>Authors@R</code>, soit ici : <strong>3.2917^{4}</strong></p>
 </div>
 </div>
 </div>
@@ -360,7 +356,7 @@ Note
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(emails_in_authorsR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 21988</code></pre>
+<pre><code>[1] 22001</code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -380,7 +376,7 @@ Note
 </div>
 </div>
 <ol start="4" type="1">
-<li>transformation des 21988 matrices en une seule matrice</li>
+<li>transformation des 22001 matrices en une seule matrice</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>temp_mat_emails_in_authorsR <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, emails_in_authorsR)</span>
@@ -415,7 +411,8 @@ Note
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Version =</span> V2,</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Depends =</span> V3,</span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">email_id =</span> V4, </span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">email_domain =</span> V5) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">email_domain =</span> V5) <span class="sc">|&gt;</span> </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if
 `.name_repair` is omitted as of tibble 2.0.0.
@@ -423,7 +420,7 @@ Note
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tbl_emails_in_authorsR</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 38,114 × 5
+<pre><code># A tibble: 38,067 × 5
    Package       Version Depends                           email_id email_domain
    &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;                             &lt;chr&gt;    &lt;chr&gt;       
  1 A3            1.0.0   R (&gt;= 2.15.0), xtable, pbapply    &lt;NA&gt;     &lt;NA&gt;        
@@ -436,7 +433,7 @@ Note
  8 abc           2.2.2   R (&gt;= 2.10), abc.data, nnet, qua… kati.cs… gmail.com   
  9 abc           2.2.2   R (&gt;= 2.10), abc.data, nnet, qua… michael… gmail.com   
 10 abc.data      1.1     R (&gt;= 2.10)                       kati.cs… gmail.com   
-# ℹ 38,104 more rows</code></pre>
+# ℹ 38,057 more rows</code></pre>
 </div>
 </div>
 <ol start="6" type="1">
@@ -450,7 +447,7 @@ Note
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>summary_emails_per_pdb_row</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 21,988 × 5
+<pre><code># A tibble: 22,001 × 5
    Package       Version Depends             emails_count emails_count_estimated
    &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;                      &lt;dbl&gt;                  &lt;dbl&gt;
  1 A3            1.0.0   R (&gt;= 2.15.0), xta…            0                      0
@@ -463,14 +460,14 @@ Note
  8 abc.data      1.1     R (&gt;= 2.10)                    2                      2
  9 ABC.RAP       0.9.0   R (&gt;= 3.1.0)                   0                      0
 10 ABCanalysis   1.2.1   R (&gt;= 2.10)                    0                      0
-# ℹ 21,978 more rows</code></pre>
+# ℹ 21,991 more rows</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>summary_emails_per_pdb_row <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">total_emails =</span> <span class="fu">sum</span>(emails_count))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   total_emails
          &lt;dbl&gt;
-1        32849</code></pre>
+1        32803</code></pre>
 </div>
 </div>
 <ol start="7" type="1">
@@ -487,57 +484,116 @@ Note
 <pre><code># A tibble: 1 × 1
   difference_totale
               &lt;dbl&gt;
-1                36</code></pre>
+1               114</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bad_emails_count_rows, <span class="at">n =</span> <span class="fu">nrow</span>(bad_emails_count_rows))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 25 × 6
+<pre><code># A tibble: 81 × 6
    Package        Version Depends emails_count emails_count_estimated difference
    &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;                  &lt;dbl&gt;      &lt;dbl&gt;
- 1 CRediTas       0.2.0   &lt;NA&gt;               1                      3          2
- 2 data.table     1.16.4  R (&gt;= …            3                      5          2
- 3 easystats      0.7.3   R (&gt;= …            7                     12          5
- 4 equatiomatic   0.3.3   R (&gt;= …           11                     12          1
- 5 fullRankMatrix 0.1.0   &lt;NA&gt;               2                      4          2
- 6 ggcorrplot     0.1.4.1 R (&gt;= …            2                      3          1
- 7 ggsignif       0.6.4   &lt;NA&gt;               2                      4          2
- 8 ggtext         0.1.2   R (&gt;= …            2                      3          1
- 9 gridtext       0.1.5   R (&gt;= …            2                      3          1
-10 lintr          3.1.2   R (&gt;= …            2                      3          1
-11 meltr          1.0.2   R (&gt;= …            3                      4          1
-12 MLPUGS         0.2.0   R (&gt;= …            1                      2          1
-13 pipebind       0.1.2   &lt;NA&gt;               1                      2          1
-14 rearrr         0.3.4   R (&gt;= …            1                      2          1
-15 ScorePlus      0.1     &lt;NA&gt;               3                      4          1
-16 speakr         3.2.4   &lt;NA&gt;               0                      1          1
-17 stochLAB       1.1.2   R (&gt;= …            4                      5          1
-18 styler         1.10.3  R (&gt;= …            3                      4          1
-19 tidyfast       0.4.0   R (&gt;= …            2                      3          1
-20 tidygam        1.0.0   R (&gt;= …            0                      1          1
-21 tinyplot       0.2.1   R (&gt;= …            4                      5          1
-22 urlshorteneR   1.5.7   R (&gt;= …            1                      4          3
-23 WikidataQuery… 1.0.0   R (&gt;= …            1                      2          1
-24 wordPuzzleR    0.1.1   &lt;NA&gt;               2                      3          1
-25 WufooR         1.0.1   R (&gt;= …            1                      3          2</code></pre>
+ 1 adbcdriverman… 0.16.0   &lt;NA&gt;              2                      3          1
+ 2 adbcpostgresql 0.16.0   &lt;NA&gt;              2                      3          1
+ 3 adbcsqlite     0.16.0   &lt;NA&gt;              2                      3          1
+ 4 anabel         3.0.1   "R (&gt;=…            1                      3          2
+ 5 baystability   0.2.0   "R (&gt;=…            4                      5          1
+ 6 biometryassist 1.2.1   "R (&gt;=…            1                      3          2
+ 7 bondAnalyst    1.0.1    &lt;NA&gt;              1                      2          1
+ 8 broom          1.0.7   "R (&gt;=…          109                    113          4
+ 9 caviarpd       0.3.13  "R (&gt;=…           10                     11          1
+10 cchsflow       2.1.0   "R (&gt;=…            6                      7          1
+11 chkptstanr     0.1.1   "R (&gt;=…            2                      3          1
+12 CNAIM          2.1.4   "R (&gt;=…            4                      5          1
+13 COVIDIBGE      0.2.2   "R (&gt;=…            1                      4          3
+14 CRediTas       0.2.0    &lt;NA&gt;              1                      3          2
+15 CTxCC          0.2.0    &lt;NA&gt;              4                      5          1
+16 data.table     1.16.4  "R (&gt;=…            3                      5          2
+17 dmri.tracking  0.1.0   "R (&gt;=…            2                      3          1
+18 dualScale      1.0.0   "R (&gt;=…            1                      2          1
+19 easyr          0.5-11  "R (&gt;=…            2                      3          1
+20 easystats      0.7.3   "R (&gt;=…            7                     12          5
+21 envoutliers    1.1.0    &lt;NA&gt;              2                      3          1
+22 equatiomatic   0.3.3   "R (&gt;=…           11                     12          1
+23 expint         0.1-8   "R (&gt;=…            3                      4          1
+24 FAIRmaterials  0.4.2.1 "R (&gt;=…           50                     51          1
+25 fangs          0.2.17  "R (&gt;=…            9                     10          1
+26 fullRankMatrix 0.1.0    &lt;NA&gt;              2                      4          2
+27 g3viz          1.2.0   "R (&gt;=…            1                      4          3
+28 gamstransfer   3.0.4    &lt;NA&gt;              2                      3          1
+29 gerefer        0.1.1   "R (&gt;=…            1                      2          1
+30 ggcorrplot     0.1.4.1 "R (&gt;=…            2                      3          1
+31 ggsignif       0.6.4    &lt;NA&gt;              2                      4          2
+32 ggtext         0.1.2   "R (&gt;=…            2                      3          1
+33 gridtext       0.1.5   "R (&gt;=…            2                      3          1
+34 gsloid         0.2.0   "R (&gt;=…            1                      4          3
+35 HodgesTools    1.0.0   "R (&gt;=…            4                      5          1
+36 holland        0.1.2-1 "R (&gt;=…            3                      4          1
+37 ibmdbR         1.51.0  "R (&gt;=…            1                      2          1
+38 IMEC           0.2.0    &lt;NA&gt;              2                      3          1
+39 LARisk         1.0.0   "R (&gt;=…            7                      8          1
+40 lintr          3.1.2   "R (&gt;=…            2                      3          1
+41 log            1.1.1    &lt;NA&gt;              1                      2          1
+42 meltr          1.0.2   "R (&gt;=…            3                      4          1
+43 metRology      0.9-29… "R (&gt;=…            1                      2          1
+44 MLPUGS         0.2.0   "R (&gt;=…            1                      2          1
+45 nanoarrow      0.6.0    &lt;NA&gt;              2                      3          1
+46 nlmixr2lib     0.3.0   "R (&gt;=…            2                      3          1
+47 OTrecod        0.1.2   "R (&gt;=…            1                      2          1
+48 pipebind       0.1.2    &lt;NA&gt;              1                      2          1
+49 pldamixture    0.1.1   "R (&gt;=…            2                      3          1
+50 PNADcIBGE      0.7.5   "R (&gt;=…            1                      4          3
+51 PNDSIBGE       0.1.1   "R (&gt;=…            1                      4          3
+52 PNSIBGE        0.2.1   "R (&gt;=…            1                      4          3
+53 PosteriorBoot… 0.1.2    &lt;NA&gt;              3                      4          1
+54 r4googleads    0.1.1   "R (&gt;=…            1                      2          1
+55 rearrr         0.3.4   "R (&gt;=…            1                      2          1
+56 recodeflow     0.1.0   "R (&gt;=…            4                      5          1
+57 RobStatTM      1.0.11  "R (&gt;=…           10                     12          2
+58 rvinecopulib   0.7.1.… "R (&gt;=…            1                      2          1
+59 salso          0.3.42  "R (&gt;=…            8                      9          1
+60 ScorePlus      0.1      &lt;NA&gt;              3                      4          1
+61 shinyAce       0.4.4   "R (&gt;=…            4                      5          1
+62 shinyTree      0.3.1   "R (&gt;=…            7                      8          1
+63 sigora         3.1.1   "R (&gt;=…            2                      4          2
+64 SIPDIBGE       0.2.1   "R (&gt;=…            1                      4          3
+65 sMSROC         0.1.2   "R (&gt;=…            1                      2          1
+66 speakr         3.2.4    &lt;NA&gt;              0                      1          1
+67 StepReg        1.5.7    &lt;NA&gt;              2                      3          1
+68 stochLAB       1.1.2   "R (&gt;=…            4                      5          1
+69 styler         1.10.3  "R (&gt;=…            3                      4          1
+70 T2Qv           0.2.0   "R (&gt;=…            3                      4          1
+71 tidyfast       0.4.0   "R (&gt;=…            2                      3          1
+72 tidygam        1.0.0   "R (&gt;=…            0                      1          1
+73 tinyplot       0.2.1   "R (&gt;=…            4                      5          1
+74 ToxCrit        1.0      &lt;NA&gt;              1                      2          1
+75 tvmComp        1.0.2    &lt;NA&gt;              1                      2          1
+76 uclust         1.0.0   "R (&gt;=…            2                      4          2
+77 urlshorteneR   1.5.7   "R (&gt;=…            1                      4          3
+78 viscomp        1.0.0   "R (&gt;=…            7                      8          1
+79 WikidataQuery… 1.0.0   "R (&gt;=…            1                      2          1
+80 wordPuzzleR    0.1.1    &lt;NA&gt;              2                      3          1
+81 WufooR         1.0.1   "R (&gt;=…            1                      3          2</code></pre>
 </div>
 </div>
 <p>L’examen des champs <code>Authors</code> correspondant aux packages montre que le nombre d’emails a été surestimé par le décompte du nombre de symboles <code>@</code>.</p>
 <p>En effet on note la présence de nombreux items au format <code>@&lt;chaine de caractères&gt;</code> qui ne respectent pas le format standart d’une adresse de messagerie.</p>
-<p>Exemple pour le paquet <code>report</code>:</p>
+<p>Exemple pour le paquet <code>easystats</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>select_bad_row <span class="ot">&lt;-</span> <span class="cf">function</span>(pkg) {</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  bad_emails_count_rows <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  bad_emails <span class="ot">&lt;-</span> bad_emails_count_rows <span class="sc">|&gt;</span> </span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(pdb, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Package"</span>, <span class="st">"Version"</span>, <span class="st">"Depends"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Package, <span class="st">`</span><span class="at">Authors@R</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Package <span class="sc">==</span> pkg) <span class="sc">|&gt;</span> </span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="fu">select_bad_row</span>(<span class="at">pkg =</span> <span class="st">"report"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stri_match_all_regex</span>(<span class="at">pattern =</span> <span class="st">"</span><span class="sc">\"</span><span class="st">([@][A-Za-z</span><span class="sc">\\</span><span class="st">.]+)"</span>)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(bad_emails[[<span class="dv">1</span>]][,<span class="dv">2</span>])</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="fu">select_bad_row</span>(<span class="at">pkg =</span> <span class="st">"easystats"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>character(0)</code></pre>
+<pre><code>[1] "@strengejacke"    "@Dom"             "@patilindrajeets" "@bmwiernik"      
+[5] "@rempsyc"        </code></pre>
 </div>
 </div>
 <ol start="8" type="1">
@@ -598,11 +654,11 @@ Note
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Sur les 32849 recensés on dénombre :</p>
+<p>Sur les 32803 recensés on dénombre :</p>
 <ul>
-<li>18472 emails différents,</li>
-<li>4151 serveurs de messagerie différents,</li>
-<li>160 TLD différents,</li>
+<li>19295 emails différents,</li>
+<li>4153 serveurs de messagerie différents,</li>
+<li>159 TLD différents,</li>
 </ul>
 </div>
 </div>
@@ -619,12 +675,12 @@ Note
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(email_per_pkg)) <span class="sc">|&gt;</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 21,973 × 2
+<pre><code># A tibble: 21,986 × 2
    Package         email_per_pkg
    &lt;chr&gt;                   &lt;int&gt;
  1 mlpack                    145
- 2 broom                     113
- 3 FAIRmaterials              51
+ 2 broom                     109
+ 3 FAIRmaterials              50
  4 moderndive                 43
  5 rticles                    43
  6 CSTools                    34
@@ -642,7 +698,7 @@ Note
 18 Rage                       18
 19 refund                     18
 20 wallace                    18
-# ℹ 21,953 more rows</code></pre>
+# ℹ 21,966 more rows</code></pre>
 </div>
 </div>
 <ul>
@@ -665,23 +721,23 @@ Note
 <span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>gt_email_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="eyuwrturyz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#eyuwrturyz table {
+<div id="ugigulbexo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ugigulbexo table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#eyuwrturyz thead, #eyuwrturyz tbody, #eyuwrturyz tfoot, #eyuwrturyz tr, #eyuwrturyz td, #eyuwrturyz th {
+#ugigulbexo thead, #ugigulbexo tbody, #ugigulbexo tfoot, #ugigulbexo tr, #ugigulbexo td, #ugigulbexo th {
   border-style: none;
 }
 
-#eyuwrturyz p {
+#ugigulbexo p {
   margin: 0;
   padding: 0;
 }
 
-#eyuwrturyz .gt_table {
+#ugigulbexo .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -707,12 +763,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#eyuwrturyz .gt_caption {
+#ugigulbexo .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#eyuwrturyz .gt_title {
+#ugigulbexo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -724,7 +780,7 @@ Note
   border-bottom-width: 0;
 }
 
-#eyuwrturyz .gt_subtitle {
+#ugigulbexo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -736,7 +792,7 @@ Note
   border-top-width: 0;
 }
 
-#eyuwrturyz .gt_heading {
+#ugigulbexo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -748,13 +804,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#eyuwrturyz .gt_bottom_border {
+#ugigulbexo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#eyuwrturyz .gt_col_headings {
+#ugigulbexo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -769,7 +825,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#eyuwrturyz .gt_col_heading {
+#ugigulbexo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -789,7 +845,7 @@ Note
   overflow-x: hidden;
 }
 
-#eyuwrturyz .gt_column_spanner_outer {
+#ugigulbexo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -801,15 +857,15 @@ Note
   padding-right: 4px;
 }
 
-#eyuwrturyz .gt_column_spanner_outer:first-child {
+#ugigulbexo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#eyuwrturyz .gt_column_spanner_outer:last-child {
+#ugigulbexo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#eyuwrturyz .gt_column_spanner {
+#ugigulbexo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -821,11 +877,11 @@ Note
   width: 100%;
 }
 
-#eyuwrturyz .gt_spanner_row {
+#ugigulbexo .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#eyuwrturyz .gt_group_heading {
+#ugigulbexo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -851,7 +907,7 @@ Note
   text-align: left;
 }
 
-#eyuwrturyz .gt_empty_group_heading {
+#ugigulbexo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -866,15 +922,15 @@ Note
   vertical-align: middle;
 }
 
-#eyuwrturyz .gt_from_md > :first-child {
+#ugigulbexo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#eyuwrturyz .gt_from_md > :last-child {
+#ugigulbexo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#eyuwrturyz .gt_row {
+#ugigulbexo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -893,7 +949,7 @@ Note
   overflow-x: hidden;
 }
 
-#eyuwrturyz .gt_stub {
+#ugigulbexo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -906,7 +962,7 @@ Note
   padding-right: 5px;
 }
 
-#eyuwrturyz .gt_stub_row_group {
+#ugigulbexo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -920,15 +976,15 @@ Note
   vertical-align: top;
 }
 
-#eyuwrturyz .gt_row_group_first td {
+#ugigulbexo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#eyuwrturyz .gt_row_group_first th {
+#ugigulbexo .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#eyuwrturyz .gt_summary_row {
+#ugigulbexo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -938,16 +994,16 @@ Note
   padding-right: 5px;
 }
 
-#eyuwrturyz .gt_first_summary_row {
+#ugigulbexo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#eyuwrturyz .gt_first_summary_row.thick {
+#ugigulbexo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#eyuwrturyz .gt_last_summary_row {
+#ugigulbexo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -957,7 +1013,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#eyuwrturyz .gt_grand_summary_row {
+#ugigulbexo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -967,7 +1023,7 @@ Note
   padding-right: 5px;
 }
 
-#eyuwrturyz .gt_first_grand_summary_row {
+#ugigulbexo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -977,7 +1033,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#eyuwrturyz .gt_last_grand_summary_row_top {
+#ugigulbexo .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -987,11 +1043,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#eyuwrturyz .gt_striped {
+#ugigulbexo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#eyuwrturyz .gt_table_body {
+#ugigulbexo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1000,7 +1056,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#eyuwrturyz .gt_footnotes {
+#ugigulbexo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1014,7 +1070,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#eyuwrturyz .gt_footnote {
+#ugigulbexo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1023,7 +1079,7 @@ Note
   padding-right: 5px;
 }
 
-#eyuwrturyz .gt_sourcenotes {
+#ugigulbexo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1037,7 +1093,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#eyuwrturyz .gt_sourcenote {
+#ugigulbexo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1045,72 +1101,72 @@ Note
   padding-right: 5px;
 }
 
-#eyuwrturyz .gt_left {
+#ugigulbexo .gt_left {
   text-align: left;
 }
 
-#eyuwrturyz .gt_center {
+#ugigulbexo .gt_center {
   text-align: center;
 }
 
-#eyuwrturyz .gt_right {
+#ugigulbexo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#eyuwrturyz .gt_font_normal {
+#ugigulbexo .gt_font_normal {
   font-weight: normal;
 }
 
-#eyuwrturyz .gt_font_bold {
+#ugigulbexo .gt_font_bold {
   font-weight: bold;
 }
 
-#eyuwrturyz .gt_font_italic {
+#ugigulbexo .gt_font_italic {
   font-style: italic;
 }
 
-#eyuwrturyz .gt_super {
+#ugigulbexo .gt_super {
   font-size: 65%;
 }
 
-#eyuwrturyz .gt_footnote_marks {
+#ugigulbexo .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#eyuwrturyz .gt_asterisk {
+#ugigulbexo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#eyuwrturyz .gt_indent_1 {
+#ugigulbexo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#eyuwrturyz .gt_indent_2 {
+#ugigulbexo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#eyuwrturyz .gt_indent_3 {
+#ugigulbexo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#eyuwrturyz .gt_indent_4 {
+#ugigulbexo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#eyuwrturyz .gt_indent_5 {
+#ugigulbexo .gt_indent_5 {
   text-indent: 25px;
 }
 
-#eyuwrturyz .katex-display {
+#ugigulbexo .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#eyuwrturyz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ugigulbexo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1203,7 +1259,7 @@ Note
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-03</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-04</td>
 </tr>
 </tfoot>
 
@@ -1246,7 +1302,7 @@ Note
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>eq<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)      log(n) 
-   9.331086   -2.428842 </code></pre>
+   9.325363   -2.429060 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -1264,7 +1320,7 @@ Note
 <p>Soit <code>n</code> le nombre d’occurrences d’un email</p>
 <p>Soit <code>freq</code> le nombre d’emails apparaissant avec cette occurrence <code>n</code></p>
 <p>On a <span class="math display">\[log(freq) = a \times log(n) + b\]</span> Soit <span class="math display">\[freq = exp(b) \times n^a\]</span></p>
-<p>avec <span class="math inline">\(a =\)</span> -2.4288415 et <span class="math inline">\(b =\)</span> 9.3310865</p>
+<p>avec <span class="math inline">\(a =\)</span> -2.4290597 et <span class="math inline">\(b =\)</span> 9.3253626</p>
 </div>
 </div>
 </div>
@@ -1276,40 +1332,42 @@ Note
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>mail_server_occurrences <span class="ot">&lt;-</span> tbl_emails <span class="sc">|&gt;</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(email_id) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(email_domain)) <span class="sc">|&gt;</span> </span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"email_domain"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n), <span class="st">"email_domain"</span>)</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>gt_mail_server_occurrences <span class="ot">&lt;-</span> <span class="fu">gt</span>(mail_server_occurrences <span class="sc">|&gt;</span> </span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>                                   dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">100</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Mail server in packages db sorted by occurrences**"</span>),</span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"**( Mail server displayed only for n &gt;= 100 )**"</span>))</span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote  =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Données valables pour le "</span>, <span class="fu">Sys.Date</span>())),</span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
-<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>gt_mail_server_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(email_id, email_domain) <span class="sc">|&gt;</span> </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(email_id) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(email_domain)) <span class="sc">|&gt;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"email_domain"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n), <span class="st">"email_domain"</span>)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>gt_mail_server_occurrences <span class="ot">&lt;-</span> <span class="fu">gt</span>(mail_server_occurrences <span class="sc">|&gt;</span> </span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>                                   dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">50</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Mail server in packages db sorted by occurrences**"</span>),</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"**( Mail server displayed only for n &gt;= 50 )**"</span>))</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote  =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Données valables pour le "</span>, <span class="fu">Sys.Date</span>())),</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>gt_mail_server_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="hdabfjlgzp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hdabfjlgzp table {
+<div id="dqrxjymfsj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dqrxjymfsj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hdabfjlgzp thead, #hdabfjlgzp tbody, #hdabfjlgzp tfoot, #hdabfjlgzp tr, #hdabfjlgzp td, #hdabfjlgzp th {
+#dqrxjymfsj thead, #dqrxjymfsj tbody, #dqrxjymfsj tfoot, #dqrxjymfsj tr, #dqrxjymfsj td, #dqrxjymfsj th {
   border-style: none;
 }
 
-#hdabfjlgzp p {
+#dqrxjymfsj p {
   margin: 0;
   padding: 0;
 }
 
-#hdabfjlgzp .gt_table {
+#dqrxjymfsj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1335,12 +1393,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#hdabfjlgzp .gt_caption {
+#dqrxjymfsj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hdabfjlgzp .gt_title {
+#dqrxjymfsj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1352,7 +1410,7 @@ Note
   border-bottom-width: 0;
 }
 
-#hdabfjlgzp .gt_subtitle {
+#dqrxjymfsj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1364,7 +1422,7 @@ Note
   border-top-width: 0;
 }
 
-#hdabfjlgzp .gt_heading {
+#dqrxjymfsj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1376,13 +1434,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#hdabfjlgzp .gt_bottom_border {
+#dqrxjymfsj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hdabfjlgzp .gt_col_headings {
+#dqrxjymfsj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1397,7 +1455,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#hdabfjlgzp .gt_col_heading {
+#dqrxjymfsj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1417,7 +1475,7 @@ Note
   overflow-x: hidden;
 }
 
-#hdabfjlgzp .gt_column_spanner_outer {
+#dqrxjymfsj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1429,15 +1487,15 @@ Note
   padding-right: 4px;
 }
 
-#hdabfjlgzp .gt_column_spanner_outer:first-child {
+#dqrxjymfsj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hdabfjlgzp .gt_column_spanner_outer:last-child {
+#dqrxjymfsj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hdabfjlgzp .gt_column_spanner {
+#dqrxjymfsj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1449,11 +1507,11 @@ Note
   width: 100%;
 }
 
-#hdabfjlgzp .gt_spanner_row {
+#dqrxjymfsj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hdabfjlgzp .gt_group_heading {
+#dqrxjymfsj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1479,7 +1537,7 @@ Note
   text-align: left;
 }
 
-#hdabfjlgzp .gt_empty_group_heading {
+#dqrxjymfsj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1494,15 +1552,15 @@ Note
   vertical-align: middle;
 }
 
-#hdabfjlgzp .gt_from_md > :first-child {
+#dqrxjymfsj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hdabfjlgzp .gt_from_md > :last-child {
+#dqrxjymfsj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hdabfjlgzp .gt_row {
+#dqrxjymfsj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1521,7 +1579,7 @@ Note
   overflow-x: hidden;
 }
 
-#hdabfjlgzp .gt_stub {
+#dqrxjymfsj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1534,7 +1592,7 @@ Note
   padding-right: 5px;
 }
 
-#hdabfjlgzp .gt_stub_row_group {
+#dqrxjymfsj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1548,15 +1606,15 @@ Note
   vertical-align: top;
 }
 
-#hdabfjlgzp .gt_row_group_first td {
+#dqrxjymfsj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hdabfjlgzp .gt_row_group_first th {
+#dqrxjymfsj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hdabfjlgzp .gt_summary_row {
+#dqrxjymfsj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1566,16 +1624,16 @@ Note
   padding-right: 5px;
 }
 
-#hdabfjlgzp .gt_first_summary_row {
+#dqrxjymfsj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hdabfjlgzp .gt_first_summary_row.thick {
+#dqrxjymfsj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hdabfjlgzp .gt_last_summary_row {
+#dqrxjymfsj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1585,7 +1643,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#hdabfjlgzp .gt_grand_summary_row {
+#dqrxjymfsj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1595,7 +1653,7 @@ Note
   padding-right: 5px;
 }
 
-#hdabfjlgzp .gt_first_grand_summary_row {
+#dqrxjymfsj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1605,7 +1663,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#hdabfjlgzp .gt_last_grand_summary_row_top {
+#dqrxjymfsj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1615,11 +1673,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#hdabfjlgzp .gt_striped {
+#dqrxjymfsj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hdabfjlgzp .gt_table_body {
+#dqrxjymfsj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1628,7 +1686,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#hdabfjlgzp .gt_footnotes {
+#dqrxjymfsj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1642,7 +1700,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#hdabfjlgzp .gt_footnote {
+#dqrxjymfsj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1651,7 +1709,7 @@ Note
   padding-right: 5px;
 }
 
-#hdabfjlgzp .gt_sourcenotes {
+#dqrxjymfsj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1665,7 +1723,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#hdabfjlgzp .gt_sourcenote {
+#dqrxjymfsj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1673,72 +1731,72 @@ Note
   padding-right: 5px;
 }
 
-#hdabfjlgzp .gt_left {
+#dqrxjymfsj .gt_left {
   text-align: left;
 }
 
-#hdabfjlgzp .gt_center {
+#dqrxjymfsj .gt_center {
   text-align: center;
 }
 
-#hdabfjlgzp .gt_right {
+#dqrxjymfsj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hdabfjlgzp .gt_font_normal {
+#dqrxjymfsj .gt_font_normal {
   font-weight: normal;
 }
 
-#hdabfjlgzp .gt_font_bold {
+#dqrxjymfsj .gt_font_bold {
   font-weight: bold;
 }
 
-#hdabfjlgzp .gt_font_italic {
+#dqrxjymfsj .gt_font_italic {
   font-style: italic;
 }
 
-#hdabfjlgzp .gt_super {
+#dqrxjymfsj .gt_super {
   font-size: 65%;
 }
 
-#hdabfjlgzp .gt_footnote_marks {
+#dqrxjymfsj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hdabfjlgzp .gt_asterisk {
+#dqrxjymfsj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hdabfjlgzp .gt_indent_1 {
+#dqrxjymfsj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hdabfjlgzp .gt_indent_2 {
+#dqrxjymfsj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hdabfjlgzp .gt_indent_3 {
+#dqrxjymfsj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hdabfjlgzp .gt_indent_4 {
+#dqrxjymfsj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hdabfjlgzp .gt_indent_5 {
+#dqrxjymfsj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#hdabfjlgzp .katex-display {
+#dqrxjymfsj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#hdabfjlgzp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#dqrxjymfsj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1749,7 +1807,7 @@ Note
 <th colspan="2" class="gt_heading gt_title gt_font_normal"><strong>Mail server in packages db sorted by occurrences</strong></th>
 </tr>
 <tr class="gt_heading even">
-<th colspan="2" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border"><strong>( Mail server displayed only for n &gt;= 100 )</strong></th>
+<th colspan="2" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border"><strong>( Mail server displayed only for n &gt;= 50 )</strong></th>
 </tr>
 <tr class="gt_col_headings header">
 <th id="email_domain" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">email_domain<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
@@ -1759,71 +1817,75 @@ Note
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="email_domain">gmail.com</td>
-<td class="gt_row gt_right" headers="n">10035</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="email_domain">posit.co</td>
-<td class="gt_row gt_right" headers="n">319</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="email_domain">outlook.com</td>
-<td class="gt_row gt_right" headers="n">259</td>
+<td class="gt_row gt_right" headers="n">5330</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="email_domain">hotmail.com</td>
-<td class="gt_row gt_right" headers="n">254</td>
+<td class="gt_row gt_right" headers="n">164</td>
 </tr>
 <tr class="odd">
+<td class="gt_row gt_left" headers="email_domain">outlook.com</td>
+<td class="gt_row gt_right" headers="n">143</td>
+</tr>
+<tr class="even">
 <td class="gt_row gt_left" headers="email_domain">umich.edu</td>
-<td class="gt_row gt_right" headers="n">208</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="email_domain">rstudio.com</td>
-<td class="gt_row gt_right" headers="n">207</td>
+<td class="gt_row gt_right" headers="n">128</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="email_domain">R-project.org</td>
-<td class="gt_row gt_right" headers="n">197</td>
-</tr>
-<tr class="even">
 <td class="gt_row gt_left" headers="email_domain">163.com</td>
-<td class="gt_row gt_right" headers="n">171</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="email_domain">roche.com</td>
-<td class="gt_row gt_right" headers="n">165</td>
+<td class="gt_row gt_right" headers="n">98</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="email_domain">inrae.fr</td>
-<td class="gt_row gt_right" headers="n">133</td>
+<td class="gt_row gt_right" headers="n">86</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="email_domain">uw.edu</td>
-<td class="gt_row gt_right" headers="n">132</td>
+<td class="gt_row gt_right" headers="n">85</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="email_domain">icar.gov.in</td>
-<td class="gt_row gt_right" headers="n">124</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="email_domain">protonmail.com</td>
-<td class="gt_row gt_right" headers="n">119</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="email_domain">yahoo.com</td>
-<td class="gt_row gt_right" headers="n">115</td>
-</tr>
-<tr class="odd">
 <td class="gt_row gt_left" headers="email_domain">case.edu</td>
-<td class="gt_row gt_right" headers="n">106</td>
+<td class="gt_row gt_right" headers="n">81</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="email_domain">yahoo.com</td>
+<td class="gt_row gt_right" headers="n">77</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="email_domain">berkeley.edu</td>
-<td class="gt_row gt_right" headers="n">103</td>
+<td class="gt_row gt_right" headers="n">70</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="email_domain">roche.com</td>
+<td class="gt_row gt_right" headers="n">64</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="email_domain">protonmail.com</td>
+<td class="gt_row gt_right" headers="n">63</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="email_domain">umn.edu</td>
+<td class="gt_row gt_right" headers="n">58</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="email_domain">icar.gov.in</td>
+<td class="gt_row gt_right" headers="n">53</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="email_domain">cornell.edu</td>
+<td class="gt_row gt_right" headers="n">51</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="email_domain">duke.edu</td>
+<td class="gt_row gt_right" headers="n">51</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="email_domain">ucdavis.edu</td>
+<td class="gt_row gt_right" headers="n">50</td>
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-03</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-04</td>
 </tr>
 </tfoot>
 
@@ -1837,39 +1899,41 @@ Note
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>TLD_occurrences <span class="ot">&lt;-</span> tbl_emails <span class="sc">|&gt;</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(email_id) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(email_domain)) <span class="sc">|&gt;</span> </span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"tld"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n), tld)</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>gt_TLD_occurrences <span class="ot">&lt;-</span> <span class="fu">gt</span>(TLD_occurrences <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">100</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Mail server TLDs in packages db sorted by occurrences**"</span>),</span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"**( Mail server TLD displayed only for n &gt;= 100 )**"</span>))</span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote  =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Données valables pour le "</span>, <span class="fu">Sys.Date</span>())),</span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>gt_TLD_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(email_id, email_domain, tld) <span class="sc">|&gt;</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(email_id) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(email_domain)) <span class="sc">|&gt;</span> </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"tld"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n), tld)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>gt_TLD_occurrences <span class="ot">&lt;-</span> <span class="fu">gt</span>(TLD_occurrences <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">100</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Mail server TLDs in packages db sorted by occurrences**"</span>),</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"**( Mail server TLD displayed only for n &gt;= 100 )**"</span>))</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote  =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Données valables pour le "</span>, <span class="fu">Sys.Date</span>())),</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>gt_TLD_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="avjqebmtti" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#avjqebmtti table {
+<div id="jruihrnpua" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jruihrnpua table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#avjqebmtti thead, #avjqebmtti tbody, #avjqebmtti tfoot, #avjqebmtti tr, #avjqebmtti td, #avjqebmtti th {
+#jruihrnpua thead, #jruihrnpua tbody, #jruihrnpua tfoot, #jruihrnpua tr, #jruihrnpua td, #jruihrnpua th {
   border-style: none;
 }
 
-#avjqebmtti p {
+#jruihrnpua p {
   margin: 0;
   padding: 0;
 }
 
-#avjqebmtti .gt_table {
+#jruihrnpua .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1895,12 +1959,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#avjqebmtti .gt_caption {
+#jruihrnpua .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#avjqebmtti .gt_title {
+#jruihrnpua .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1912,7 +1976,7 @@ Note
   border-bottom-width: 0;
 }
 
-#avjqebmtti .gt_subtitle {
+#jruihrnpua .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1924,7 +1988,7 @@ Note
   border-top-width: 0;
 }
 
-#avjqebmtti .gt_heading {
+#jruihrnpua .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1936,13 +2000,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#avjqebmtti .gt_bottom_border {
+#jruihrnpua .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#avjqebmtti .gt_col_headings {
+#jruihrnpua .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1957,7 +2021,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#avjqebmtti .gt_col_heading {
+#jruihrnpua .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1977,7 +2041,7 @@ Note
   overflow-x: hidden;
 }
 
-#avjqebmtti .gt_column_spanner_outer {
+#jruihrnpua .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1989,15 +2053,15 @@ Note
   padding-right: 4px;
 }
 
-#avjqebmtti .gt_column_spanner_outer:first-child {
+#jruihrnpua .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#avjqebmtti .gt_column_spanner_outer:last-child {
+#jruihrnpua .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#avjqebmtti .gt_column_spanner {
+#jruihrnpua .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2009,11 +2073,11 @@ Note
   width: 100%;
 }
 
-#avjqebmtti .gt_spanner_row {
+#jruihrnpua .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#avjqebmtti .gt_group_heading {
+#jruihrnpua .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2039,7 +2103,7 @@ Note
   text-align: left;
 }
 
-#avjqebmtti .gt_empty_group_heading {
+#jruihrnpua .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2054,15 +2118,15 @@ Note
   vertical-align: middle;
 }
 
-#avjqebmtti .gt_from_md > :first-child {
+#jruihrnpua .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#avjqebmtti .gt_from_md > :last-child {
+#jruihrnpua .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#avjqebmtti .gt_row {
+#jruihrnpua .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2081,7 +2145,7 @@ Note
   overflow-x: hidden;
 }
 
-#avjqebmtti .gt_stub {
+#jruihrnpua .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2094,7 +2158,7 @@ Note
   padding-right: 5px;
 }
 
-#avjqebmtti .gt_stub_row_group {
+#jruihrnpua .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2108,15 +2172,15 @@ Note
   vertical-align: top;
 }
 
-#avjqebmtti .gt_row_group_first td {
+#jruihrnpua .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#avjqebmtti .gt_row_group_first th {
+#jruihrnpua .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#avjqebmtti .gt_summary_row {
+#jruihrnpua .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2126,16 +2190,16 @@ Note
   padding-right: 5px;
 }
 
-#avjqebmtti .gt_first_summary_row {
+#jruihrnpua .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#avjqebmtti .gt_first_summary_row.thick {
+#jruihrnpua .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#avjqebmtti .gt_last_summary_row {
+#jruihrnpua .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2145,7 +2209,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#avjqebmtti .gt_grand_summary_row {
+#jruihrnpua .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2155,7 +2219,7 @@ Note
   padding-right: 5px;
 }
 
-#avjqebmtti .gt_first_grand_summary_row {
+#jruihrnpua .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2165,7 +2229,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#avjqebmtti .gt_last_grand_summary_row_top {
+#jruihrnpua .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2175,11 +2239,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#avjqebmtti .gt_striped {
+#jruihrnpua .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#avjqebmtti .gt_table_body {
+#jruihrnpua .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2188,7 +2252,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#avjqebmtti .gt_footnotes {
+#jruihrnpua .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2202,7 +2266,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#avjqebmtti .gt_footnote {
+#jruihrnpua .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2211,7 +2275,7 @@ Note
   padding-right: 5px;
 }
 
-#avjqebmtti .gt_sourcenotes {
+#jruihrnpua .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2225,7 +2289,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#avjqebmtti .gt_sourcenote {
+#jruihrnpua .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2233,72 +2297,72 @@ Note
   padding-right: 5px;
 }
 
-#avjqebmtti .gt_left {
+#jruihrnpua .gt_left {
   text-align: left;
 }
 
-#avjqebmtti .gt_center {
+#jruihrnpua .gt_center {
   text-align: center;
 }
 
-#avjqebmtti .gt_right {
+#jruihrnpua .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#avjqebmtti .gt_font_normal {
+#jruihrnpua .gt_font_normal {
   font-weight: normal;
 }
 
-#avjqebmtti .gt_font_bold {
+#jruihrnpua .gt_font_bold {
   font-weight: bold;
 }
 
-#avjqebmtti .gt_font_italic {
+#jruihrnpua .gt_font_italic {
   font-style: italic;
 }
 
-#avjqebmtti .gt_super {
+#jruihrnpua .gt_super {
   font-size: 65%;
 }
 
-#avjqebmtti .gt_footnote_marks {
+#jruihrnpua .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#avjqebmtti .gt_asterisk {
+#jruihrnpua .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#avjqebmtti .gt_indent_1 {
+#jruihrnpua .gt_indent_1 {
   text-indent: 5px;
 }
 
-#avjqebmtti .gt_indent_2 {
+#jruihrnpua .gt_indent_2 {
   text-indent: 10px;
 }
 
-#avjqebmtti .gt_indent_3 {
+#jruihrnpua .gt_indent_3 {
   text-indent: 15px;
 }
 
-#avjqebmtti .gt_indent_4 {
+#jruihrnpua .gt_indent_4 {
   text-indent: 20px;
 }
 
-#avjqebmtti .gt_indent_5 {
+#jruihrnpua .gt_indent_5 {
   text-indent: 25px;
 }
 
-#avjqebmtti .katex-display {
+#jruihrnpua .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#avjqebmtti div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#jruihrnpua div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2319,127 +2383,91 @@ Note
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="tld">com</td>
-<td class="gt_row gt_right" headers="n">13541</td>
+<td class="gt_row gt_right" headers="n">7313</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="tld">edu</td>
-<td class="gt_row gt_right" headers="n">5044</td>
+<td class="gt_row gt_right" headers="n">3389</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="tld">de</td>
-<td class="gt_row gt_right" headers="n">1650</td>
+<td class="gt_row gt_right" headers="n">1101</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="tld">uk</td>
+<td class="gt_row gt_right" headers="n">773</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="tld">fr</td>
+<td class="gt_row gt_right" headers="n">657</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="tld">org</td>
-<td class="gt_row gt_right" headers="n">1302</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="tld">uk</td>
-<td class="gt_row gt_right" headers="n">1276</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="tld">fr</td>
-<td class="gt_row gt_right" headers="n">1134</td>
+<td class="gt_row gt_right" headers="n">631</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="tld">ca</td>
-<td class="gt_row gt_right" headers="n">931</td>
+<td class="gt_row gt_right" headers="n">554</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="tld">es</td>
-<td class="gt_row gt_right" headers="n">559</td>
+<td class="gt_row gt_right" headers="n">349</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="tld">au</td>
-<td class="gt_row gt_right" headers="n">492</td>
+<td class="gt_row gt_right" headers="n">328</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="tld">nl</td>
-<td class="gt_row gt_right" headers="n">475</td>
+<td class="gt_row gt_left" headers="tld">it</td>
+<td class="gt_row gt_right" headers="n">322</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="tld">ch</td>
-<td class="gt_row gt_right" headers="n">455</td>
+<td class="gt_row gt_right" headers="n">301</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="tld">co</td>
-<td class="gt_row gt_right" headers="n">428</td>
+<td class="gt_row gt_left" headers="tld">nl</td>
+<td class="gt_row gt_right" headers="n">290</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="tld">it</td>
-<td class="gt_row gt_right" headers="n">422</td>
-</tr>
-<tr class="even">
 <td class="gt_row gt_left" headers="tld">br</td>
-<td class="gt_row gt_right" headers="n">377</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="tld">net</td>
-<td class="gt_row gt_right" headers="n">356</td>
+<td class="gt_row gt_right" headers="n">249</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="tld">gov</td>
-<td class="gt_row gt_right" headers="n">353</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="tld">cn</td>
-<td class="gt_row gt_right" headers="n">315</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="tld">at</td>
-<td class="gt_row gt_right" headers="n">287</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="tld">be</td>
-<td class="gt_row gt_right" headers="n">247</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="tld">dk</td>
 <td class="gt_row gt_right" headers="n">234</td>
 </tr>
 <tr class="odd">
+<td class="gt_row gt_left" headers="tld">cn</td>
+<td class="gt_row gt_right" headers="n">222</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="tld">net</td>
+<td class="gt_row gt_right" headers="n">156</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="tld">at</td>
+<td class="gt_row gt_right" headers="n">151</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="tld">be</td>
+<td class="gt_row gt_right" headers="n">150</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="tld">dk</td>
+<td class="gt_row gt_right" headers="n">134</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="tld">co</td>
+<td class="gt_row gt_right" headers="n">130</td>
+</tr>
+<tr class="odd">
 <td class="gt_row gt_left" headers="tld">no</td>
-<td class="gt_row gt_right" headers="n">212</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="tld">in</td>
-<td class="gt_row gt_right" headers="n">164</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="tld">nz</td>
-<td class="gt_row gt_right" headers="n">138</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="tld">fi</td>
-<td class="gt_row gt_right" headers="n">120</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="tld">eu</td>
-<td class="gt_row gt_right" headers="n">113</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="tld">se</td>
-<td class="gt_row gt_right" headers="n">112</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="tld">me</td>
-<td class="gt_row gt_right" headers="n">108</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="tld">gr</td>
-<td class="gt_row gt_right" headers="n">107</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="tld">pl</td>
-<td class="gt_row gt_right" headers="n">106</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="tld">ie</td>
-<td class="gt_row gt_right" headers="n">101</td>
+<td class="gt_row gt_right" headers="n">103</td>
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-03</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-04</td>
 </tr>
 </tfoot>
 
