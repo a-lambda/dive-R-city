@@ -296,7 +296,7 @@ Note
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>emails_total_estimated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 32917</code></pre>
+<pre><code>[1] 32929</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -311,7 +311,7 @@ Note
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Le nombre de mails à trouver correspond au nombre de symboles <code>@</code> présents dans l’ensemble des données de la colonne <code>Authors@R</code>, soit ici : <strong>3.2917^{4}</strong></p>
+<p>Le nombre de mails à trouver correspond au nombre de symboles <code>@</code> présents dans l’ensemble des données de la colonne <code>Authors@R</code>, soit ici : <strong>3.2929^{4}</strong></p>
 </div>
 </div>
 </div>
@@ -356,7 +356,7 @@ Note
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(emails_in_authorsR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 22001</code></pre>
+<pre><code>[1] 22009</code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -376,7 +376,7 @@ Note
 </div>
 </div>
 <ol start="4" type="1">
-<li>transformation des 22001 matrices en une seule matrice</li>
+<li>transformation des 22009 matrices en une seule matrice</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>temp_mat_emails_in_authorsR <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, emails_in_authorsR)</span>
@@ -420,7 +420,7 @@ Note
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tbl_emails_in_authorsR</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 38,067 × 5
+<pre><code># A tibble: 38,078 × 5
    Package       Version Depends                           email_id email_domain
    &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;                             &lt;chr&gt;    &lt;chr&gt;       
  1 A3            1.0.0   R (&gt;= 2.15.0), xtable, pbapply    &lt;NA&gt;     &lt;NA&gt;        
@@ -433,7 +433,7 @@ Note
  8 abc           2.2.2   R (&gt;= 2.10), abc.data, nnet, qua… kati.cs… gmail.com   
  9 abc           2.2.2   R (&gt;= 2.10), abc.data, nnet, qua… michael… gmail.com   
 10 abc.data      1.1     R (&gt;= 2.10)                       kati.cs… gmail.com   
-# ℹ 38,057 more rows</code></pre>
+# ℹ 38,068 more rows</code></pre>
 </div>
 </div>
 <ol start="6" type="1">
@@ -447,7 +447,7 @@ Note
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>summary_emails_per_pdb_row</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 22,001 × 5
+<pre><code># A tibble: 22,009 × 5
    Package       Version Depends             emails_count emails_count_estimated
    &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;                      &lt;dbl&gt;                  &lt;dbl&gt;
  1 A3            1.0.0   R (&gt;= 2.15.0), xta…            0                      0
@@ -460,14 +460,14 @@ Note
  8 abc.data      1.1     R (&gt;= 2.10)                    2                      2
  9 ABC.RAP       0.9.0   R (&gt;= 3.1.0)                   0                      0
 10 ABCanalysis   1.2.1   R (&gt;= 2.10)                    0                      0
-# ℹ 21,991 more rows</code></pre>
+# ℹ 21,999 more rows</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>summary_emails_per_pdb_row <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">total_emails =</span> <span class="fu">sum</span>(emails_count))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   total_emails
          &lt;dbl&gt;
-1        32803</code></pre>
+1        32815</code></pre>
 </div>
 </div>
 <ol start="7" type="1">
@@ -654,10 +654,10 @@ Note
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Sur les 32803 recensés on dénombre :</p>
+<p>Sur les 32815 recensés on dénombre :</p>
 <ul>
-<li>19295 emails différents,</li>
-<li>4153 serveurs de messagerie différents,</li>
+<li>19302 emails différents,</li>
+<li>4155 serveurs de messagerie différents,</li>
 <li>159 TLD différents,</li>
 </ul>
 </div>
@@ -675,7 +675,7 @@ Note
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(email_per_pkg)) <span class="sc">|&gt;</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 21,986 × 2
+<pre><code># A tibble: 21,994 × 2
    Package         email_per_pkg
    &lt;chr&gt;                   &lt;int&gt;
  1 mlpack                    145
@@ -698,7 +698,7 @@ Note
 18 Rage                       18
 19 refund                     18
 20 wallace                    18
-# ℹ 21,966 more rows</code></pre>
+# ℹ 21,974 more rows</code></pre>
 </div>
 </div>
 <ul>
@@ -721,23 +721,23 @@ Note
 <span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>gt_email_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="ugigulbexo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ugigulbexo table {
+<div id="epnmkehhrl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#epnmkehhrl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ugigulbexo thead, #ugigulbexo tbody, #ugigulbexo tfoot, #ugigulbexo tr, #ugigulbexo td, #ugigulbexo th {
+#epnmkehhrl thead, #epnmkehhrl tbody, #epnmkehhrl tfoot, #epnmkehhrl tr, #epnmkehhrl td, #epnmkehhrl th {
   border-style: none;
 }
 
-#ugigulbexo p {
+#epnmkehhrl p {
   margin: 0;
   padding: 0;
 }
 
-#ugigulbexo .gt_table {
+#epnmkehhrl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -763,12 +763,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#ugigulbexo .gt_caption {
+#epnmkehhrl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ugigulbexo .gt_title {
+#epnmkehhrl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -780,7 +780,7 @@ Note
   border-bottom-width: 0;
 }
 
-#ugigulbexo .gt_subtitle {
+#epnmkehhrl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -792,7 +792,7 @@ Note
   border-top-width: 0;
 }
 
-#ugigulbexo .gt_heading {
+#epnmkehhrl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -804,13 +804,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ugigulbexo .gt_bottom_border {
+#epnmkehhrl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ugigulbexo .gt_col_headings {
+#epnmkehhrl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -825,7 +825,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ugigulbexo .gt_col_heading {
+#epnmkehhrl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -845,7 +845,7 @@ Note
   overflow-x: hidden;
 }
 
-#ugigulbexo .gt_column_spanner_outer {
+#epnmkehhrl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -857,15 +857,15 @@ Note
   padding-right: 4px;
 }
 
-#ugigulbexo .gt_column_spanner_outer:first-child {
+#epnmkehhrl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ugigulbexo .gt_column_spanner_outer:last-child {
+#epnmkehhrl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ugigulbexo .gt_column_spanner {
+#epnmkehhrl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -877,11 +877,11 @@ Note
   width: 100%;
 }
 
-#ugigulbexo .gt_spanner_row {
+#epnmkehhrl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ugigulbexo .gt_group_heading {
+#epnmkehhrl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -907,7 +907,7 @@ Note
   text-align: left;
 }
 
-#ugigulbexo .gt_empty_group_heading {
+#epnmkehhrl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -922,15 +922,15 @@ Note
   vertical-align: middle;
 }
 
-#ugigulbexo .gt_from_md > :first-child {
+#epnmkehhrl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ugigulbexo .gt_from_md > :last-child {
+#epnmkehhrl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ugigulbexo .gt_row {
+#epnmkehhrl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -949,7 +949,7 @@ Note
   overflow-x: hidden;
 }
 
-#ugigulbexo .gt_stub {
+#epnmkehhrl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -962,7 +962,7 @@ Note
   padding-right: 5px;
 }
 
-#ugigulbexo .gt_stub_row_group {
+#epnmkehhrl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -976,15 +976,15 @@ Note
   vertical-align: top;
 }
 
-#ugigulbexo .gt_row_group_first td {
+#epnmkehhrl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ugigulbexo .gt_row_group_first th {
+#epnmkehhrl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ugigulbexo .gt_summary_row {
+#epnmkehhrl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -994,16 +994,16 @@ Note
   padding-right: 5px;
 }
 
-#ugigulbexo .gt_first_summary_row {
+#epnmkehhrl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ugigulbexo .gt_first_summary_row.thick {
+#epnmkehhrl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ugigulbexo .gt_last_summary_row {
+#epnmkehhrl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1013,7 +1013,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#ugigulbexo .gt_grand_summary_row {
+#epnmkehhrl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1023,7 +1023,7 @@ Note
   padding-right: 5px;
 }
 
-#ugigulbexo .gt_first_grand_summary_row {
+#epnmkehhrl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1033,7 +1033,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#ugigulbexo .gt_last_grand_summary_row_top {
+#epnmkehhrl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1043,11 +1043,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#ugigulbexo .gt_striped {
+#epnmkehhrl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ugigulbexo .gt_table_body {
+#epnmkehhrl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1056,7 +1056,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#ugigulbexo .gt_footnotes {
+#epnmkehhrl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1070,7 +1070,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ugigulbexo .gt_footnote {
+#epnmkehhrl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1079,7 +1079,7 @@ Note
   padding-right: 5px;
 }
 
-#ugigulbexo .gt_sourcenotes {
+#epnmkehhrl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1093,7 +1093,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#ugigulbexo .gt_sourcenote {
+#epnmkehhrl .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1101,72 +1101,72 @@ Note
   padding-right: 5px;
 }
 
-#ugigulbexo .gt_left {
+#epnmkehhrl .gt_left {
   text-align: left;
 }
 
-#ugigulbexo .gt_center {
+#epnmkehhrl .gt_center {
   text-align: center;
 }
 
-#ugigulbexo .gt_right {
+#epnmkehhrl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ugigulbexo .gt_font_normal {
+#epnmkehhrl .gt_font_normal {
   font-weight: normal;
 }
 
-#ugigulbexo .gt_font_bold {
+#epnmkehhrl .gt_font_bold {
   font-weight: bold;
 }
 
-#ugigulbexo .gt_font_italic {
+#epnmkehhrl .gt_font_italic {
   font-style: italic;
 }
 
-#ugigulbexo .gt_super {
+#epnmkehhrl .gt_super {
   font-size: 65%;
 }
 
-#ugigulbexo .gt_footnote_marks {
+#epnmkehhrl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ugigulbexo .gt_asterisk {
+#epnmkehhrl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ugigulbexo .gt_indent_1 {
+#epnmkehhrl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ugigulbexo .gt_indent_2 {
+#epnmkehhrl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ugigulbexo .gt_indent_3 {
+#epnmkehhrl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ugigulbexo .gt_indent_4 {
+#epnmkehhrl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ugigulbexo .gt_indent_5 {
+#epnmkehhrl .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ugigulbexo .katex-display {
+#epnmkehhrl .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ugigulbexo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#epnmkehhrl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1259,7 +1259,7 @@ Note
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-04</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-05</td>
 </tr>
 </tfoot>
 
@@ -1302,7 +1302,7 @@ Note
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>eq<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)      log(n) 
-   9.325363   -2.429060 </code></pre>
+   9.326913   -2.429419 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -1320,7 +1320,7 @@ Note
 <p>Soit <code>n</code> le nombre d’occurrences d’un email</p>
 <p>Soit <code>freq</code> le nombre d’emails apparaissant avec cette occurrence <code>n</code></p>
 <p>On a <span class="math display">\[log(freq) = a \times log(n) + b\]</span> Soit <span class="math display">\[freq = exp(b) \times n^a\]</span></p>
-<p>avec <span class="math inline">\(a =\)</span> -2.4290597 et <span class="math inline">\(b =\)</span> 9.3253626</p>
+<p>avec <span class="math inline">\(a =\)</span> -2.4294191 et <span class="math inline">\(b =\)</span> 9.3269133</p>
 </div>
 </div>
 </div>
@@ -1351,23 +1351,23 @@ Note
 <span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>gt_mail_server_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="dqrxjymfsj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#dqrxjymfsj table {
+<div id="clxsihaokj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#clxsihaokj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dqrxjymfsj thead, #dqrxjymfsj tbody, #dqrxjymfsj tfoot, #dqrxjymfsj tr, #dqrxjymfsj td, #dqrxjymfsj th {
+#clxsihaokj thead, #clxsihaokj tbody, #clxsihaokj tfoot, #clxsihaokj tr, #clxsihaokj td, #clxsihaokj th {
   border-style: none;
 }
 
-#dqrxjymfsj p {
+#clxsihaokj p {
   margin: 0;
   padding: 0;
 }
 
-#dqrxjymfsj .gt_table {
+#clxsihaokj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1393,12 +1393,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#dqrxjymfsj .gt_caption {
+#clxsihaokj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dqrxjymfsj .gt_title {
+#clxsihaokj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1410,7 +1410,7 @@ Note
   border-bottom-width: 0;
 }
 
-#dqrxjymfsj .gt_subtitle {
+#clxsihaokj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1422,7 +1422,7 @@ Note
   border-top-width: 0;
 }
 
-#dqrxjymfsj .gt_heading {
+#clxsihaokj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1434,13 +1434,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#dqrxjymfsj .gt_bottom_border {
+#clxsihaokj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dqrxjymfsj .gt_col_headings {
+#clxsihaokj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1455,7 +1455,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#dqrxjymfsj .gt_col_heading {
+#clxsihaokj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1475,7 +1475,7 @@ Note
   overflow-x: hidden;
 }
 
-#dqrxjymfsj .gt_column_spanner_outer {
+#clxsihaokj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1487,15 +1487,15 @@ Note
   padding-right: 4px;
 }
 
-#dqrxjymfsj .gt_column_spanner_outer:first-child {
+#clxsihaokj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dqrxjymfsj .gt_column_spanner_outer:last-child {
+#clxsihaokj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dqrxjymfsj .gt_column_spanner {
+#clxsihaokj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1507,11 +1507,11 @@ Note
   width: 100%;
 }
 
-#dqrxjymfsj .gt_spanner_row {
+#clxsihaokj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#dqrxjymfsj .gt_group_heading {
+#clxsihaokj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1537,7 +1537,7 @@ Note
   text-align: left;
 }
 
-#dqrxjymfsj .gt_empty_group_heading {
+#clxsihaokj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1552,15 +1552,15 @@ Note
   vertical-align: middle;
 }
 
-#dqrxjymfsj .gt_from_md > :first-child {
+#clxsihaokj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dqrxjymfsj .gt_from_md > :last-child {
+#clxsihaokj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dqrxjymfsj .gt_row {
+#clxsihaokj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1579,7 +1579,7 @@ Note
   overflow-x: hidden;
 }
 
-#dqrxjymfsj .gt_stub {
+#clxsihaokj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1592,7 +1592,7 @@ Note
   padding-right: 5px;
 }
 
-#dqrxjymfsj .gt_stub_row_group {
+#clxsihaokj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1606,15 +1606,15 @@ Note
   vertical-align: top;
 }
 
-#dqrxjymfsj .gt_row_group_first td {
+#clxsihaokj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dqrxjymfsj .gt_row_group_first th {
+#clxsihaokj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#dqrxjymfsj .gt_summary_row {
+#clxsihaokj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1624,16 +1624,16 @@ Note
   padding-right: 5px;
 }
 
-#dqrxjymfsj .gt_first_summary_row {
+#clxsihaokj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dqrxjymfsj .gt_first_summary_row.thick {
+#clxsihaokj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dqrxjymfsj .gt_last_summary_row {
+#clxsihaokj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1643,7 +1643,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#dqrxjymfsj .gt_grand_summary_row {
+#clxsihaokj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1653,7 +1653,7 @@ Note
   padding-right: 5px;
 }
 
-#dqrxjymfsj .gt_first_grand_summary_row {
+#clxsihaokj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1663,7 +1663,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#dqrxjymfsj .gt_last_grand_summary_row_top {
+#clxsihaokj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1673,11 +1673,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#dqrxjymfsj .gt_striped {
+#clxsihaokj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dqrxjymfsj .gt_table_body {
+#clxsihaokj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1686,7 +1686,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#dqrxjymfsj .gt_footnotes {
+#clxsihaokj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1700,7 +1700,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#dqrxjymfsj .gt_footnote {
+#clxsihaokj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1709,7 +1709,7 @@ Note
   padding-right: 5px;
 }
 
-#dqrxjymfsj .gt_sourcenotes {
+#clxsihaokj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1723,7 +1723,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#dqrxjymfsj .gt_sourcenote {
+#clxsihaokj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1731,72 +1731,72 @@ Note
   padding-right: 5px;
 }
 
-#dqrxjymfsj .gt_left {
+#clxsihaokj .gt_left {
   text-align: left;
 }
 
-#dqrxjymfsj .gt_center {
+#clxsihaokj .gt_center {
   text-align: center;
 }
 
-#dqrxjymfsj .gt_right {
+#clxsihaokj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dqrxjymfsj .gt_font_normal {
+#clxsihaokj .gt_font_normal {
   font-weight: normal;
 }
 
-#dqrxjymfsj .gt_font_bold {
+#clxsihaokj .gt_font_bold {
   font-weight: bold;
 }
 
-#dqrxjymfsj .gt_font_italic {
+#clxsihaokj .gt_font_italic {
   font-style: italic;
 }
 
-#dqrxjymfsj .gt_super {
+#clxsihaokj .gt_super {
   font-size: 65%;
 }
 
-#dqrxjymfsj .gt_footnote_marks {
+#clxsihaokj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#dqrxjymfsj .gt_asterisk {
+#clxsihaokj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dqrxjymfsj .gt_indent_1 {
+#clxsihaokj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dqrxjymfsj .gt_indent_2 {
+#clxsihaokj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dqrxjymfsj .gt_indent_3 {
+#clxsihaokj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dqrxjymfsj .gt_indent_4 {
+#clxsihaokj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dqrxjymfsj .gt_indent_5 {
+#clxsihaokj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#dqrxjymfsj .katex-display {
+#clxsihaokj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#dqrxjymfsj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#clxsihaokj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1817,7 +1817,7 @@ Note
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="email_domain">gmail.com</td>
-<td class="gt_row gt_right" headers="n">5330</td>
+<td class="gt_row gt_right" headers="n">5331</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="email_domain">hotmail.com</td>
@@ -1825,7 +1825,7 @@ Note
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="email_domain">outlook.com</td>
-<td class="gt_row gt_right" headers="n">143</td>
+<td class="gt_row gt_right" headers="n">144</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="email_domain">umich.edu</td>
@@ -1885,7 +1885,7 @@ Note
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-04</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-05</td>
 </tr>
 </tfoot>
 
@@ -1917,23 +1917,23 @@ Note
 <span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>gt_TLD_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="jruihrnpua" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jruihrnpua table {
+<div id="vapxfijpce" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vapxfijpce table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jruihrnpua thead, #jruihrnpua tbody, #jruihrnpua tfoot, #jruihrnpua tr, #jruihrnpua td, #jruihrnpua th {
+#vapxfijpce thead, #vapxfijpce tbody, #vapxfijpce tfoot, #vapxfijpce tr, #vapxfijpce td, #vapxfijpce th {
   border-style: none;
 }
 
-#jruihrnpua p {
+#vapxfijpce p {
   margin: 0;
   padding: 0;
 }
 
-#jruihrnpua .gt_table {
+#vapxfijpce .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1959,12 +1959,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#jruihrnpua .gt_caption {
+#vapxfijpce .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jruihrnpua .gt_title {
+#vapxfijpce .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1976,7 +1976,7 @@ Note
   border-bottom-width: 0;
 }
 
-#jruihrnpua .gt_subtitle {
+#vapxfijpce .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1988,7 +1988,7 @@ Note
   border-top-width: 0;
 }
 
-#jruihrnpua .gt_heading {
+#vapxfijpce .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2000,13 +2000,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#jruihrnpua .gt_bottom_border {
+#vapxfijpce .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jruihrnpua .gt_col_headings {
+#vapxfijpce .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2021,7 +2021,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#jruihrnpua .gt_col_heading {
+#vapxfijpce .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2041,7 +2041,7 @@ Note
   overflow-x: hidden;
 }
 
-#jruihrnpua .gt_column_spanner_outer {
+#vapxfijpce .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2053,15 +2053,15 @@ Note
   padding-right: 4px;
 }
 
-#jruihrnpua .gt_column_spanner_outer:first-child {
+#vapxfijpce .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jruihrnpua .gt_column_spanner_outer:last-child {
+#vapxfijpce .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jruihrnpua .gt_column_spanner {
+#vapxfijpce .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2073,11 +2073,11 @@ Note
   width: 100%;
 }
 
-#jruihrnpua .gt_spanner_row {
+#vapxfijpce .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jruihrnpua .gt_group_heading {
+#vapxfijpce .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2103,7 +2103,7 @@ Note
   text-align: left;
 }
 
-#jruihrnpua .gt_empty_group_heading {
+#vapxfijpce .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2118,15 +2118,15 @@ Note
   vertical-align: middle;
 }
 
-#jruihrnpua .gt_from_md > :first-child {
+#vapxfijpce .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jruihrnpua .gt_from_md > :last-child {
+#vapxfijpce .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jruihrnpua .gt_row {
+#vapxfijpce .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2145,7 +2145,7 @@ Note
   overflow-x: hidden;
 }
 
-#jruihrnpua .gt_stub {
+#vapxfijpce .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2158,7 +2158,7 @@ Note
   padding-right: 5px;
 }
 
-#jruihrnpua .gt_stub_row_group {
+#vapxfijpce .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2172,15 +2172,15 @@ Note
   vertical-align: top;
 }
 
-#jruihrnpua .gt_row_group_first td {
+#vapxfijpce .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jruihrnpua .gt_row_group_first th {
+#vapxfijpce .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jruihrnpua .gt_summary_row {
+#vapxfijpce .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2190,16 +2190,16 @@ Note
   padding-right: 5px;
 }
 
-#jruihrnpua .gt_first_summary_row {
+#vapxfijpce .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jruihrnpua .gt_first_summary_row.thick {
+#vapxfijpce .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jruihrnpua .gt_last_summary_row {
+#vapxfijpce .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2209,7 +2209,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#jruihrnpua .gt_grand_summary_row {
+#vapxfijpce .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2219,7 +2219,7 @@ Note
   padding-right: 5px;
 }
 
-#jruihrnpua .gt_first_grand_summary_row {
+#vapxfijpce .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2229,7 +2229,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#jruihrnpua .gt_last_grand_summary_row_top {
+#vapxfijpce .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2239,11 +2239,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#jruihrnpua .gt_striped {
+#vapxfijpce .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jruihrnpua .gt_table_body {
+#vapxfijpce .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2252,7 +2252,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#jruihrnpua .gt_footnotes {
+#vapxfijpce .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2266,7 +2266,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#jruihrnpua .gt_footnote {
+#vapxfijpce .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2275,7 +2275,7 @@ Note
   padding-right: 5px;
 }
 
-#jruihrnpua .gt_sourcenotes {
+#vapxfijpce .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2289,7 +2289,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#jruihrnpua .gt_sourcenote {
+#vapxfijpce .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2297,72 +2297,72 @@ Note
   padding-right: 5px;
 }
 
-#jruihrnpua .gt_left {
+#vapxfijpce .gt_left {
   text-align: left;
 }
 
-#jruihrnpua .gt_center {
+#vapxfijpce .gt_center {
   text-align: center;
 }
 
-#jruihrnpua .gt_right {
+#vapxfijpce .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jruihrnpua .gt_font_normal {
+#vapxfijpce .gt_font_normal {
   font-weight: normal;
 }
 
-#jruihrnpua .gt_font_bold {
+#vapxfijpce .gt_font_bold {
   font-weight: bold;
 }
 
-#jruihrnpua .gt_font_italic {
+#vapxfijpce .gt_font_italic {
   font-style: italic;
 }
 
-#jruihrnpua .gt_super {
+#vapxfijpce .gt_super {
   font-size: 65%;
 }
 
-#jruihrnpua .gt_footnote_marks {
+#vapxfijpce .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jruihrnpua .gt_asterisk {
+#vapxfijpce .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jruihrnpua .gt_indent_1 {
+#vapxfijpce .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jruihrnpua .gt_indent_2 {
+#vapxfijpce .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jruihrnpua .gt_indent_3 {
+#vapxfijpce .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jruihrnpua .gt_indent_4 {
+#vapxfijpce .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jruihrnpua .gt_indent_5 {
+#vapxfijpce .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jruihrnpua .katex-display {
+#vapxfijpce .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jruihrnpua div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#vapxfijpce div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2383,19 +2383,19 @@ Note
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="tld">com</td>
-<td class="gt_row gt_right" headers="n">7313</td>
+<td class="gt_row gt_right" headers="n">7316</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="tld">edu</td>
-<td class="gt_row gt_right" headers="n">3389</td>
+<td class="gt_row gt_right" headers="n">3388</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="tld">de</td>
-<td class="gt_row gt_right" headers="n">1101</td>
+<td class="gt_row gt_right" headers="n">1100</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="tld">uk</td>
-<td class="gt_row gt_right" headers="n">773</td>
+<td class="gt_row gt_right" headers="n">774</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="tld">fr</td>
@@ -2419,7 +2419,7 @@ Note
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="tld">it</td>
-<td class="gt_row gt_right" headers="n">322</td>
+<td class="gt_row gt_right" headers="n">325</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="tld">ch</td>
@@ -2467,7 +2467,7 @@ Note
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-04</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-05</td>
 </tr>
 </tfoot>
 
@@ -2533,10 +2533,10 @@ Note
 <span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>domain <span class="ot">&lt;-</span> <span class="st">"thinkr.fr"</span></span>
 <span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a><span class="fu">find_pkgs_by_domain</span>(domain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "arpr"        "attachment"  "checkhelper" "dockerfiler" "fakir"      
- [6] "fusen"       "gitdown"     "golem"       "leafgl"      "lightparser"
-[11] "recforest"   "rtodoist"    "rusk"        "shinipsum"   "thinkr"     
-[16] "togglr"     </code></pre>
+<pre><code> [1] "arpr"         "attachment"   "checkhelper"  "dockerfiler"  "fakir"       
+ [6] "fusen"        "gitdown"      "golem"        "leafgl"       "lightparser" 
+[11] "recforest"    "rtodoist"     "rusk"         "shinipsum"    "shiny2docker"
+[16] "thinkr"       "togglr"      </code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -2559,7 +2559,7 @@ Note
 <span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>tld_id <span class="ot">&lt;-</span> <span class="st">"fr"</span></span>
 <span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a><span class="fu">find_pkgs_by_tld</span>(tld_id) <span class="sc">|&gt;</span> <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 722</code></pre>
+<pre><code>[1] 723</code></pre>
 </div>
 </div>
 
