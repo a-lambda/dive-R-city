@@ -50,7 +50,7 @@ pdb <- pdb_CRAN |>
 
 ### Récupération des adresses de messagerie
 
-  - détermination du nombre de mails à trouver dans la colonne `Authors@R`
+  - **détermination du nombre de mails à trouver dans la colonne `Authors@R`**
 
 ```{r}
 #| label: emails_count_estimated
@@ -73,7 +73,7 @@ Le nombre de mails à trouver correspond au nombre de symboles `@` présents dan
 
 :::
 
-  1) fonction `match_email_in_authors`
+#### fonction `match_email_in_authors`
 
 ```{r}
 #| label: match_emails_in_authorsR
@@ -92,7 +92,7 @@ match_emails_in_authorsR <- function(str) {
 
 ```
 
-  2) extraction des emails
+#### extraction des emails
 
 on récupère les matrices de correspondances de pattern pour chacun des champs `Authors@R`
 
@@ -107,7 +107,7 @@ length(emails_in_authorsR)
 
 ```
 
-  3) Récupération du nombre de lignes pour chacune des matrices 
+#### Récupération du nombre de lignes pour chacune des matrices 
 
 ```{r}
 #| label: match_lines_per_pdb_row
@@ -120,7 +120,7 @@ match_lines_per_pdb_row[1:100]
 
 ```
 
-  4) transformation des `r nrow(pdb)` matrices en une seule matrice
+#### transformation des `r nrow(pdb)` matrices en une seule matrice
 
 ```{r}
 #| label: mat_emails_in_authorsR
@@ -137,7 +137,7 @@ mat_emails_in_authorsR[1:10, c(1,4,5)]
 
 ```
 
-  5) puis en un tibble 
+#### puis en un tibble 
   
   - `tbl_all_emails_in_authorsR` avec tous les emails, i.e doublons compris
 
@@ -162,7 +162,7 @@ tbl_unique_emails_in_authorsR <- tbl_all_emails_in_authorsR |> unique()
 
 ```
 
-  6) résumé par ligne du data.frame `pdb`
+#### résumé par ligne du data.frame `pdb`
   
 ::: {.callout-important collapse="false"}
 
@@ -187,7 +187,7 @@ summary_emails_per_pdb_row |> summarize(total_emails = sum(emails_count))
   
 ```
 
-  7) récupération des lignes du data.frame `pdb` où il y a un problème
+#### récupération des lignes du data.frame `pdb` où il y a un problème
   
 On compare la valeur du champ `emails_count` à celle du champ `emails_count_estimated`
 (Parce que les adresses doublons sont considérées comme adresses valides)
@@ -239,7 +239,7 @@ select_bad_row(pkg = pkg_with_max_difference)
 
 ```
 
-  8) fonction `match_tld_in_email_domain`
+#### fonction `match_tld_in_email_domain`
 
 ```{r}
 #| label: match_tld_in_email_domain
@@ -258,7 +258,7 @@ match_tld_in_email_domain <- function(str) {
 
 ```
 
-  9) Extraction des TLDs
+#### Extraction des TLDs
 
 ```{r}
 #| label: extract_TLD
@@ -269,7 +269,7 @@ mail_tlds <- tbl_unique_emails_in_authorsR$email_domain |>
 
 ```
 
-  10) Ajout à la table d'information renommée `tbl_emails`
+#### Ajout à la table d'information renommée `tbl_emails`
   
 ```{r}
 
@@ -278,7 +278,7 @@ tbl_emails <- tbl_unique_emails_in_authorsR |>
 
 ```
 
-  11) Sauvegarde des informations sur les adresses de messagerie
+#### Sauvegarde des informations sur les adresses de messagerie
   
 ```{r}
 #| label: save_tbl_emails
@@ -291,7 +291,7 @@ saveRDS(
 
 ```
 
-  12) Décompte des `email_id`, `email_domain` et `tld`
+#### Décompte des `email_id`, `email_domain` et `tld`
 
 ```{r}
 #| label: emails_count
@@ -327,7 +327,7 @@ Sur les `r pdb_emails_total` recensés on dénombre :
   
 :::
 
-  13) Rapport sur les emails
+#### Rapport sur les emails
   
   - classement du nombre d'emails (dans le champ `Authors@R`) par package R
   
@@ -404,7 +404,7 @@ avec $a =$ `r eq$coefficients[[2]]` et $b =$ `r eq$coefficients[[1]]`
   
 :::
 
-  14) Rapport sur les noms de domaines
+#### Rapport sur les noms de domaines
   
   - classement par occurrences de serveurs de messagerie
 
@@ -461,7 +461,7 @@ gt_TLD_occurrences
 
 ### Trouver les paquets selon difféntes info contenues dans l'email
 
-  1) via l'email en entier
+#### via l'email en entier
 
 ```{r}
 #| label: find_pkgs_by_email
@@ -484,7 +484,7 @@ find_pkgs_by_email(email_id)
 
 ```
 
-  2) via le nom de domaine
+#### via le nom de domaine
   
 ```{r}
 #| label: find_pkgs_by_domain
@@ -507,7 +507,7 @@ find_pkgs_by_domain(domain)
 
 ```
 
-  3) via le tld du nom de domaine
+#### via le tld du nom de domaine
   
 ```{r}
 #| label: find_pkgs_by_tld
