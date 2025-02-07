@@ -268,7 +268,9 @@ tbl_pkg_with_not_email_items |>
 
 ```
 
-#### fonction `match_tld_in_email_domain`
+### Extraction des TLDs
+
+La fonction `match_tld_in_email_domain` récupère le TLD (Top Level Domain)
 
 ```{r}
 #| label: match_tld_in_email_domain
@@ -287,36 +289,27 @@ match_tld_in_email_domain <- function(str) {
 
 ```
 
-#### Extraction des TLDs
+### Création du tibble `tbl_emails` à partir de `tbl_unique_emails_in_authorsR`
+
+On rajoute seulement le champ `tld`
 
 ```{r}
 #| label: extract_TLD
 
-mail_tlds <- tbl_unique_emails_in_authorsR$email_domain |> 
-  map(match_tld_in_email_domain) |> 
-  unlist()
+tbl_emails <- tbl_unique_emails_in_authorsR |>
+  rowwise() |> 
+  mutate(tld = match_tld_in_email_domain(email_domain))
 
 ```
 
-#### Ajout à la table d'information renommée `tbl_emails`
-  
-```{r}
-
-tbl_emails <- tbl_unique_emails_in_authorsR |> 
-  mutate(tld = mail_tlds)
-
-```
-
-#### Sauvegarde des informations sur les adresses de messagerie
+### Sauvegarde des informations sur les adresses de messagerie
   
 ```{r}
 #| label: save_tbl_emails
 #| code-fold: true
 #| 
-saveRDS(
-  object = tbl_emails,
-  file = paste(Sys.Date(),"tbl_emails.RDS", sep = "_")
-)
+
+################ TO DO
 
 ```
 
@@ -329,7 +322,7 @@ saveRDS(
 emails <- tbl_emails |> 
   filter(!is.na(email_id) & !is.na(email_domain)) |> 
   mutate(email = paste(email_id, email_domain, sep = "@")) |> 
-  select("Package", "email")
+  select("Package", "Version", "email")
 
 pdb_emails_total <- nrow(emails)
 pdb_emails_count <- length(unique(emails$email))
