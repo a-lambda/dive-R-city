@@ -1,5 +1,5 @@
 ---
-title: "R CRAN Packages (3/5)"
+title: "R CRAN Packages (emails in `Authors@R` column)"
 author: "Alcor"
 date: "2025-01-19"
 categories: [news, code, analysis]
@@ -168,7 +168,7 @@ tbl_unique_emails_in_authorsR <- tbl_all_emails_in_authorsR |> unique()
 
 Dans la colonne `Authors@R`
 
-  - **`emails_`** donne le nombre total d'adresses de messagerie
+  - **`emails_count`** donne le nombre total d'adresses de messagerie
   (même si ces dernières sont dupliquées)
   
 :::
@@ -189,7 +189,7 @@ summary_emails_per_pdb_row |> summarize(total_emails = sum(emails_count))
 
   7) récupération des lignes du data.frame `pdb` où il y a un problème
   
-On compare la valeur du champ `emails_first_count` à celle du champ `emails_count_estimated`
+On compare la valeur du champ `emails_count` à celle du champ `emails_count_estimated`
 (Parce que les adresses doublons sont considérées comme adresses valides)
 
 ```{r}
@@ -231,7 +231,7 @@ pkg_with_max_difference
 
 ```
 
-Exemple pour le paquet `r pkg_with_max_difference` :
+Exemple pour le paquet **`r pkg_with_max_difference`** :
 
 ```{r}
 
