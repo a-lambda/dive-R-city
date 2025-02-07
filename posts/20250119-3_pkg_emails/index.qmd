@@ -137,32 +137,49 @@ mat_emails_in_authorsR[1:10, c(1,4,5)]
 
 ```
 
-  5) puis en un tibble
+  5) puis en un tibble 
+  
+  - `tbl_all_emails_in_authorsR` avec tous les emails, i.e doublons compris
 
 ```{r}
-#| label: tbl_emails_in_authorsR
+#| label: tbl_all_emails_in_authorsR
 
-tbl_emails_in_authorsR <- as_tibble(mat_emails_in_authorsR) |> 
+tbl_all_emails_in_authorsR <- as_tibble(mat_emails_in_authorsR) |> 
   rename(Package = V1, 
          Version = V2,
          Depends = V3,
         email_id = V4, 
-    email_domain = V5) |> 
-  unique()
+    email_domain = V5)
 
-tbl_emails_in_authorsR
+```
+
+  - `tbl_unique_emails_in_authorsR` après suppression des emails doublons
+
+```{r}
+#| label: tbl_unique_emails_in_authorsR
+
+tbl_unique_emails_in_authorsR <- tbl_all_emails_in_authorsR |> unique()
 
 ```
 
   6) résumé par ligne du data.frame `pdb`
+  
+::: {.callout-important collapse="false"}
+
+Dans la colonne `Authors@R`
+
+  - **`emails_`** donne le nombre total d'adresses de messagerie
+  (même si ces dernières sont dupliquées)
+  
+:::
 
 ```{r}
 #| label: summary_emails_per_pdb_row
 #| 
-summary_emails_per_pdb_row <- tbl_emails_in_authorsR |> 
+summary_emails_per_pdb_row <- tbl_all_emails_in_authorsR |> 
   mutate(n = if_else(is.na(email_id) & is.na(email_domain), 0, 1)) |> 
   summarize(.by = c(Package, Version, Depends), emails_count = sum(n)) |> 
-  mutate(emails_count_estimated = emails_count_per_pdb_row)
+  mutate(emails_count_estimated = emails_count_per_pdb_row) 
 
 summary_emails_per_pdb_row
 
@@ -172,7 +189,8 @@ summary_emails_per_pdb_row |> summarize(total_emails = sum(emails_count))
 
   7) récupération des lignes du data.frame `pdb` où il y a un problème
   
-On compare la valeur du champ `emails_count` à celle du champ `emails_count_estimated`
+On compare la valeur du champ `emails_first_count` à celle du champ `emails_count_estimated`
+(Parce que les adresses doublons sont considérées comme adresses valides)
 
 ```{r}
 
@@ -190,8 +208,6 @@ L'examen des champs `Authors` correspondant aux packages `r names(bad_emails_cou
 
 En effet on note la présence de nombreux items au format `@<chaine de caractères>` qui ne respectent pas le format standart d'une adresse de messagerie. 
 
-Exemple pour le paquet `easystats`:
-
 ```{r}
 #| label: select_bad_row
 
@@ -199,15 +215,27 @@ select_bad_row <- function(pkg) {
   
   bad_emails <- bad_emails_count_rows |> 
     left_join(pdb, by = c("Package", "Version", "Depends")) |> 
-    select(Package, `Authors@R`) |> 
     filter(Package == pkg) |> 
+    select(Package, `Authors@R`) |> 
     pull() |> 
-    stri_match_all_regex(pattern = "\"([@][A-Za-z\\.]+)")
+    stri_match_all_regex(pattern = "[\"|\'|[ ]]([@][A-Za-z\\.\\-]+)")
   return(bad_emails[[1]][,2])
   
 }
 
-select_bad_row(pkg = "easystats") 
+pkg_with_max_difference <- bad_emails_count_rows |> 
+  filter(difference == max(difference)) |> 
+  pull(Package)
+
+pkg_with_max_difference
+
+```
+
+Exemple pour le paquet `r pkg_with_max_difference` :
+
+```{r}
+
+select_bad_row(pkg = pkg_with_max_difference)
 
 ```
 
@@ -235,7 +263,7 @@ match_tld_in_email_domain <- function(str) {
 ```{r}
 #| label: extract_TLD
 
-mail_tlds <- tbl_emails_in_authorsR$email_domain |> 
+mail_tlds <- tbl_unique_emails_in_authorsR$email_domain |> 
   map(match_tld_in_email_domain) |> 
   unlist()
 
@@ -245,7 +273,7 @@ mail_tlds <- tbl_emails_in_authorsR$email_domain |>
   
 ```{r}
 
-tbl_emails <- tbl_emails_in_authorsR |> 
+tbl_emails <- tbl_unique_emails_in_authorsR |> 
   mutate(tld = mail_tlds)
 
 ```
