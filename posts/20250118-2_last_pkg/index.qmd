@@ -137,11 +137,23 @@ CREATE TABLE dev.paquets(
 #| code-fold: true
 #| message: false
 #| 
-RPostgres::dbAppendTable(
-  conn = conn, 
-  name = Id(schema = 'dev', table = 'paquets'), 
-  value = last_pkg_published
-)
+
+request <- "SELECT date_publication::date
+            FROM dev.paquets
+            ORDER by date_publication::date DESC
+            LIMIT 1";
+
+date_veille <- RPostgres::dbGetQuery(conn, statement = request) |>  pull()
+
+diff_date <- as.numeric(Sys.Date() - date_veille)
+
+if ((Sys.Date() - date_veille) > 1) {
+  RPostgres::dbAppendTable(
+    conn = conn, 
+    name = Id(schema = 'dev', table = 'paquets'), 
+    value = last_pkg_published
+  )
+}
 
 ```
 
