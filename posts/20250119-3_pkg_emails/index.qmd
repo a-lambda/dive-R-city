@@ -6,7 +6,7 @@ categories: [news, code, analysis]
 image: "image.jpg"
 ---
 
-## R packages emails from `Authors@R` column
+## Récupération des données emails dans la colonne `Authors@R`
 
 ```{r}
 #| label: load_libraries
@@ -22,20 +22,38 @@ library(stringi)
 library(gt)
 ```
 
+### Simplification du data.frame d'étude
+
 ::: {.callout-note collapse="false"}
 
-Les champs conservés dans la suite de l'étude sont :
+Champs conservés dans le data.frame des données relatives aux paquets R sont :
 
-  - ceux dont les données ne présentent aucune valeur `NA`.
-  - le champ `Authors@R` qui comporte des informations textes intéressantes
+  - ceux pour lesquels on ne trouve aucune données de type `NA`,
+  - excepté le champ `Authors@R` dont on peut extraire des données pertinentes
+
+Au final sont conservés les champs suivants :
+  
+  - `Package`          : nom du paquet
+  - `Version`          : version en cours
+  - `Depends`          : dépendances
+  - `License`          : licence associée à l'usage du paquet
+  - `MD5sum`           : somme de hachage MD5
+  - `NeedsCompilation` : nécessité d'une compilation à partir des sources
+  - `Author`           : auteur principal
+  - `Authors@R`        : informations complémentaires sur les contributeurs
+  - `Date/Publication` : timestamp de publication de version
+  - `Description`      : description
+  - `Maintainer`       : responsable
+  - `Packaged`         : date de finalisation
+  - `Title`            : titre
+  - `Published`        : date de publication
   
 :::
 
-### Simplification du data.frame d'étude
-
 ```{r}
 #| label: CRAN_package_db_simplified
-
+#| code-fold: true
+#| 
 pdb_CRAN <- tools::CRAN_package_db()
 
 fields <- c(
@@ -48,39 +66,36 @@ pdb <- pdb_CRAN |>
 
 ```
 
-### Récupération des adresses de messagerie
-
-  - **détermination du nombre de mails à trouver dans la colonne `Authors@R`**
+### Nombre possible de mails présents dans la colonne `Authors@R`
 
 ```{r}
-#| label: emails_count_estimated
+#| label: emails_total_estimated
 #| code-fold: true
 
-authorsR <- pdb$`Authors@R`
-
-emails_count_per_pdb_row <- authorsR |> 
+emails_count_per_pkg <- pdb$`Authors@R` |> 
   stri_count_regex(pattern = "[@]")
-# NA is considered to be total 0
-emails_count_per_pdb_row[is.na(emails_count_per_pdb_row)] <- 0
-emails_total_estimated <- emails_count_per_pdb_row |> sum()
-emails_total_estimated
+
+# NA result is transformed into a 0 value
+emails_count_per_pkg[is.na(emails_count_per_pkg)] <- 0
+
+emails_total_estimated <- emails_count_per_pkg |> sum()
 
 ```
 
-::: {.callout-note collapse="false"}
+Le nombre d'adresses de messagerie possiblement exploitables correspond au nombre de symboles `@` présents dans l'ensemble des données de la colonne `Authors@R`, soit ici : **`r format(x = emails_total_estimated, digits = 5, nsmall = 0)`**
 
-Le nombre de mails à trouver correspond au nombre de symboles `@` présents dans l'ensemble des données de la colonne `Authors@R`, soit ici : **`r emails_total_estimated`**
+### Extraction des emails
 
-:::
+La fonction `match_email_in_authors` se base sur une expression régulière empirique qui pourra être sensiblement optimisée sur la base de nouvelles connaissances acquises dans ce domaine et des formatages spécifiques adoptés ponctuellement par certains membres de la communauté R.
 
-#### fonction `match_email_in_authors`
+Le résultat de la fonction `match_email_in_authors` est une matrice de correspondances. 
 
 ```{r}
 #| label: match_emails_in_authorsR
 #| 
 match_emails_in_authorsR <- function(str) {
   
-  pattern_email    <- "[\"|'|[ ]|[<]]([^\"|']+?)[@]{1}(.+?)[\"|'|[ ]|[>]]"
+  pattern_email <- "[\"|'|[ ]|[<]]([^\"|']+?)[@]{1}(.+?)[\"|'|[ ]|[>]]"
   resultat <- stringi::stri_match_all_regex(
               str = str, 
               pattern = pattern_email,
@@ -92,68 +107,68 @@ match_emails_in_authorsR <- function(str) {
 
 ```
 
-#### extraction des emails
-
-on récupère les matrices de correspondances de pattern pour chacun des champs `Authors@R`
+`emails_in_authorsR` contient une liste de matrices de correspondances
 
 ```{r}
 #| label: extract_emails
 #| 
-emails_in_authorsR <- authorsR |> 
+emails_in_authorsR <- pdb$`Authors@R` |> 
   map(match_emails_in_authorsR)
 
-head(emails_in_authorsR, n = 3)
-length(emails_in_authorsR)
+head(emails_in_authorsR, n = 4)
 
 ```
 
-#### Récupération du nombre de lignes pour chacune des matrices 
+### Récupération du nombre de lignes pour chacune des matrices 
+
+`match_lines_per_pkg` donne, pour chaque paquet, le nombre de lignes de la matrice de correspondances
 
 ```{r}
-#| label: match_lines_per_pdb_row
+#| label: match_lines_per_pkg
 
-match_lines_per_pdb_row <- emails_in_authorsR |> 
+match_lines_per_pkg <- emails_in_authorsR |> 
   map(nrow) |>
   unlist()
 
-match_lines_per_pdb_row[1:100]
+match_lines_per_pkg[1:100]
 
 ```
 
-#### transformation des `r nrow(pdb)` matrices en une seule matrice
+### Transformation des `r nrow(pdb)` matrices en une seule matrice
 
 ```{r}
-#| label: mat_emails_in_authorsR
+#| label: single_matrix
 
-temp_mat_emails_in_authorsR <- do.call(rbind, emails_in_authorsR)
-
-mat_emails_in_authorsR <- cbind(
-  rep(x = pdb$Package, match_lines_per_pdb_row),
-  rep(x = pdb$Version, match_lines_per_pdb_row),
-  rep(x = pdb$Depends, match_lines_per_pdb_row),
-  temp_mat_emails_in_authorsR[,c(2,3)])
-
-mat_emails_in_authorsR[1:10, c(1,4,5)]
+single_matrix <- do.call(rbind, emails_in_authorsR)
 
 ```
 
-#### puis en un tibble 
-  
-  - `tbl_all_emails_in_authorsR` avec tous les emails, i.e doublons compris
+### Ajout des champs `Package`, `Version` et `Depends` + mutation en `tibble`
+
+Le tibble `tbl_all_emails_in_authorsR` contient l'ensemble des emails pour chaque package (doublons compris).
 
 ```{r}
-#| label: tbl_all_emails_in_authorsR
+#| label: append_data_mutate_into_tibble
+#| 
+tbl_all_emails_in_authorsR <- cbind(
+  rep(x = pdb$Package, match_lines_per_pkg),
+  rep(x = pdb$Version, match_lines_per_pkg),
+  rep(x = pdb$Depends, match_lines_per_pkg),
+  single_matrix[,c(2,3)]) |> 
+  as_tibble() |> 
+  rename(Package  = V1,
+         Version  = V2,
+         Depends  = V3,
+         email_id = V4,
+         email_domain = V5)
 
-tbl_all_emails_in_authorsR <- as_tibble(mat_emails_in_authorsR) |> 
-  rename(Package = V1, 
-         Version = V2,
-         Depends = V3,
-        email_id = V4, 
-    email_domain = V5)
+tbl_all_emails_in_authorsR[1:10, c(1, 2, 4, 5)] |> gt()
 
 ```
 
-  - `tbl_unique_emails_in_authorsR` après suppression des emails doublons
+### Création d'un tibble sans les emails doublons 
+
+`tbl_unique_emails_in_authorsR` contient des emails non redondants
 
 ```{r}
 #| label: tbl_unique_emails_in_authorsR
@@ -162,80 +177,94 @@ tbl_unique_emails_in_authorsR <- tbl_all_emails_in_authorsR |> unique()
 
 ```
 
-#### résumé par ligne du data.frame `pdb`
+### Comparatif du nombre d'emails trouvés par rapport au nombre estimé
   
 ::: {.callout-important collapse="false"}
 
-Dans la colonne `Authors@R`
+Le champ **`emails_count`** du tibble `donne le nombre total d'adresses de messagerie, adresses dupliquées comprises.
 
-  - **`emails_count`** donne le nombre total d'adresses de messagerie
-  (même si ces dernières sont dupliquées)
-  
 :::
 
 ```{r}
-#| label: summary_emails_per_pdb_row
+#| label: summary_emails_per_pkg
+#| code-fold: true
 #| 
-summary_emails_per_pdb_row <- tbl_all_emails_in_authorsR |> 
+summary_emails_per_pkg <- tbl_all_emails_in_authorsR |> 
   mutate(n = if_else(is.na(email_id) & is.na(email_domain), 0, 1)) |> 
   summarize(.by = c(Package, Version, Depends), emails_count = sum(n)) |> 
-  mutate(emails_count_estimated = emails_count_per_pdb_row) 
+  mutate(emails_count_estimated = emails_count_per_pkg) |> 
+  mutate(diff_emails_count = emails_count_estimated - emails_count)
 
-summary_emails_per_pdb_row
+summary_emails_per_pkg[1:10, ] |> gt() 
 
-summary_emails_per_pdb_row |> summarize(total_emails = sum(emails_count))
-  
+total_emails_count <- summary_emails_per_pkg |> 
+  summarize(total_emails = sum(emails_count)) |> 
+  pull()
+
 ```
 
-#### récupération des lignes du data.frame `pdb` où il y a un problème
+Le nombre total d'adresse de messagerie trouvées (doublons compris) vaut **`r format(x = total_emails_count, digits = 5, nsmall = 0)`** à comparer avec les **`r format(x = emails_total_estimated, digits = 5, nsmall = 0)`** symboles `@` découverts dans l'ensemble des champs `Authors@R`
+
+### Récupération des lignes où le nombre d'emails n'est pas celui espéré
   
 On compare la valeur du champ `emails_count` à celle du champ `emails_count_estimated`
 (Parce que les adresses doublons sont considérées comme adresses valides)
 
-```{r}
+```{r} 
+#| label: tbl_diff_emails_count_non_zero
+#| code-fold: true
 
-bad_emails_count_rows <- summary_emails_per_pdb_row |> 
-  mutate(difference = emails_count_estimated - emails_count) |> 
-  filter(difference != 0)
+tbl_diff_emails_count_non_zero <- summary_emails_per_pkg |> 
+  filter(diff_emails_count != 0)
 
-bad_emails_count_rows |> summarize(difference_totale = sum(difference))
+diff_emails_count <- tbl_diff_emails_count_non_zero |> 
+  summarize(difference_totale = sum(diff_emails_count))
 
-print(bad_emails_count_rows, n = nrow(bad_emails_count_rows))
+tbl_diff_emails_count_non_zero |> 
+  select(Package, emails_count, emails_count_estimated, diff_emails_count) |> 
+  gt()
 
 ```
 
-L'examen des champs `Authors` correspondant aux packages `r names(bad_emails_count_rows$Package)` montre que le nombre d'emails a été surestimé par le décompte du nombre de symboles `@`.
+L'examen des champs `Authors` associés aux packages `r names(tbl_diff_emails_count_non_zero$Package)` montre que le nombre d'emails a été surestimé par rapport au décompte du nombre de symboles `@`.
 
-En effet on note la présence de nombreux items au format `@<chaine de caractères>` qui ne respectent pas le format standart d'une adresse de messagerie. 
+Il existe `r diff_emails_count` expressions contenant un symboles `@` qui ne correspondent pas à des adresses de messagerie.
+
+En effet, on note la présence d'items au format `@<chaine de caractères>` qui ne respectent pas la norme.
+
+### Affichage des items comportant des symboles `@` qui ne sont pas des emails 
 
 ```{r}
-#| label: select_bad_row
-
-select_bad_row <- function(pkg) {
+#| label: select_not_email_items
+#| code-fold: true
+#| 
+select_not_email_items <- function(pkg) {
   
-  bad_emails <- bad_emails_count_rows |> 
+  not_email_items <- tbl_diff_emails_count_non_zero |> 
     left_join(pdb, by = c("Package", "Version", "Depends")) |> 
     filter(Package == pkg) |> 
     select(Package, `Authors@R`) |> 
     pull() |> 
     stri_match_all_regex(pattern = "[\"|\'|[ ]]([@][A-Za-z\\.\\-]+)")
-  return(bad_emails[[1]][,2])
+  return(not_email_items[[1]][,2])
   
 }
 
-pkg_with_max_difference <- bad_emails_count_rows |> 
-  filter(difference == max(difference)) |> 
-  pull(Package)
+tbl_pkg_with_not_email_items <- tbl_diff_emails_count_non_zero |> 
+  rowwise() |> 
+  mutate(
+    not_email_items = list(select_not_email_items(pkg = Package)),
+    count = list(length(not_email_items)),
+    count = ifelse(any(is.na(not_email_items)), 0, count)
+  ) |> 
+  select(Package, not_email_items, count)
 
-pkg_with_max_difference
-
-```
-
-Exemple pour le paquet **`r pkg_with_max_difference`** :
-
-```{r}
-
-select_bad_row(pkg = pkg_with_max_difference)
+tbl_pkg_with_not_email_items |> 
+  gt() |> 
+  tab_header(
+    title    = md("**Packages with not email items including `@` symbol**"),
+    subtitle = md(paste("Total = ", sum(tbl_pkg_with_not_email_items$count)))
+  )
 
 ```
 
