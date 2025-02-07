@@ -397,8 +397,13 @@ Soit `n` le nombre d'occurrences d'un email
 
 Soit `freq` le nombre d'emails apparaissant avec cette occurrence `n`
 
-On a $$log(freq) = a \times log(n) + b$$
-Soit $$freq = exp(b) \times n^a$$
+On a $$\ln(freq) = a \times \ln(n) + b$$
+
+Soit $$e^{\ln(freq)} = e^{a \times \ln(n)} \times e^b$$
+
+Soit $$freq = e^{\ln(n^a)} \times e^b$$ 
+
+Soit $$freq = n^a \times e^b$$
 
 avec $a =$ `r eq$coefficients[[2]]` et $b =$ `r eq$coefficients[[1]]`
   
