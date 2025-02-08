@@ -298,7 +298,10 @@ On rajoute seulement le champ `tld`
 
 tbl_emails <- tbl_unique_emails_in_authorsR |>
   rowwise() |> 
-  mutate(tld = match_tld_in_email_domain(email_domain))
+  mutate(tld = match_tld_in_email_domain(email_domain)) |> 
+  as_tibble() # else it causes error with summarize function
+              # Can't supply `.by` when `.data` is a rowwise data frame.
+              # because of rowwise_df class
 
 ```
 
