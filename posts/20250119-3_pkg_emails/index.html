@@ -220,12 +220,15 @@ window.Quarto = {
   <li><a href="#nombre-possible-de-mails-présents-dans-la-colonne-authorsr" id="toc-nombre-possible-de-mails-présents-dans-la-colonne-authorsr" class="nav-link" data-scroll-target="#nombre-possible-de-mails-présents-dans-la-colonne-authorsr">Nombre possible de mails présents dans la colonne <code>Authors@R</code></a></li>
   <li><a href="#extraction-des-emails" id="toc-extraction-des-emails" class="nav-link" data-scroll-target="#extraction-des-emails">Extraction des emails</a></li>
   <li><a href="#récupération-du-nombre-de-lignes-pour-chacune-des-matrices" id="toc-récupération-du-nombre-de-lignes-pour-chacune-des-matrices" class="nav-link" data-scroll-target="#récupération-du-nombre-de-lignes-pour-chacune-des-matrices">Récupération du nombre de lignes pour chacune des matrices</a></li>
-  <li><a href="#transformation-des-22035-matrices-en-une-seule-matrice" id="toc-transformation-des-22035-matrices-en-une-seule-matrice" class="nav-link" data-scroll-target="#transformation-des-22035-matrices-en-une-seule-matrice">Transformation des 22035 matrices en une seule matrice</a></li>
+  <li><a href="#transformation-des-22038-matrices-en-une-seule-matrice" id="toc-transformation-des-22038-matrices-en-une-seule-matrice" class="nav-link" data-scroll-target="#transformation-des-22038-matrices-en-une-seule-matrice">Transformation des 22038 matrices en une seule matrice</a></li>
   <li><a href="#ajout-des-champs-package-version-et-depends-mutation-en-tibble" id="toc-ajout-des-champs-package-version-et-depends-mutation-en-tibble" class="nav-link" data-scroll-target="#ajout-des-champs-package-version-et-depends-mutation-en-tibble">Ajout des champs <code>Package</code>, <code>Version</code> et <code>Depends</code> + mutation en <code>tibble</code></a></li>
   <li><a href="#création-dun-tibble-sans-les-emails-doublons" id="toc-création-dun-tibble-sans-les-emails-doublons" class="nav-link" data-scroll-target="#création-dun-tibble-sans-les-emails-doublons">Création d’un tibble sans les emails doublons</a></li>
   <li><a href="#comparatif-du-nombre-demails-trouvés-par-rapport-au-nombre-estimé" id="toc-comparatif-du-nombre-demails-trouvés-par-rapport-au-nombre-estimé" class="nav-link" data-scroll-target="#comparatif-du-nombre-demails-trouvés-par-rapport-au-nombre-estimé">Comparatif du nombre d’emails trouvés par rapport au nombre estimé</a></li>
   <li><a href="#récupération-des-lignes-où-le-nombre-demails-nest-pas-celui-espéré" id="toc-récupération-des-lignes-où-le-nombre-demails-nest-pas-celui-espéré" class="nav-link" data-scroll-target="#récupération-des-lignes-où-le-nombre-demails-nest-pas-celui-espéré">Récupération des lignes où le nombre d’emails n’est pas celui espéré</a></li>
   <li><a href="#affichage-des-items-comportant-des-symboles-qui-ne-sont-pas-des-emails" id="toc-affichage-des-items-comportant-des-symboles-qui-ne-sont-pas-des-emails" class="nav-link" data-scroll-target="#affichage-des-items-comportant-des-symboles-qui-ne-sont-pas-des-emails">Affichage des items comportant des symboles <code>@</code> qui ne sont pas des emails</a></li>
+  <li><a href="#extraction-des-tlds" id="toc-extraction-des-tlds" class="nav-link" data-scroll-target="#extraction-des-tlds">Extraction des TLDs</a></li>
+  <li><a href="#création-du-tibble-tbl_emails-à-partir-de-tbl_unique_emails_in_authorsr" id="toc-création-du-tibble-tbl_emails-à-partir-de-tbl_unique_emails_in_authorsr" class="nav-link" data-scroll-target="#création-du-tibble-tbl_emails-à-partir-de-tbl_unique_emails_in_authorsr">Création du tibble <code>tbl_emails</code> à partir de <code>tbl_unique_emails_in_authorsR</code></a></li>
+  <li><a href="#sauvegarde-des-informations-sur-les-adresses-de-messagerie" id="toc-sauvegarde-des-informations-sur-les-adresses-de-messagerie" class="nav-link" data-scroll-target="#sauvegarde-des-informations-sur-les-adresses-de-messagerie">Sauvegarde des informations sur les adresses de messagerie</a></li>
   <li><a href="#trouver-les-paquets-selon-difféntes-info-contenues-dans-lemail" id="toc-trouver-les-paquets-selon-difféntes-info-contenues-dans-lemail" class="nav-link" data-scroll-target="#trouver-les-paquets-selon-difféntes-info-contenues-dans-lemail">Trouver les paquets selon difféntes info contenues dans l’email</a></li>
   </ul></li>
   </ul>
@@ -320,7 +323,7 @@ Note
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>emails_total_estimated <span class="ot">&lt;-</span> emails_count_per_pkg <span class="sc">|&gt;</span> <span class="fu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Le nombre d’adresses de messagerie possiblement exploitables correspond au nombre de symboles <code>@</code> présents dans l’ensemble des données de la colonne <code>Authors@R</code>, soit ici : <strong>32996</strong></p>
+<p>Le nombre d’adresses de messagerie possiblement exploitables correspond au nombre de symboles <code>@</code> présents dans l’ensemble des données de la colonne <code>Authors@R</code>, soit ici : <strong>33000</strong></p>
 </section>
 <section id="extraction-des-emails" class="level3">
 <h3 class="anchored" data-anchor-id="extraction-des-emails">Extraction des emails</h3>
@@ -382,8 +385,8 @@ Note
 </div>
 </div>
 </section>
-<section id="transformation-des-22035-matrices-en-une-seule-matrice" class="level3">
-<h3 class="anchored" data-anchor-id="transformation-des-22035-matrices-en-une-seule-matrice">Transformation des 22035 matrices en une seule matrice</h3>
+<section id="transformation-des-22038-matrices-en-une-seule-matrice" class="level3">
+<h3 class="anchored" data-anchor-id="transformation-des-22038-matrices-en-une-seule-matrice">Transformation des 22038 matrices en une seule matrice</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>single_matrix <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, emails_in_authorsR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -410,23 +413,23 @@ Note
 </div>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>tbl_all_emails_in_authorsR[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>)] <span class="sc">|&gt;</span> <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="zwjvulxrac" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zwjvulxrac table {
+<div id="usdbwumwiv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#usdbwumwiv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zwjvulxrac thead, #zwjvulxrac tbody, #zwjvulxrac tfoot, #zwjvulxrac tr, #zwjvulxrac td, #zwjvulxrac th {
+#usdbwumwiv thead, #usdbwumwiv tbody, #usdbwumwiv tfoot, #usdbwumwiv tr, #usdbwumwiv td, #usdbwumwiv th {
   border-style: none;
 }
 
-#zwjvulxrac p {
+#usdbwumwiv p {
   margin: 0;
   padding: 0;
 }
 
-#zwjvulxrac .gt_table {
+#usdbwumwiv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -452,12 +455,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#zwjvulxrac .gt_caption {
+#usdbwumwiv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zwjvulxrac .gt_title {
+#usdbwumwiv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -469,7 +472,7 @@ Note
   border-bottom-width: 0;
 }
 
-#zwjvulxrac .gt_subtitle {
+#usdbwumwiv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -481,7 +484,7 @@ Note
   border-top-width: 0;
 }
 
-#zwjvulxrac .gt_heading {
+#usdbwumwiv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -493,13 +496,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#zwjvulxrac .gt_bottom_border {
+#usdbwumwiv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zwjvulxrac .gt_col_headings {
+#usdbwumwiv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -514,7 +517,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#zwjvulxrac .gt_col_heading {
+#usdbwumwiv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -534,7 +537,7 @@ Note
   overflow-x: hidden;
 }
 
-#zwjvulxrac .gt_column_spanner_outer {
+#usdbwumwiv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -546,15 +549,15 @@ Note
   padding-right: 4px;
 }
 
-#zwjvulxrac .gt_column_spanner_outer:first-child {
+#usdbwumwiv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zwjvulxrac .gt_column_spanner_outer:last-child {
+#usdbwumwiv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zwjvulxrac .gt_column_spanner {
+#usdbwumwiv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -566,11 +569,11 @@ Note
   width: 100%;
 }
 
-#zwjvulxrac .gt_spanner_row {
+#usdbwumwiv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zwjvulxrac .gt_group_heading {
+#usdbwumwiv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -596,7 +599,7 @@ Note
   text-align: left;
 }
 
-#zwjvulxrac .gt_empty_group_heading {
+#usdbwumwiv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -611,15 +614,15 @@ Note
   vertical-align: middle;
 }
 
-#zwjvulxrac .gt_from_md > :first-child {
+#usdbwumwiv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zwjvulxrac .gt_from_md > :last-child {
+#usdbwumwiv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zwjvulxrac .gt_row {
+#usdbwumwiv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -638,7 +641,7 @@ Note
   overflow-x: hidden;
 }
 
-#zwjvulxrac .gt_stub {
+#usdbwumwiv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -651,7 +654,7 @@ Note
   padding-right: 5px;
 }
 
-#zwjvulxrac .gt_stub_row_group {
+#usdbwumwiv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -665,15 +668,15 @@ Note
   vertical-align: top;
 }
 
-#zwjvulxrac .gt_row_group_first td {
+#usdbwumwiv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zwjvulxrac .gt_row_group_first th {
+#usdbwumwiv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zwjvulxrac .gt_summary_row {
+#usdbwumwiv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -683,16 +686,16 @@ Note
   padding-right: 5px;
 }
 
-#zwjvulxrac .gt_first_summary_row {
+#usdbwumwiv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zwjvulxrac .gt_first_summary_row.thick {
+#usdbwumwiv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zwjvulxrac .gt_last_summary_row {
+#usdbwumwiv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -702,7 +705,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#zwjvulxrac .gt_grand_summary_row {
+#usdbwumwiv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -712,7 +715,7 @@ Note
   padding-right: 5px;
 }
 
-#zwjvulxrac .gt_first_grand_summary_row {
+#usdbwumwiv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -722,7 +725,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#zwjvulxrac .gt_last_grand_summary_row_top {
+#usdbwumwiv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -732,11 +735,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#zwjvulxrac .gt_striped {
+#usdbwumwiv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zwjvulxrac .gt_table_body {
+#usdbwumwiv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -745,7 +748,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#zwjvulxrac .gt_footnotes {
+#usdbwumwiv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -759,7 +762,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#zwjvulxrac .gt_footnote {
+#usdbwumwiv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -768,7 +771,7 @@ Note
   padding-right: 5px;
 }
 
-#zwjvulxrac .gt_sourcenotes {
+#usdbwumwiv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -782,7 +785,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#zwjvulxrac .gt_sourcenote {
+#usdbwumwiv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -790,72 +793,72 @@ Note
   padding-right: 5px;
 }
 
-#zwjvulxrac .gt_left {
+#usdbwumwiv .gt_left {
   text-align: left;
 }
 
-#zwjvulxrac .gt_center {
+#usdbwumwiv .gt_center {
   text-align: center;
 }
 
-#zwjvulxrac .gt_right {
+#usdbwumwiv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zwjvulxrac .gt_font_normal {
+#usdbwumwiv .gt_font_normal {
   font-weight: normal;
 }
 
-#zwjvulxrac .gt_font_bold {
+#usdbwumwiv .gt_font_bold {
   font-weight: bold;
 }
 
-#zwjvulxrac .gt_font_italic {
+#usdbwumwiv .gt_font_italic {
   font-style: italic;
 }
 
-#zwjvulxrac .gt_super {
+#usdbwumwiv .gt_super {
   font-size: 65%;
 }
 
-#zwjvulxrac .gt_footnote_marks {
+#usdbwumwiv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zwjvulxrac .gt_asterisk {
+#usdbwumwiv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zwjvulxrac .gt_indent_1 {
+#usdbwumwiv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zwjvulxrac .gt_indent_2 {
+#usdbwumwiv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zwjvulxrac .gt_indent_3 {
+#usdbwumwiv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zwjvulxrac .gt_indent_4 {
+#usdbwumwiv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zwjvulxrac .gt_indent_5 {
+#usdbwumwiv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#zwjvulxrac .katex-display {
+#usdbwumwiv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#zwjvulxrac div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#usdbwumwiv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -974,23 +977,23 @@ Important
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>summary_emails_per_pkg[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, ] <span class="sc">|&gt;</span> <span class="fu">gt</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="pibdpuhxdw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#pibdpuhxdw table {
+<div id="oknvwsaxtc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#oknvwsaxtc table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#pibdpuhxdw thead, #pibdpuhxdw tbody, #pibdpuhxdw tfoot, #pibdpuhxdw tr, #pibdpuhxdw td, #pibdpuhxdw th {
+#oknvwsaxtc thead, #oknvwsaxtc tbody, #oknvwsaxtc tfoot, #oknvwsaxtc tr, #oknvwsaxtc td, #oknvwsaxtc th {
   border-style: none;
 }
 
-#pibdpuhxdw p {
+#oknvwsaxtc p {
   margin: 0;
   padding: 0;
 }
 
-#pibdpuhxdw .gt_table {
+#oknvwsaxtc .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1016,12 +1019,12 @@ Important
   border-left-color: #D3D3D3;
 }
 
-#pibdpuhxdw .gt_caption {
+#oknvwsaxtc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#pibdpuhxdw .gt_title {
+#oknvwsaxtc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1033,7 +1036,7 @@ Important
   border-bottom-width: 0;
 }
 
-#pibdpuhxdw .gt_subtitle {
+#oknvwsaxtc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1045,7 +1048,7 @@ Important
   border-top-width: 0;
 }
 
-#pibdpuhxdw .gt_heading {
+#oknvwsaxtc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1057,13 +1060,13 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pibdpuhxdw .gt_bottom_border {
+#oknvwsaxtc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pibdpuhxdw .gt_col_headings {
+#oknvwsaxtc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1078,7 +1081,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pibdpuhxdw .gt_col_heading {
+#oknvwsaxtc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1098,7 +1101,7 @@ Important
   overflow-x: hidden;
 }
 
-#pibdpuhxdw .gt_column_spanner_outer {
+#oknvwsaxtc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1110,15 +1113,15 @@ Important
   padding-right: 4px;
 }
 
-#pibdpuhxdw .gt_column_spanner_outer:first-child {
+#oknvwsaxtc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pibdpuhxdw .gt_column_spanner_outer:last-child {
+#oknvwsaxtc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pibdpuhxdw .gt_column_spanner {
+#oknvwsaxtc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1130,11 +1133,11 @@ Important
   width: 100%;
 }
 
-#pibdpuhxdw .gt_spanner_row {
+#oknvwsaxtc .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#pibdpuhxdw .gt_group_heading {
+#oknvwsaxtc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1160,7 +1163,7 @@ Important
   text-align: left;
 }
 
-#pibdpuhxdw .gt_empty_group_heading {
+#oknvwsaxtc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1175,15 +1178,15 @@ Important
   vertical-align: middle;
 }
 
-#pibdpuhxdw .gt_from_md > :first-child {
+#oknvwsaxtc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pibdpuhxdw .gt_from_md > :last-child {
+#oknvwsaxtc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pibdpuhxdw .gt_row {
+#oknvwsaxtc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1202,7 +1205,7 @@ Important
   overflow-x: hidden;
 }
 
-#pibdpuhxdw .gt_stub {
+#oknvwsaxtc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1215,7 +1218,7 @@ Important
   padding-right: 5px;
 }
 
-#pibdpuhxdw .gt_stub_row_group {
+#oknvwsaxtc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1229,15 +1232,15 @@ Important
   vertical-align: top;
 }
 
-#pibdpuhxdw .gt_row_group_first td {
+#oknvwsaxtc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pibdpuhxdw .gt_row_group_first th {
+#oknvwsaxtc .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#pibdpuhxdw .gt_summary_row {
+#oknvwsaxtc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1247,16 +1250,16 @@ Important
   padding-right: 5px;
 }
 
-#pibdpuhxdw .gt_first_summary_row {
+#oknvwsaxtc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pibdpuhxdw .gt_first_summary_row.thick {
+#oknvwsaxtc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pibdpuhxdw .gt_last_summary_row {
+#oknvwsaxtc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1266,7 +1269,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#pibdpuhxdw .gt_grand_summary_row {
+#oknvwsaxtc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1276,7 +1279,7 @@ Important
   padding-right: 5px;
 }
 
-#pibdpuhxdw .gt_first_grand_summary_row {
+#oknvwsaxtc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1286,7 +1289,7 @@ Important
   border-top-color: #D3D3D3;
 }
 
-#pibdpuhxdw .gt_last_grand_summary_row_top {
+#oknvwsaxtc .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1296,11 +1299,11 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#pibdpuhxdw .gt_striped {
+#oknvwsaxtc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pibdpuhxdw .gt_table_body {
+#oknvwsaxtc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1309,7 +1312,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#pibdpuhxdw .gt_footnotes {
+#oknvwsaxtc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1323,7 +1326,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pibdpuhxdw .gt_footnote {
+#oknvwsaxtc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1332,7 +1335,7 @@ Important
   padding-right: 5px;
 }
 
-#pibdpuhxdw .gt_sourcenotes {
+#oknvwsaxtc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1346,7 +1349,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pibdpuhxdw .gt_sourcenote {
+#oknvwsaxtc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1354,72 +1357,72 @@ Important
   padding-right: 5px;
 }
 
-#pibdpuhxdw .gt_left {
+#oknvwsaxtc .gt_left {
   text-align: left;
 }
 
-#pibdpuhxdw .gt_center {
+#oknvwsaxtc .gt_center {
   text-align: center;
 }
 
-#pibdpuhxdw .gt_right {
+#oknvwsaxtc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pibdpuhxdw .gt_font_normal {
+#oknvwsaxtc .gt_font_normal {
   font-weight: normal;
 }
 
-#pibdpuhxdw .gt_font_bold {
+#oknvwsaxtc .gt_font_bold {
   font-weight: bold;
 }
 
-#pibdpuhxdw .gt_font_italic {
+#oknvwsaxtc .gt_font_italic {
   font-style: italic;
 }
 
-#pibdpuhxdw .gt_super {
+#oknvwsaxtc .gt_super {
   font-size: 65%;
 }
 
-#pibdpuhxdw .gt_footnote_marks {
+#oknvwsaxtc .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#pibdpuhxdw .gt_asterisk {
+#oknvwsaxtc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pibdpuhxdw .gt_indent_1 {
+#oknvwsaxtc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#pibdpuhxdw .gt_indent_2 {
+#oknvwsaxtc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#pibdpuhxdw .gt_indent_3 {
+#oknvwsaxtc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#pibdpuhxdw .gt_indent_4 {
+#oknvwsaxtc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#pibdpuhxdw .gt_indent_5 {
+#oknvwsaxtc .gt_indent_5 {
   text-indent: 25px;
 }
 
-#pibdpuhxdw .katex-display {
+#oknvwsaxtc .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#pibdpuhxdw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#oknvwsaxtc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1528,7 +1531,7 @@ Important
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Le nombre total d’adresse de messagerie trouvées (doublons compris) vaut <strong>32966</strong> à comparer avec les <strong>32996</strong> symboles <code>@</code> découverts dans l’ensemble des champs <code>Authors@R</code></p>
+<p>Le nombre total d’adresse de messagerie trouvées (doublons compris) vaut <strong>32970</strong> à comparer avec les <strong>33000</strong> symboles <code>@</code> découverts dans l’ensemble des champs <code>Authors@R</code></p>
 </section>
 <section id="récupération-des-lignes-où-le-nombre-demails-nest-pas-celui-espéré" class="level3">
 <h3 class="anchored" data-anchor-id="récupération-des-lignes-où-le-nombre-demails-nest-pas-celui-espéré">Récupération des lignes où le nombre d’emails n’est pas celui espéré</h3>
@@ -1547,23 +1550,23 @@ Important
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="kuuqucjfjl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kuuqucjfjl table {
+<div id="olvkhlzway" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#olvkhlzway table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#kuuqucjfjl thead, #kuuqucjfjl tbody, #kuuqucjfjl tfoot, #kuuqucjfjl tr, #kuuqucjfjl td, #kuuqucjfjl th {
+#olvkhlzway thead, #olvkhlzway tbody, #olvkhlzway tfoot, #olvkhlzway tr, #olvkhlzway td, #olvkhlzway th {
   border-style: none;
 }
 
-#kuuqucjfjl p {
+#olvkhlzway p {
   margin: 0;
   padding: 0;
 }
 
-#kuuqucjfjl .gt_table {
+#olvkhlzway .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1589,12 +1592,12 @@ Important
   border-left-color: #D3D3D3;
 }
 
-#kuuqucjfjl .gt_caption {
+#olvkhlzway .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#kuuqucjfjl .gt_title {
+#olvkhlzway .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1606,7 +1609,7 @@ Important
   border-bottom-width: 0;
 }
 
-#kuuqucjfjl .gt_subtitle {
+#olvkhlzway .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1618,7 +1621,7 @@ Important
   border-top-width: 0;
 }
 
-#kuuqucjfjl .gt_heading {
+#olvkhlzway .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1630,13 +1633,13 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#kuuqucjfjl .gt_bottom_border {
+#olvkhlzway .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#kuuqucjfjl .gt_col_headings {
+#olvkhlzway .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1651,7 +1654,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#kuuqucjfjl .gt_col_heading {
+#olvkhlzway .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1671,7 +1674,7 @@ Important
   overflow-x: hidden;
 }
 
-#kuuqucjfjl .gt_column_spanner_outer {
+#olvkhlzway .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1683,15 +1686,15 @@ Important
   padding-right: 4px;
 }
 
-#kuuqucjfjl .gt_column_spanner_outer:first-child {
+#olvkhlzway .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#kuuqucjfjl .gt_column_spanner_outer:last-child {
+#olvkhlzway .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#kuuqucjfjl .gt_column_spanner {
+#olvkhlzway .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1703,11 +1706,11 @@ Important
   width: 100%;
 }
 
-#kuuqucjfjl .gt_spanner_row {
+#olvkhlzway .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#kuuqucjfjl .gt_group_heading {
+#olvkhlzway .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1733,7 +1736,7 @@ Important
   text-align: left;
 }
 
-#kuuqucjfjl .gt_empty_group_heading {
+#olvkhlzway .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1748,15 +1751,15 @@ Important
   vertical-align: middle;
 }
 
-#kuuqucjfjl .gt_from_md > :first-child {
+#olvkhlzway .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kuuqucjfjl .gt_from_md > :last-child {
+#olvkhlzway .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kuuqucjfjl .gt_row {
+#olvkhlzway .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1775,7 +1778,7 @@ Important
   overflow-x: hidden;
 }
 
-#kuuqucjfjl .gt_stub {
+#olvkhlzway .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1788,7 +1791,7 @@ Important
   padding-right: 5px;
 }
 
-#kuuqucjfjl .gt_stub_row_group {
+#olvkhlzway .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1802,15 +1805,15 @@ Important
   vertical-align: top;
 }
 
-#kuuqucjfjl .gt_row_group_first td {
+#olvkhlzway .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#kuuqucjfjl .gt_row_group_first th {
+#olvkhlzway .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#kuuqucjfjl .gt_summary_row {
+#olvkhlzway .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1820,16 +1823,16 @@ Important
   padding-right: 5px;
 }
 
-#kuuqucjfjl .gt_first_summary_row {
+#olvkhlzway .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#kuuqucjfjl .gt_first_summary_row.thick {
+#olvkhlzway .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#kuuqucjfjl .gt_last_summary_row {
+#olvkhlzway .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1839,7 +1842,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#kuuqucjfjl .gt_grand_summary_row {
+#olvkhlzway .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1849,7 +1852,7 @@ Important
   padding-right: 5px;
 }
 
-#kuuqucjfjl .gt_first_grand_summary_row {
+#olvkhlzway .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1859,7 +1862,7 @@ Important
   border-top-color: #D3D3D3;
 }
 
-#kuuqucjfjl .gt_last_grand_summary_row_top {
+#olvkhlzway .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1869,11 +1872,11 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#kuuqucjfjl .gt_striped {
+#olvkhlzway .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#kuuqucjfjl .gt_table_body {
+#olvkhlzway .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1882,7 +1885,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#kuuqucjfjl .gt_footnotes {
+#olvkhlzway .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1896,7 +1899,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#kuuqucjfjl .gt_footnote {
+#olvkhlzway .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1905,7 +1908,7 @@ Important
   padding-right: 5px;
 }
 
-#kuuqucjfjl .gt_sourcenotes {
+#olvkhlzway .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1919,7 +1922,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#kuuqucjfjl .gt_sourcenote {
+#olvkhlzway .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1927,72 +1930,72 @@ Important
   padding-right: 5px;
 }
 
-#kuuqucjfjl .gt_left {
+#olvkhlzway .gt_left {
   text-align: left;
 }
 
-#kuuqucjfjl .gt_center {
+#olvkhlzway .gt_center {
   text-align: center;
 }
 
-#kuuqucjfjl .gt_right {
+#olvkhlzway .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kuuqucjfjl .gt_font_normal {
+#olvkhlzway .gt_font_normal {
   font-weight: normal;
 }
 
-#kuuqucjfjl .gt_font_bold {
+#olvkhlzway .gt_font_bold {
   font-weight: bold;
 }
 
-#kuuqucjfjl .gt_font_italic {
+#olvkhlzway .gt_font_italic {
   font-style: italic;
 }
 
-#kuuqucjfjl .gt_super {
+#olvkhlzway .gt_super {
   font-size: 65%;
 }
 
-#kuuqucjfjl .gt_footnote_marks {
+#olvkhlzway .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#kuuqucjfjl .gt_asterisk {
+#olvkhlzway .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#kuuqucjfjl .gt_indent_1 {
+#olvkhlzway .gt_indent_1 {
   text-indent: 5px;
 }
 
-#kuuqucjfjl .gt_indent_2 {
+#olvkhlzway .gt_indent_2 {
   text-indent: 10px;
 }
 
-#kuuqucjfjl .gt_indent_3 {
+#olvkhlzway .gt_indent_3 {
   text-indent: 15px;
 }
 
-#kuuqucjfjl .gt_indent_4 {
+#olvkhlzway .gt_indent_4 {
   text-indent: 20px;
 }
 
-#kuuqucjfjl .gt_indent_5 {
+#olvkhlzway .gt_indent_5 {
   text-indent: 25px;
 }
 
-#kuuqucjfjl .katex-display {
+#olvkhlzway .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#kuuqucjfjl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#olvkhlzway div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2189,23 +2192,23 @@ Important
 <span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="pkkzpjtiug" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#pkkzpjtiug table {
+<div id="qkswdluspz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qkswdluspz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#pkkzpjtiug thead, #pkkzpjtiug tbody, #pkkzpjtiug tfoot, #pkkzpjtiug tr, #pkkzpjtiug td, #pkkzpjtiug th {
+#qkswdluspz thead, #qkswdluspz tbody, #qkswdluspz tfoot, #qkswdluspz tr, #qkswdluspz td, #qkswdluspz th {
   border-style: none;
 }
 
-#pkkzpjtiug p {
+#qkswdluspz p {
   margin: 0;
   padding: 0;
 }
 
-#pkkzpjtiug .gt_table {
+#qkswdluspz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2231,12 +2234,12 @@ Important
   border-left-color: #D3D3D3;
 }
 
-#pkkzpjtiug .gt_caption {
+#qkswdluspz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#pkkzpjtiug .gt_title {
+#qkswdluspz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2248,7 +2251,7 @@ Important
   border-bottom-width: 0;
 }
 
-#pkkzpjtiug .gt_subtitle {
+#qkswdluspz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2260,7 +2263,7 @@ Important
   border-top-width: 0;
 }
 
-#pkkzpjtiug .gt_heading {
+#qkswdluspz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2272,13 +2275,13 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pkkzpjtiug .gt_bottom_border {
+#qkswdluspz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pkkzpjtiug .gt_col_headings {
+#qkswdluspz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2293,7 +2296,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pkkzpjtiug .gt_col_heading {
+#qkswdluspz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2313,7 +2316,7 @@ Important
   overflow-x: hidden;
 }
 
-#pkkzpjtiug .gt_column_spanner_outer {
+#qkswdluspz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2325,15 +2328,15 @@ Important
   padding-right: 4px;
 }
 
-#pkkzpjtiug .gt_column_spanner_outer:first-child {
+#qkswdluspz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pkkzpjtiug .gt_column_spanner_outer:last-child {
+#qkswdluspz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pkkzpjtiug .gt_column_spanner {
+#qkswdluspz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2345,11 +2348,11 @@ Important
   width: 100%;
 }
 
-#pkkzpjtiug .gt_spanner_row {
+#qkswdluspz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#pkkzpjtiug .gt_group_heading {
+#qkswdluspz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2375,7 +2378,7 @@ Important
   text-align: left;
 }
 
-#pkkzpjtiug .gt_empty_group_heading {
+#qkswdluspz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2390,15 +2393,15 @@ Important
   vertical-align: middle;
 }
 
-#pkkzpjtiug .gt_from_md > :first-child {
+#qkswdluspz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pkkzpjtiug .gt_from_md > :last-child {
+#qkswdluspz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pkkzpjtiug .gt_row {
+#qkswdluspz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2417,7 +2420,7 @@ Important
   overflow-x: hidden;
 }
 
-#pkkzpjtiug .gt_stub {
+#qkswdluspz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2430,7 +2433,7 @@ Important
   padding-right: 5px;
 }
 
-#pkkzpjtiug .gt_stub_row_group {
+#qkswdluspz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2444,15 +2447,15 @@ Important
   vertical-align: top;
 }
 
-#pkkzpjtiug .gt_row_group_first td {
+#qkswdluspz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pkkzpjtiug .gt_row_group_first th {
+#qkswdluspz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#pkkzpjtiug .gt_summary_row {
+#qkswdluspz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2462,16 +2465,16 @@ Important
   padding-right: 5px;
 }
 
-#pkkzpjtiug .gt_first_summary_row {
+#qkswdluspz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pkkzpjtiug .gt_first_summary_row.thick {
+#qkswdluspz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pkkzpjtiug .gt_last_summary_row {
+#qkswdluspz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2481,7 +2484,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#pkkzpjtiug .gt_grand_summary_row {
+#qkswdluspz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2491,7 +2494,7 @@ Important
   padding-right: 5px;
 }
 
-#pkkzpjtiug .gt_first_grand_summary_row {
+#qkswdluspz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2501,7 +2504,7 @@ Important
   border-top-color: #D3D3D3;
 }
 
-#pkkzpjtiug .gt_last_grand_summary_row_top {
+#qkswdluspz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2511,11 +2514,11 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#pkkzpjtiug .gt_striped {
+#qkswdluspz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pkkzpjtiug .gt_table_body {
+#qkswdluspz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2524,7 +2527,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#pkkzpjtiug .gt_footnotes {
+#qkswdluspz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2538,7 +2541,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pkkzpjtiug .gt_footnote {
+#qkswdluspz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2547,7 +2550,7 @@ Important
   padding-right: 5px;
 }
 
-#pkkzpjtiug .gt_sourcenotes {
+#qkswdluspz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2561,7 +2564,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pkkzpjtiug .gt_sourcenote {
+#qkswdluspz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2569,72 +2572,72 @@ Important
   padding-right: 5px;
 }
 
-#pkkzpjtiug .gt_left {
+#qkswdluspz .gt_left {
   text-align: left;
 }
 
-#pkkzpjtiug .gt_center {
+#qkswdluspz .gt_center {
   text-align: center;
 }
 
-#pkkzpjtiug .gt_right {
+#qkswdluspz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pkkzpjtiug .gt_font_normal {
+#qkswdluspz .gt_font_normal {
   font-weight: normal;
 }
 
-#pkkzpjtiug .gt_font_bold {
+#qkswdluspz .gt_font_bold {
   font-weight: bold;
 }
 
-#pkkzpjtiug .gt_font_italic {
+#qkswdluspz .gt_font_italic {
   font-style: italic;
 }
 
-#pkkzpjtiug .gt_super {
+#qkswdluspz .gt_super {
   font-size: 65%;
 }
 
-#pkkzpjtiug .gt_footnote_marks {
+#qkswdluspz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#pkkzpjtiug .gt_asterisk {
+#qkswdluspz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pkkzpjtiug .gt_indent_1 {
+#qkswdluspz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#pkkzpjtiug .gt_indent_2 {
+#qkswdluspz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#pkkzpjtiug .gt_indent_3 {
+#qkswdluspz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#pkkzpjtiug .gt_indent_4 {
+#qkswdluspz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#pkkzpjtiug .gt_indent_5 {
+#qkswdluspz .gt_indent_5 {
   text-indent: 25px;
 }
 
-#pkkzpjtiug .katex-display {
+#qkswdluspz .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#pkkzpjtiug div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#qkswdluspz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2775,8 +2778,10 @@ Important
 </div>
 </div>
 </div>
-<section id="fonction-match_tld_in_email_domain" class="level4">
-<h4 class="anchored" data-anchor-id="fonction-match_tld_in_email_domain">fonction <code>match_tld_in_email_domain</code></h4>
+</section>
+<section id="extraction-des-tlds" class="level3">
+<h3 class="anchored" data-anchor-id="extraction-des-tlds">Extraction des TLDs</h3>
+<p>La fonction <code>match_tld_in_email_domain</code> récupère le TLD (Top Level Domain)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>match_tld_in_email_domain <span class="ot">&lt;-</span> <span class="cf">function</span>(str) {</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -2791,33 +2796,26 @@ Important
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="extraction-des-tlds" class="level4">
-<h4 class="anchored" data-anchor-id="extraction-des-tlds">Extraction des TLDs</h4>
+<section id="création-du-tibble-tbl_emails-à-partir-de-tbl_unique_emails_in_authorsr" class="level3">
+<h3 class="anchored" data-anchor-id="création-du-tibble-tbl_emails-à-partir-de-tbl_unique_emails_in_authorsr">Création du tibble <code>tbl_emails</code> à partir de <code>tbl_unique_emails_in_authorsR</code></h3>
+<p>On rajoute seulement le champ <code>tld</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mail_tlds <span class="ot">&lt;-</span> tbl_unique_emails_in_authorsR<span class="sc">$</span>email_domain <span class="sc">|&gt;</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(match_tld_in_email_domain) <span class="sc">|&gt;</span> </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tbl_emails <span class="ot">&lt;-</span> tbl_unique_emails_in_authorsR <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tld =</span> <span class="fu">match_tld_in_email_domain</span>(email_domain)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="co"># else it causes error with summarize function</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>              <span class="co"># Can't supply `.by` when `.data` is a rowwise data frame.</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>              <span class="co"># because of rowwise_df class</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="ajout-à-la-table-dinformation-renommée-tbl_emails" class="level4">
-<h4 class="anchored" data-anchor-id="ajout-à-la-table-dinformation-renommée-tbl_emails">Ajout à la table d’information renommée <code>tbl_emails</code></h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tbl_emails <span class="ot">&lt;-</span> tbl_unique_emails_in_authorsR <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tld =</span> mail_tlds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="sauvegarde-des-informations-sur-les-adresses-de-messagerie" class="level4">
-<h4 class="anchored" data-anchor-id="sauvegarde-des-informations-sur-les-adresses-de-messagerie">Sauvegarde des informations sur les adresses de messagerie</h4>
+<section id="sauvegarde-des-informations-sur-les-adresses-de-messagerie" class="level3">
+<h3 class="anchored" data-anchor-id="sauvegarde-des-informations-sur-les-adresses-de-messagerie">Sauvegarde des informations sur les adresses de messagerie</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> tbl_emails,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">paste</span>(<span class="fu">Sys.Date</span>(),<span class="st">"tbl_emails.RDS"</span>, <span class="at">sep =</span> <span class="st">"_"</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">################ TO DO</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
 <section id="décompte-des-email_id-email_domain-et-tld" class="level4">
 <h4 class="anchored" data-anchor-id="décompte-des-email_id-email_domain-et-tld">Décompte des <code>email_id</code>, <code>email_domain</code> et <code>tld</code></h4>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -2832,10 +2830,10 @@ Note
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Sur les 32888 recensés on dénombre :</p>
+<p>Sur les 32892 recensés on dénombre :</p>
 <ul>
-<li>19342 emails différents,</li>
-<li>4163 serveurs de messagerie différents,</li>
+<li>19343 emails différents,</li>
+<li>4164 serveurs de messagerie différents,</li>
 <li>159 TLD différents,</li>
 </ul>
 </div>
@@ -2848,12 +2846,12 @@ Note
 <li>classement du nombre d’emails (dans le champ <code>Authors@R</code>) par package R</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tbl_emails <span class="sc">|&gt;</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">email_per_pkg =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"Package"</span>) <span class="sc">|&gt;</span>  </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(email_per_pkg)) <span class="sc">|&gt;</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tbl_emails <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">email_per_pkg =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"Package"</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(email_per_pkg)) <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 22,020 × 2
+<pre><code># A tibble: 22,023 × 2
    Package         email_per_pkg
    &lt;chr&gt;                   &lt;int&gt;
  1 mlpack                    145
@@ -2876,46 +2874,46 @@ Note
 18 Rage                       18
 19 refund                     18
 20 wallace                    18
-# ℹ 22,000 more rows</code></pre>
+# ℹ 22,003 more rows</code></pre>
 </div>
 </div>
 <ul>
 <li>classement par occurrences d’emails</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>email_occurrences <span class="ot">&lt;-</span> emails <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"email"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n), email)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>gt_email_occurrences <span class="ot">&lt;-</span> <span class="fu">gt</span>(email_occurrences <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">30</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Email in packages db sorted by occurrences**"</span>),</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"**( email displayed only for n &gt;= 30 )**"</span>))</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote  =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Données valables pour le "</span>, <span class="fu">Sys.Date</span>())),</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>gt_email_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>email_occurrences <span class="ot">&lt;-</span> emails <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"email"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n), email)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>gt_email_occurrences <span class="ot">&lt;-</span> <span class="fu">gt</span>(email_occurrences <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">30</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Email in packages db sorted by occurrences**"</span>),</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"**( email displayed only for n &gt;= 30 )**"</span>))</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote  =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Données valables pour le "</span>, <span class="fu">Sys.Date</span>())),</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>gt_email_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="pvqeaszwyq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#pvqeaszwyq table {
+<div id="zwmgqaputs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zwmgqaputs table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#pvqeaszwyq thead, #pvqeaszwyq tbody, #pvqeaszwyq tfoot, #pvqeaszwyq tr, #pvqeaszwyq td, #pvqeaszwyq th {
+#zwmgqaputs thead, #zwmgqaputs tbody, #zwmgqaputs tfoot, #zwmgqaputs tr, #zwmgqaputs td, #zwmgqaputs th {
   border-style: none;
 }
 
-#pvqeaszwyq p {
+#zwmgqaputs p {
   margin: 0;
   padding: 0;
 }
 
-#pvqeaszwyq .gt_table {
+#zwmgqaputs .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2941,12 +2939,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#pvqeaszwyq .gt_caption {
+#zwmgqaputs .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#pvqeaszwyq .gt_title {
+#zwmgqaputs .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2958,7 +2956,7 @@ Note
   border-bottom-width: 0;
 }
 
-#pvqeaszwyq .gt_subtitle {
+#zwmgqaputs .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2970,7 +2968,7 @@ Note
   border-top-width: 0;
 }
 
-#pvqeaszwyq .gt_heading {
+#zwmgqaputs .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2982,13 +2980,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#pvqeaszwyq .gt_bottom_border {
+#zwmgqaputs .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pvqeaszwyq .gt_col_headings {
+#zwmgqaputs .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3003,7 +3001,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#pvqeaszwyq .gt_col_heading {
+#zwmgqaputs .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3023,7 +3021,7 @@ Note
   overflow-x: hidden;
 }
 
-#pvqeaszwyq .gt_column_spanner_outer {
+#zwmgqaputs .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3035,15 +3033,15 @@ Note
   padding-right: 4px;
 }
 
-#pvqeaszwyq .gt_column_spanner_outer:first-child {
+#zwmgqaputs .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pvqeaszwyq .gt_column_spanner_outer:last-child {
+#zwmgqaputs .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pvqeaszwyq .gt_column_spanner {
+#zwmgqaputs .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3055,11 +3053,11 @@ Note
   width: 100%;
 }
 
-#pvqeaszwyq .gt_spanner_row {
+#zwmgqaputs .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#pvqeaszwyq .gt_group_heading {
+#zwmgqaputs .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3085,7 +3083,7 @@ Note
   text-align: left;
 }
 
-#pvqeaszwyq .gt_empty_group_heading {
+#zwmgqaputs .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3100,15 +3098,15 @@ Note
   vertical-align: middle;
 }
 
-#pvqeaszwyq .gt_from_md > :first-child {
+#zwmgqaputs .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pvqeaszwyq .gt_from_md > :last-child {
+#zwmgqaputs .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pvqeaszwyq .gt_row {
+#zwmgqaputs .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3127,7 +3125,7 @@ Note
   overflow-x: hidden;
 }
 
-#pvqeaszwyq .gt_stub {
+#zwmgqaputs .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3140,7 +3138,7 @@ Note
   padding-right: 5px;
 }
 
-#pvqeaszwyq .gt_stub_row_group {
+#zwmgqaputs .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3154,15 +3152,15 @@ Note
   vertical-align: top;
 }
 
-#pvqeaszwyq .gt_row_group_first td {
+#zwmgqaputs .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pvqeaszwyq .gt_row_group_first th {
+#zwmgqaputs .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#pvqeaszwyq .gt_summary_row {
+#zwmgqaputs .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3172,16 +3170,16 @@ Note
   padding-right: 5px;
 }
 
-#pvqeaszwyq .gt_first_summary_row {
+#zwmgqaputs .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pvqeaszwyq .gt_first_summary_row.thick {
+#zwmgqaputs .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pvqeaszwyq .gt_last_summary_row {
+#zwmgqaputs .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3191,7 +3189,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#pvqeaszwyq .gt_grand_summary_row {
+#zwmgqaputs .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3201,7 +3199,7 @@ Note
   padding-right: 5px;
 }
 
-#pvqeaszwyq .gt_first_grand_summary_row {
+#zwmgqaputs .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3211,7 +3209,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#pvqeaszwyq .gt_last_grand_summary_row_top {
+#zwmgqaputs .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3221,11 +3219,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#pvqeaszwyq .gt_striped {
+#zwmgqaputs .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pvqeaszwyq .gt_table_body {
+#zwmgqaputs .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3234,7 +3232,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#pvqeaszwyq .gt_footnotes {
+#zwmgqaputs .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3248,7 +3246,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#pvqeaszwyq .gt_footnote {
+#zwmgqaputs .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3257,7 +3255,7 @@ Note
   padding-right: 5px;
 }
 
-#pvqeaszwyq .gt_sourcenotes {
+#zwmgqaputs .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3271,7 +3269,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#pvqeaszwyq .gt_sourcenote {
+#zwmgqaputs .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3279,72 +3277,72 @@ Note
   padding-right: 5px;
 }
 
-#pvqeaszwyq .gt_left {
+#zwmgqaputs .gt_left {
   text-align: left;
 }
 
-#pvqeaszwyq .gt_center {
+#zwmgqaputs .gt_center {
   text-align: center;
 }
 
-#pvqeaszwyq .gt_right {
+#zwmgqaputs .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pvqeaszwyq .gt_font_normal {
+#zwmgqaputs .gt_font_normal {
   font-weight: normal;
 }
 
-#pvqeaszwyq .gt_font_bold {
+#zwmgqaputs .gt_font_bold {
   font-weight: bold;
 }
 
-#pvqeaszwyq .gt_font_italic {
+#zwmgqaputs .gt_font_italic {
   font-style: italic;
 }
 
-#pvqeaszwyq .gt_super {
+#zwmgqaputs .gt_super {
   font-size: 65%;
 }
 
-#pvqeaszwyq .gt_footnote_marks {
+#zwmgqaputs .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#pvqeaszwyq .gt_asterisk {
+#zwmgqaputs .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pvqeaszwyq .gt_indent_1 {
+#zwmgqaputs .gt_indent_1 {
   text-indent: 5px;
 }
 
-#pvqeaszwyq .gt_indent_2 {
+#zwmgqaputs .gt_indent_2 {
   text-indent: 10px;
 }
 
-#pvqeaszwyq .gt_indent_3 {
+#zwmgqaputs .gt_indent_3 {
   text-indent: 15px;
 }
 
-#pvqeaszwyq .gt_indent_4 {
+#zwmgqaputs .gt_indent_4 {
   text-indent: 20px;
 }
 
-#pvqeaszwyq .gt_indent_5 {
+#zwmgqaputs .gt_indent_5 {
   text-indent: 25px;
 }
 
-#pvqeaszwyq .katex-display {
+#zwmgqaputs .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#pvqeaszwyq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zwmgqaputs div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3437,7 +3435,7 @@ Note
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-07</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-08</td>
 </tr>
 </tfoot>
 
@@ -3450,37 +3448,37 @@ Note
 <li>graphe log log</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>table_email_occurrences <span class="ot">&lt;-</span> <span class="fu">table</span>(email_occurrences<span class="sc">$</span>n)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>tbl_email_occurences <span class="ot">&lt;-</span> table_email_occurrences <span class="sc">|&gt;</span> </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">n =</span> <span class="fu">as.numeric</span>(<span class="fu">dimnames</span>(table_email_occurrences)[[<span class="dv">1</span>]])) <span class="sc">|&gt;</span> </span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">frequence =</span> V1)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> tbl_email_occurences) <span class="sc">+</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(n), <span class="at">y =</span> <span class="fu">log</span>(frequence))) <span class="sc">+</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(n), <span class="at">y =</span> <span class="fu">log</span>(frequence))) <span class="sc">+</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Log-log graph relatively to email occurrence frequencies"</span>,</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"email occurrences (log scale)"</span>,</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"frequency (log scale)"</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>table_email_occurrences <span class="ot">&lt;-</span> <span class="fu">table</span>(email_occurrences<span class="sc">$</span>n)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>tbl_email_occurences <span class="ot">&lt;-</span> table_email_occurrences <span class="sc">|&gt;</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">n =</span> <span class="fu">as.numeric</span>(<span class="fu">dimnames</span>(table_email_occurrences)[[<span class="dv">1</span>]])) <span class="sc">|&gt;</span> </span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">frequence =</span> V1)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> tbl_email_occurences) <span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(n), <span class="at">y =</span> <span class="fu">log</span>(frequence))) <span class="sc">+</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(n), <span class="at">y =</span> <span class="fu">log</span>(frequence))) <span class="sc">+</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Log-log graph relatively to email occurrence frequencies"</span>,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"email occurrences (log scale)"</span>,</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"frequency (log scale)"</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>eq <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(frequence) <span class="sc">~</span> <span class="fu">log</span>(n), <span class="at">data =</span> tbl_email_occurences)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>eq<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>eq <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(frequence) <span class="sc">~</span> <span class="fu">log</span>(n), <span class="at">data =</span> tbl_email_occurences)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>eq<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)      log(n) 
-   9.389961   -2.460639 </code></pre>
+   9.390184   -2.460706 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -3501,7 +3499,7 @@ Note
 <p>Soit <span class="math display">\[e^{\ln(freq)} = e^{a \times \ln(n)} \times e^b\]</span></p>
 <p>Soit <span class="math display">\[freq = e^{\ln(n^a)} \times e^b\]</span></p>
 <p>Soit <span class="math display">\[freq = n^a \times e^b\]</span></p>
-<p>avec <span class="math inline">\(a =\)</span> -2.4606393 et <span class="math inline">\(b =\)</span> 9.3899609</p>
+<p>avec <span class="math inline">\(a =\)</span> -2.4607056 et <span class="math inline">\(b =\)</span> 9.3901844</p>
 </div>
 </div>
 </div>
@@ -3512,43 +3510,43 @@ Note
 <li>classement par occurrences de serveurs de messagerie</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mail_server_occurrences <span class="ot">&lt;-</span> tbl_emails <span class="sc">|&gt;</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(email_id, email_domain) <span class="sc">|&gt;</span> </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(email_id) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(email_domain)) <span class="sc">|&gt;</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"email_domain"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n), <span class="st">"email_domain"</span>)</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>gt_mail_server_occurrences <span class="ot">&lt;-</span> <span class="fu">gt</span>(mail_server_occurrences <span class="sc">|&gt;</span> </span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>                                   dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">50</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Mail server in packages db sorted by occurrences**"</span>),</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"**( Mail server displayed only for n &gt;= 50 )**"</span>))</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote  =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Données valables pour le "</span>, <span class="fu">Sys.Date</span>())),</span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>gt_mail_server_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>mail_server_occurrences <span class="ot">&lt;-</span> tbl_emails <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(email_id, email_domain) <span class="sc">|&gt;</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(email_id) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(email_domain)) <span class="sc">|&gt;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"email_domain"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n), <span class="st">"email_domain"</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>gt_mail_server_occurrences <span class="ot">&lt;-</span> <span class="fu">gt</span>(mail_server_occurrences <span class="sc">|&gt;</span> </span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                                   dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">50</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Mail server in packages db sorted by occurrences**"</span>),</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"**( Mail server displayed only for n &gt;= 50 )**"</span>))</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote  =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Données valables pour le "</span>, <span class="fu">Sys.Date</span>())),</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>gt_mail_server_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="bffljbzymn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bffljbzymn table {
+<div id="wazzgcwdpb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wazzgcwdpb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bffljbzymn thead, #bffljbzymn tbody, #bffljbzymn tfoot, #bffljbzymn tr, #bffljbzymn td, #bffljbzymn th {
+#wazzgcwdpb thead, #wazzgcwdpb tbody, #wazzgcwdpb tfoot, #wazzgcwdpb tr, #wazzgcwdpb td, #wazzgcwdpb th {
   border-style: none;
 }
 
-#bffljbzymn p {
+#wazzgcwdpb p {
   margin: 0;
   padding: 0;
 }
 
-#bffljbzymn .gt_table {
+#wazzgcwdpb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3574,12 +3572,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#bffljbzymn .gt_caption {
+#wazzgcwdpb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bffljbzymn .gt_title {
+#wazzgcwdpb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3591,7 +3589,7 @@ Note
   border-bottom-width: 0;
 }
 
-#bffljbzymn .gt_subtitle {
+#wazzgcwdpb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3603,7 +3601,7 @@ Note
   border-top-width: 0;
 }
 
-#bffljbzymn .gt_heading {
+#wazzgcwdpb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3615,13 +3613,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#bffljbzymn .gt_bottom_border {
+#wazzgcwdpb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bffljbzymn .gt_col_headings {
+#wazzgcwdpb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3636,7 +3634,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#bffljbzymn .gt_col_heading {
+#wazzgcwdpb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3656,7 +3654,7 @@ Note
   overflow-x: hidden;
 }
 
-#bffljbzymn .gt_column_spanner_outer {
+#wazzgcwdpb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3668,15 +3666,15 @@ Note
   padding-right: 4px;
 }
 
-#bffljbzymn .gt_column_spanner_outer:first-child {
+#wazzgcwdpb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bffljbzymn .gt_column_spanner_outer:last-child {
+#wazzgcwdpb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bffljbzymn .gt_column_spanner {
+#wazzgcwdpb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3688,11 +3686,11 @@ Note
   width: 100%;
 }
 
-#bffljbzymn .gt_spanner_row {
+#wazzgcwdpb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bffljbzymn .gt_group_heading {
+#wazzgcwdpb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3718,7 +3716,7 @@ Note
   text-align: left;
 }
 
-#bffljbzymn .gt_empty_group_heading {
+#wazzgcwdpb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3733,15 +3731,15 @@ Note
   vertical-align: middle;
 }
 
-#bffljbzymn .gt_from_md > :first-child {
+#wazzgcwdpb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bffljbzymn .gt_from_md > :last-child {
+#wazzgcwdpb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bffljbzymn .gt_row {
+#wazzgcwdpb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3760,7 +3758,7 @@ Note
   overflow-x: hidden;
 }
 
-#bffljbzymn .gt_stub {
+#wazzgcwdpb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3773,7 +3771,7 @@ Note
   padding-right: 5px;
 }
 
-#bffljbzymn .gt_stub_row_group {
+#wazzgcwdpb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3787,15 +3785,15 @@ Note
   vertical-align: top;
 }
 
-#bffljbzymn .gt_row_group_first td {
+#wazzgcwdpb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bffljbzymn .gt_row_group_first th {
+#wazzgcwdpb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bffljbzymn .gt_summary_row {
+#wazzgcwdpb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3805,16 +3803,16 @@ Note
   padding-right: 5px;
 }
 
-#bffljbzymn .gt_first_summary_row {
+#wazzgcwdpb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bffljbzymn .gt_first_summary_row.thick {
+#wazzgcwdpb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bffljbzymn .gt_last_summary_row {
+#wazzgcwdpb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3824,7 +3822,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#bffljbzymn .gt_grand_summary_row {
+#wazzgcwdpb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3834,7 +3832,7 @@ Note
   padding-right: 5px;
 }
 
-#bffljbzymn .gt_first_grand_summary_row {
+#wazzgcwdpb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3844,7 +3842,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#bffljbzymn .gt_last_grand_summary_row_top {
+#wazzgcwdpb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3854,11 +3852,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#bffljbzymn .gt_striped {
+#wazzgcwdpb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bffljbzymn .gt_table_body {
+#wazzgcwdpb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3867,7 +3865,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#bffljbzymn .gt_footnotes {
+#wazzgcwdpb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3881,7 +3879,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#bffljbzymn .gt_footnote {
+#wazzgcwdpb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3890,7 +3888,7 @@ Note
   padding-right: 5px;
 }
 
-#bffljbzymn .gt_sourcenotes {
+#wazzgcwdpb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3904,7 +3902,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#bffljbzymn .gt_sourcenote {
+#wazzgcwdpb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3912,72 +3910,72 @@ Note
   padding-right: 5px;
 }
 
-#bffljbzymn .gt_left {
+#wazzgcwdpb .gt_left {
   text-align: left;
 }
 
-#bffljbzymn .gt_center {
+#wazzgcwdpb .gt_center {
   text-align: center;
 }
 
-#bffljbzymn .gt_right {
+#wazzgcwdpb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bffljbzymn .gt_font_normal {
+#wazzgcwdpb .gt_font_normal {
   font-weight: normal;
 }
 
-#bffljbzymn .gt_font_bold {
+#wazzgcwdpb .gt_font_bold {
   font-weight: bold;
 }
 
-#bffljbzymn .gt_font_italic {
+#wazzgcwdpb .gt_font_italic {
   font-style: italic;
 }
 
-#bffljbzymn .gt_super {
+#wazzgcwdpb .gt_super {
   font-size: 65%;
 }
 
-#bffljbzymn .gt_footnote_marks {
+#wazzgcwdpb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bffljbzymn .gt_asterisk {
+#wazzgcwdpb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bffljbzymn .gt_indent_1 {
+#wazzgcwdpb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bffljbzymn .gt_indent_2 {
+#wazzgcwdpb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bffljbzymn .gt_indent_3 {
+#wazzgcwdpb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bffljbzymn .gt_indent_4 {
+#wazzgcwdpb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bffljbzymn .gt_indent_5 {
+#wazzgcwdpb .gt_indent_5 {
   text-indent: 25px;
 }
 
-#bffljbzymn .katex-display {
+#wazzgcwdpb .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#bffljbzymn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#wazzgcwdpb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4066,7 +4064,7 @@ Note
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-07</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-08</td>
 </tr>
 </tfoot>
 
@@ -4079,42 +4077,42 @@ Note
 <li>classement par occurrences de TLD</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>TLD_occurrences <span class="ot">&lt;-</span> tbl_emails <span class="sc">|&gt;</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(email_id, email_domain, tld) <span class="sc">|&gt;</span> </span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(email_id) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(email_domain)) <span class="sc">|&gt;</span> </span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"tld"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n), tld)</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>gt_TLD_occurrences <span class="ot">&lt;-</span> <span class="fu">gt</span>(TLD_occurrences <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">100</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Mail server TLDs in packages db sorted by occurrences**"</span>),</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"**( Mail server TLD displayed only for n &gt;= 100 )**"</span>))</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote  =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Données valables pour le "</span>, <span class="fu">Sys.Date</span>())),</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>gt_TLD_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>TLD_occurrences <span class="ot">&lt;-</span> tbl_emails <span class="sc">|&gt;</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(email_id, email_domain, tld) <span class="sc">|&gt;</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(email_id) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(email_domain)) <span class="sc">|&gt;</span> </span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="st">"tld"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n), tld)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>gt_TLD_occurrences <span class="ot">&lt;-</span> <span class="fu">gt</span>(TLD_occurrences <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">100</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Mail server TLDs in packages db sorted by occurrences**"</span>),</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"**( Mail server TLD displayed only for n &gt;= 100 )**"</span>))</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote  =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Données valables pour le "</span>, <span class="fu">Sys.Date</span>())),</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>gt_TLD_occurrences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="pozlrbmmqd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#pozlrbmmqd table {
+<div id="brmjagnmyq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#brmjagnmyq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#pozlrbmmqd thead, #pozlrbmmqd tbody, #pozlrbmmqd tfoot, #pozlrbmmqd tr, #pozlrbmmqd td, #pozlrbmmqd th {
+#brmjagnmyq thead, #brmjagnmyq tbody, #brmjagnmyq tfoot, #brmjagnmyq tr, #brmjagnmyq td, #brmjagnmyq th {
   border-style: none;
 }
 
-#pozlrbmmqd p {
+#brmjagnmyq p {
   margin: 0;
   padding: 0;
 }
 
-#pozlrbmmqd .gt_table {
+#brmjagnmyq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4140,12 +4138,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#pozlrbmmqd .gt_caption {
+#brmjagnmyq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#pozlrbmmqd .gt_title {
+#brmjagnmyq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4157,7 +4155,7 @@ Note
   border-bottom-width: 0;
 }
 
-#pozlrbmmqd .gt_subtitle {
+#brmjagnmyq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4169,7 +4167,7 @@ Note
   border-top-width: 0;
 }
 
-#pozlrbmmqd .gt_heading {
+#brmjagnmyq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4181,13 +4179,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#pozlrbmmqd .gt_bottom_border {
+#brmjagnmyq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pozlrbmmqd .gt_col_headings {
+#brmjagnmyq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4202,7 +4200,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#pozlrbmmqd .gt_col_heading {
+#brmjagnmyq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4222,7 +4220,7 @@ Note
   overflow-x: hidden;
 }
 
-#pozlrbmmqd .gt_column_spanner_outer {
+#brmjagnmyq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4234,15 +4232,15 @@ Note
   padding-right: 4px;
 }
 
-#pozlrbmmqd .gt_column_spanner_outer:first-child {
+#brmjagnmyq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pozlrbmmqd .gt_column_spanner_outer:last-child {
+#brmjagnmyq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pozlrbmmqd .gt_column_spanner {
+#brmjagnmyq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4254,11 +4252,11 @@ Note
   width: 100%;
 }
 
-#pozlrbmmqd .gt_spanner_row {
+#brmjagnmyq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#pozlrbmmqd .gt_group_heading {
+#brmjagnmyq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4284,7 +4282,7 @@ Note
   text-align: left;
 }
 
-#pozlrbmmqd .gt_empty_group_heading {
+#brmjagnmyq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4299,15 +4297,15 @@ Note
   vertical-align: middle;
 }
 
-#pozlrbmmqd .gt_from_md > :first-child {
+#brmjagnmyq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pozlrbmmqd .gt_from_md > :last-child {
+#brmjagnmyq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pozlrbmmqd .gt_row {
+#brmjagnmyq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4326,7 +4324,7 @@ Note
   overflow-x: hidden;
 }
 
-#pozlrbmmqd .gt_stub {
+#brmjagnmyq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4339,7 +4337,7 @@ Note
   padding-right: 5px;
 }
 
-#pozlrbmmqd .gt_stub_row_group {
+#brmjagnmyq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4353,15 +4351,15 @@ Note
   vertical-align: top;
 }
 
-#pozlrbmmqd .gt_row_group_first td {
+#brmjagnmyq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pozlrbmmqd .gt_row_group_first th {
+#brmjagnmyq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#pozlrbmmqd .gt_summary_row {
+#brmjagnmyq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4371,16 +4369,16 @@ Note
   padding-right: 5px;
 }
 
-#pozlrbmmqd .gt_first_summary_row {
+#brmjagnmyq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pozlrbmmqd .gt_first_summary_row.thick {
+#brmjagnmyq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pozlrbmmqd .gt_last_summary_row {
+#brmjagnmyq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4390,7 +4388,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#pozlrbmmqd .gt_grand_summary_row {
+#brmjagnmyq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4400,7 +4398,7 @@ Note
   padding-right: 5px;
 }
 
-#pozlrbmmqd .gt_first_grand_summary_row {
+#brmjagnmyq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4410,7 +4408,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#pozlrbmmqd .gt_last_grand_summary_row_top {
+#brmjagnmyq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4420,11 +4418,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#pozlrbmmqd .gt_striped {
+#brmjagnmyq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pozlrbmmqd .gt_table_body {
+#brmjagnmyq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4433,7 +4431,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#pozlrbmmqd .gt_footnotes {
+#brmjagnmyq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4447,7 +4445,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#pozlrbmmqd .gt_footnote {
+#brmjagnmyq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4456,7 +4454,7 @@ Note
   padding-right: 5px;
 }
 
-#pozlrbmmqd .gt_sourcenotes {
+#brmjagnmyq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4470,7 +4468,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#pozlrbmmqd .gt_sourcenote {
+#brmjagnmyq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4478,72 +4476,72 @@ Note
   padding-right: 5px;
 }
 
-#pozlrbmmqd .gt_left {
+#brmjagnmyq .gt_left {
   text-align: left;
 }
 
-#pozlrbmmqd .gt_center {
+#brmjagnmyq .gt_center {
   text-align: center;
 }
 
-#pozlrbmmqd .gt_right {
+#brmjagnmyq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pozlrbmmqd .gt_font_normal {
+#brmjagnmyq .gt_font_normal {
   font-weight: normal;
 }
 
-#pozlrbmmqd .gt_font_bold {
+#brmjagnmyq .gt_font_bold {
   font-weight: bold;
 }
 
-#pozlrbmmqd .gt_font_italic {
+#brmjagnmyq .gt_font_italic {
   font-style: italic;
 }
 
-#pozlrbmmqd .gt_super {
+#brmjagnmyq .gt_super {
   font-size: 65%;
 }
 
-#pozlrbmmqd .gt_footnote_marks {
+#brmjagnmyq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#pozlrbmmqd .gt_asterisk {
+#brmjagnmyq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pozlrbmmqd .gt_indent_1 {
+#brmjagnmyq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#pozlrbmmqd .gt_indent_2 {
+#brmjagnmyq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#pozlrbmmqd .gt_indent_3 {
+#brmjagnmyq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#pozlrbmmqd .gt_indent_4 {
+#brmjagnmyq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#pozlrbmmqd .gt_indent_5 {
+#brmjagnmyq .gt_indent_5 {
   text-indent: 25px;
 }
 
-#pozlrbmmqd .katex-display {
+#brmjagnmyq .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#pozlrbmmqd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#brmjagnmyq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4648,7 +4646,7 @@ Note
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-07</td>
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Données valables pour le 2025-02-08</td>
 </tr>
 </tfoot>
 
@@ -4664,21 +4662,21 @@ Note
 <section id="via-lemail-en-entier" class="level4">
 <h4 class="anchored" data-anchor-id="via-lemail-en-entier">via l’email en entier</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>find_pkgs_by_email <span class="ot">&lt;-</span> <span class="cf">function</span>(email_id) {</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  resultat <span class="ot">&lt;-</span> emails <span class="sc">|&gt;</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(email <span class="sc">==</span> email_id) <span class="sc">|&gt;</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Package) <span class="sc">|&gt;</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultat)</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>email_id <span class="ot">&lt;-</span> <span class="st">"hadley@posit.co"</span></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="fu">find_pkgs_by_email</span>(email_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>find_pkgs_by_email <span class="ot">&lt;-</span> <span class="cf">function</span>(email_id) {</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  resultat <span class="ot">&lt;-</span> emails <span class="sc">|&gt;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(email <span class="sc">==</span> email_id) <span class="sc">|&gt;</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Package) <span class="sc">|&gt;</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultat)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>email_id <span class="ot">&lt;-</span> <span class="st">"hadley@posit.co"</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="fu">find_pkgs_by_email</span>(email_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "bigrquery"  "broom"      "dbplyr"     "diffviewer" "downlit"   
  [6] "dplyr"      "dtplyr"     "ellmer"     "evaluate"   "fs"        
@@ -4698,21 +4696,21 @@ Note
 <section id="via-le-nom-de-domaine" class="level4">
 <h4 class="anchored" data-anchor-id="via-le-nom-de-domaine">via le nom de domaine</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>find_pkgs_by_domain <span class="ot">&lt;-</span> <span class="cf">function</span>(domain) {</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  resultat <span class="ot">&lt;-</span> tbl_emails <span class="sc">|&gt;</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(email_domain <span class="sc">==</span> domain) <span class="sc">|&gt;</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Package) <span class="sc">|&gt;</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultat)</span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>domain <span class="ot">&lt;-</span> <span class="st">"thinkr.fr"</span></span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="fu">find_pkgs_by_domain</span>(domain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>find_pkgs_by_domain <span class="ot">&lt;-</span> <span class="cf">function</span>(domain) {</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  resultat <span class="ot">&lt;-</span> tbl_emails <span class="sc">|&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(email_domain <span class="sc">==</span> domain) <span class="sc">|&gt;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Package) <span class="sc">|&gt;</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultat)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>domain <span class="ot">&lt;-</span> <span class="st">"thinkr.fr"</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="fu">find_pkgs_by_domain</span>(domain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "arpr"         "attachment"   "checkhelper"  "dockerfiler"  "fakir"       
  [6] "fusen"        "gitdown"      "golem"        "leafgl"       "lightparser" 
@@ -4724,21 +4722,21 @@ Note
 <section id="via-le-tld-du-nom-de-domaine" class="level4">
 <h4 class="anchored" data-anchor-id="via-le-tld-du-nom-de-domaine">via le tld du nom de domaine</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>find_pkgs_by_tld <span class="ot">&lt;-</span> <span class="cf">function</span>(tld_id) {</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  resultat <span class="ot">&lt;-</span> tbl_emails <span class="sc">|&gt;</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(tld <span class="sc">==</span> tld_id) <span class="sc">|&gt;</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Package) <span class="sc">|&gt;</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultat)</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>tld_id <span class="ot">&lt;-</span> <span class="st">"fr"</span></span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="fu">find_pkgs_by_tld</span>(tld_id) <span class="sc">|&gt;</span> <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>find_pkgs_by_tld <span class="ot">&lt;-</span> <span class="cf">function</span>(tld_id) {</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  resultat <span class="ot">&lt;-</span> tbl_emails <span class="sc">|&gt;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(tld <span class="sc">==</span> tld_id) <span class="sc">|&gt;</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Package) <span class="sc">|&gt;</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultat)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>tld_id <span class="ot">&lt;-</span> <span class="st">"fr"</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="fu">find_pkgs_by_tld</span>(tld_id) <span class="sc">|&gt;</span> <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 725</code></pre>
 </div>
