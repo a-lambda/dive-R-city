@@ -1,5 +1,5 @@
 ---
-title: "R CRAN Packages (emails in `Authors@R` column)"
+title: "Récupération de données de messagerie à partir du dépôt CRAN"
 description: |
   Extraction des adresses de messagerie du champ `Authors@R`
 author: "Alcor"
@@ -8,7 +8,7 @@ categories: [code, analysis, CRAN]
 image: "image.jpg"
 ---
 
-## Récupération des données emails dans la colonne `Authors@R`
+## Simplification du data.frame issu des données du CRAN
 
 ```{r}
 #| label: load_libraries
@@ -23,8 +23,6 @@ library(ggplot2)
 library(stringi)
 library(gt)
 ```
-
-### Simplification du data.frame d'étude
 
 ::: {.callout-note collapse="false"}
 
@@ -68,7 +66,7 @@ pdb <- pdb_CRAN |>
 
 ```
 
-### Nombre possible de mails présents dans la colonne `Authors@R`
+## Evaluation du nombre maximal de mails présents dans la colonne `Authors@R`
 
 ```{r}
 #| label: emails_total_estimated
@@ -86,7 +84,7 @@ emails_total_estimated <- emails_count_per_pkg |> sum()
 
 Le nombre d'adresses de messagerie possiblement exploitables correspond au nombre de symboles `@` présents dans l'ensemble des données de la colonne `Authors@R`, soit ici : **`r format(x = emails_total_estimated, digits = 5, nsmall = 0)`**
 
-### Extraction des emails
+## Extraction des emails
 
 La fonction `match_email_in_authors` se base sur une expression régulière empirique qui pourra être sensiblement optimisée sur la base de nouvelles connaissances acquises dans ce domaine et des formatages spécifiques adoptés ponctuellement par certains membres de la communauté R.
 
@@ -121,7 +119,7 @@ head(emails_in_authorsR, n = 4)
 
 ```
 
-### Récupération du nombre de lignes pour chacune des matrices 
+## Récupération du nombre de lignes pour chacune des matrices 
 
 `match_lines_per_pkg` donne, pour chaque paquet, le nombre de lignes de la matrice de correspondances
 
@@ -136,7 +134,7 @@ match_lines_per_pkg[1:100]
 
 ```
 
-### Transformation des `r nrow(pdb)` matrices en une seule matrice
+## Transformation des `r nrow(pdb)` matrices en une seule matrice
 
 ```{r}
 #| label: single_matrix
@@ -145,7 +143,7 @@ single_matrix <- do.call(rbind, emails_in_authorsR)
 
 ```
 
-### Ajout des champs `Package`, `Version` et `Depends` + mutation en `tibble`
+## Ajout des champs `Package`, `Version` et `Depends` + mutation en `tibble`
 
 Le tibble `tbl_all_emails_in_authorsR` contient l'ensemble des emails pour chaque package (doublons compris).
 
@@ -168,7 +166,7 @@ tbl_all_emails_in_authorsR[1:10, c(1, 2, 4, 5)] |> gt()
 
 ```
 
-### Création d'un tibble sans les emails doublons 
+## Création d'un tibble sans les emails doublons 
 
 `tbl_unique_emails_in_authorsR` contient des emails non redondants
 
@@ -179,7 +177,7 @@ tbl_unique_emails_in_authorsR <- tbl_all_emails_in_authorsR |> unique()
 
 ```
 
-### Comparatif du nombre d'emails trouvés par rapport au nombre estimé
+## Comparatif du nombre d'emails trouvés par rapport au nombre estimé
   
 ::: {.callout-important collapse="false"}
 
@@ -270,7 +268,7 @@ tbl_pkg_with_not_email_items |>
 
 ```
 
-### Extraction des TLDs
+## Extraction des TLDs
 
 La fonction `match_tld_in_email_domain` récupère le TLD (Top Level Domain)
 
@@ -291,7 +289,7 @@ match_tld_in_email_domain <- function(str) {
 
 ```
 
-### Création du tibble `tbl_emails` à partir de `tbl_unique_emails_in_authorsR`
+## Création du tibble `tbl_emails` à partir de `tbl_unique_emails_in_authorsR`
 
 On rajoute seulement le champ `tld`
 
@@ -307,7 +305,7 @@ tbl_emails <- tbl_unique_emails_in_authorsR |>
 
 ```
 
-### Sauvegarde des informations sur les adresses de messagerie
+## Sauvegarde des informations sur les adresses de messagerie
   
 ```{r}
 #| label: save_tbl_emails
@@ -318,7 +316,7 @@ tbl_emails <- tbl_unique_emails_in_authorsR |>
 
 ```
 
-#### Décompte des `email_id`, `email_domain` et `tld`
+## Décompte des `email_id`, `email_domain` et `tld`
 
 ```{r}
 #| label: emails_count
@@ -354,9 +352,9 @@ Sur les `r pdb_emails_total` recensés on dénombre :
   
 :::
 
-#### Rapport sur les emails
+## Rapport sur les emails
   
-  - classement du nombre d'emails (dans le champ `Authors@R`) par package R
+### classement du nombre d'emails (dans le champ `Authors@R`) par package R
   
 ```{r}
 #| label: email_per_pkg 
@@ -368,7 +366,7 @@ tbl_emails |>
 
 ```
 
-  - classement par occurrences d'emails
+### classement par occurrences d'emails
 
 ```{r}
 #| label: email_occurrences
@@ -391,7 +389,7 @@ gt_email_occurrences
   
 ```
 
-  - graphe log log
+### graphe log log
 
 ```{r}
 
@@ -425,20 +423,16 @@ Soit `n` le nombre d'occurrences d'un email
 Soit `freq` le nombre d'emails apparaissant avec cette occurrence `n`
 
 On a $$\ln(freq) = a \times \ln(n) + b$$
-
 Soit $$e^{\ln(freq)} = e^{a \times \ln(n)} \times e^b$$
-
 Soit $$freq = e^{\ln(n^a)} \times e^b$$ 
-
 Soit $$freq = n^a \times e^b$$
-
 avec $a =$ `r eq$coefficients[[2]]` et $b =$ `r eq$coefficients[[1]]`
   
 :::
 
-#### Rapport sur les noms de domaines
+## Rapport sur les noms de domaines
   
-  - classement par occurrences de serveurs de messagerie
+### classement par occurrences de serveurs de messagerie
 
 ```{r}
 #| label: mail_server_occurrences
@@ -465,7 +459,7 @@ gt_mail_server_occurrences
   
 ```
 
-  - classement par occurrences de TLD
+### classement par occurrences de TLD
 
 ```{r}
 #| label: TLD_occurrences
@@ -491,9 +485,9 @@ gt_TLD_occurrences
   
 ```
 
-### Trouver les paquets selon difféntes info contenues dans l'email
+## Trouver les paquets selon difféntes info contenues dans l'email
 
-#### via l'email en entier
+### via l'email en entier
 
 ```{r}
 #| label: find_pkgs_by_email
@@ -516,7 +510,7 @@ find_pkgs_by_email(email_id)
 
 ```
 
-#### via le nom de domaine
+### via le nom de domaine
   
 ```{r}
 #| label: find_pkgs_by_domain
@@ -539,7 +533,7 @@ find_pkgs_by_domain(domain)
 
 ```
 
-#### via le tld du nom de domaine
+### via le tld du nom de domaine
   
 ```{r}
 #| label: find_pkgs_by_tld
@@ -561,7 +555,4 @@ tld_id <- "fr"
 find_pkgs_by_tld(tld_id) |> length()
 
 ```
-
-
-
 

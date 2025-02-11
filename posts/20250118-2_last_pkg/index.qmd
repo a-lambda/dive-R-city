@@ -1,5 +1,5 @@
 ---
-title: "R CRAN Packages (packages published yesterday)"
+title: "Derniers paquets publiés sur le dépôt CRAN"
 description: |
   Données relatives aux paquets publiés la veille
 author: "Alcor"
@@ -7,8 +7,6 @@ date: "2025-01-18"
 categories: [code, analysis, CRAN]
 image: "image.jpg"
 ---
-
-## Last R packages published yesterday
 
 ```{r}
 #| label: load_libraries
@@ -26,7 +24,7 @@ library(RPostgres)
 
 ```
 
-### Récupération des données `packages` du CRAN
+## Récupération des données `packages` du CRAN
 
 ```{r}
 #| label: CRAN_package_db
@@ -35,7 +33,7 @@ pdb <- tools::CRAN_package_db()
 
 ```
 
-### Derniers paquets publiés la veille
+## Récupération des derniers paquets publiés
 
 On se base sur la date de publication issue du timestamp provenant du champ `Date\Publication`
   
@@ -71,9 +69,9 @@ gt_last_pkg_published
 
 ```
 
-### Sauvegarde des derniers paquets publiés
+## Sauvegarde des derniers paquets publiés
 
-  1 .Etablissement de la connexion `postgresql`
+### Etablissement de la connexion `postgresql`
   
 ```{r}
 #| label: create_conn
@@ -96,7 +94,7 @@ conn <- RPostgres::dbConnect(
 
 ```
   
-  2. Bascule sur le schéma `dev` par défaut
+### Bascule sur le schéma `dev` par défaut
   
 ```{r}
 #| label: set_schema_default
@@ -115,7 +113,7 @@ RPostgres::dbSendQuery(
 
 ```
 
-  3. Ajout des nouveaux paquets R à la table `paquets`
+### Ajout des nouveaux paquets R à la table `paquets`
 
 ::: {.callout-note collapse="false"}
 
@@ -159,7 +157,7 @@ if ((Sys.Date() - date_veille) > 1) {
 
 ```
 
-  4. Vérification des ajouts d'information dans la table `paquets`
+### Vérification des ajouts d'information dans la table `paquets`
 
 ```{r}
 #| label: verif_data_inserted
@@ -192,7 +190,7 @@ gt(result) |> tab_header(
 
 ```
 
-  5. Sélection des paquets ayant été versionné plus d'une fois depuis
+### Sélection des paquets ayant été versionné plus d'une fois depuis
 
 ```{r}
 #| label: versioned_more_than_once
@@ -227,7 +225,7 @@ gt(result) |>
 
 ```
 
-  6. Affichage des paquets déjà enregistrés avec leur lien CRAN
+### Affichage des paquets déjà enregistrés avec leur lien CRAN
   
 ```{r}
 #| label: paquet_with_CRAN_links
@@ -257,7 +255,7 @@ result |>
 
 ```
 
-  7. dernière version de chaque paquet enregistré dans la base
+### dernière version de chaque paquet enregistré dans la base
 
 ```{r}
 #| label: latest_versions
@@ -287,7 +285,7 @@ result |>
 
 ```
 
-  8. Déconnexion
+### Déconnexion
 
 ```{r}
 #| label: dbDisconnect

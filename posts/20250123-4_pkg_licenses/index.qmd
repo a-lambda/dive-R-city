@@ -1,5 +1,5 @@
 ---
-title: "R CRAN Packages (licences)"
+title: "Les licences associées aux paquets du dépôt CRAN"
 description: |
   Exploitation des données du champ `License`
 author: "Alcor"
@@ -8,7 +8,7 @@ categories: [code, analysis, CRAN]
 image: "image.jpg"
 ---
 
-## R packages Licenses
+## Types de licences utilisées
 
 ```{r}
 #| label: load_libraries
@@ -30,8 +30,6 @@ pdb <- tools::CRAN_package_db()
 
 ```
 
-### Types de licences utilisées
-
 Les tableaux ci-dessous devront être transformés pour présenter de manière simplifiée les licences principales utilisées.
 
 ```{r}
@@ -51,7 +49,7 @@ tbl_licenses   <- table_licenses |>
 
 ```
 
-  - Licences à usage unique
+### Licences orphelines
 
 ```{r}
 #|label: orphan_licenses
@@ -71,7 +69,7 @@ gt_orphan_licenses
 
 ```
 
-  - Autres licences
+### Autres licences
 
 ```{r}
 #|label: other_licenses

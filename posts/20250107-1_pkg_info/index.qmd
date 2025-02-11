@@ -1,5 +1,5 @@
 ---
-title: "R CRAN Packages (general information)"
+title: "Le dépôt CRAN (Comprehensive R Archive Network)"
 description: |
   Description générale de la base de données des paquets CRAN
 author: "Alcor"
@@ -8,7 +8,7 @@ categories: [code, analysis, CRAN]
 image: "image.jpg"
 ---
 
-## Get R CRAN packages METADATA
+## Obtention des données sur les paquets
 
 ```{r}
 #| label: load_libraries
@@ -26,9 +26,7 @@ library(gt)
 library(glue)
 ```
 
-### 3 méthodes avec des informations différentes
-
-  1. utilisation de `rvest` sur le repo [/src/contrib](https://cloud.r-project.org/src/contrib/) 
+### Utilisation de `rvest` sur le repo [/src/contrib](https://cloud.r-project.org/src/contrib/) 
 
 ```{r}
 #| label: rvest_scraping
@@ -59,7 +57,7 @@ tbl_pkg_rvest <- get_tbl_pkg_rvest()
 
 ```
 
-  2. utilisation de la fonction **`available.packages`** du paquet `utils`
+### utilisation de la fonction **`available.packages`** du paquet `utils`
   
 ```{r}
 #| label: available_packages
@@ -68,7 +66,7 @@ tbl_pkg <- utils::available.packages() |> as_tibble()
 
 ```
 
-  3. Utilisation de la fonction `CRAN_package_db` du paquet **`tools`**
+### Utilisation de la fonction `CRAN_package_db` du paquet **`tools`**
 
 ```{r}
 #| label: CRAN_package_db
@@ -77,9 +75,9 @@ pdb <- tools::CRAN_package_db()
 
 ```
 
-### Comparaisons du nombre d'informations entre les 3 bases
+## Comparaisons du nombre d'informations entre les 3 bases
 
-  1. Tableau récapitulatif
+### Tableau récapitulatif
 
 ```{r}
 #| label: db_comparisons
@@ -113,7 +111,7 @@ gt_summary
 
 ```
 
-  2. Paquets communs pour les 3 sources de données
+### Paquets communs pour les 3 sources de données
 
 ```{r}
 #| label: similar_pkgs
@@ -143,7 +141,7 @@ identical(dissimilar_tbl_pkg_rvest, dissimilar_pdb)
    
 :::
 
-  3. Paquets en plus dans `pdb` et `tbl_pkg_rvest` (par rapport à `tbl_pkg`)
+### Paquets en plus dans `pdb` et `tbl_pkg_rvest` (par rapport à `tbl_pkg`)
 
 ```{r}
 #| label: dissimilar_pkgs
@@ -154,7 +152,7 @@ dissimilar_pkgs
 
 ```
 
-  4. Paquets doublons
+### Paquets doublons
 
 ```{r}
 #| label: twin_pkgs
@@ -169,9 +167,9 @@ pdb |>
 
 ```
 
-### Informations sur les champs
+## Informations sur les champs
 
-  1. Détermination des champs communs
+### Détermination des champs communs
   
 ```{r}
 #| label: similar_fields
@@ -182,7 +180,7 @@ similar_fields
 
 ```
 
-  2. Recherche des lignes communes sur la base de ces champs communs
+### Recherche des lignes communes sur la base de ces champs communs
   
 ```{r}
 #| label: compare_supposed_identical_rows
@@ -202,7 +200,7 @@ tbl_same_rows <- pdb_same_rows |>
 
 ```
 
-  3. Lignes présentes dans `pdb` et absentes de `tbl_pkg` 
+### Lignes présentes dans `pdb` et absentes de `tbl_pkg` 
 
 ```{r}
 #| label: rows_inside_of_pdb_outside_of_tbk_pkg
@@ -215,7 +213,7 @@ pdb_diff_rows[,c("Package", "Version", "Depends")]
 
 ```
 
-  4. Lignes présentes dans `tbl_pkg` et absentes de `pdb`
+### Lignes présentes dans `tbl_pkg` et absentes de `pdb`
   
 ```{r}
 #| label: rows_inside_of_tbk_pkg_outside_of_pdb
@@ -240,7 +238,7 @@ On peut donc se passer de `tbl_pkg`.
    
 :::
 
-  5. Champs de `tbl_pkg` absents de `pdb`
+### Champs de `tbl_pkg` absents de `pdb`
   
 ```{r}
 #| label: dissimilar_fields
@@ -271,7 +269,7 @@ unique(tbl_pkg$Repository)
 
 Les données de `tbl_pkg`, pour les champs de même nom, sont identiques à celles de `pdb`.
 
-  6. Taille des champs
+### Taille des champs
 
 ::: {.callout-note collapse="false"}
 
@@ -334,7 +332,7 @@ get_gt_summary <- function(tbl) {
 
 ```
 
-    - de la table `tbl_pkg`
+#### de la table `tbl_pkg`
 
 ```{r}
 #| label: summary_tbl_pkg
@@ -345,7 +343,7 @@ gt_summary_tbl_pkg
 
 ```
 
-    - de la table `pdb`
+#### de la table `pdb`
 
 ```{r}
 #| label: summary_pdb
