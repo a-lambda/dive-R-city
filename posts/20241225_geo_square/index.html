@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.33">
@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alcor">
-<meta name="dcterms.date" content="2024-12-25">
+<meta name="description" content="Section en travaux">
 
 <title>Get geographic squares – dive-R-city</title>
 <style>
@@ -89,17 +89,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
   }
 }</script>
 <link href="../../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
@@ -164,18 +164,22 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">dive-R-city</span>
+    <span class="navbar-title">A lambda</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
-<span class="menu-text">A propos</span></a>
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/"> <i class="bi bi-github" role="img">
@@ -197,7 +201,12 @@ window.Quarto = {
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Get geographic squares</h1>
-                                <div class="quarto-categories">
+                  <div>
+        <div class="description">
+          <p>Section en travaux</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
                 <div class="quarto-category">news</div>
                 <div class="quarto-category">code</div>
                 <div class="quarto-category">analysis</div>
@@ -209,16 +218,16 @@ window.Quarto = {
   <div class="quarto-title-meta">
 
       <div>
-      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-heading">Auteur·rice</div>
       <div class="quarto-title-meta-contents">
                <p>Alcor </p>
             </div>
     </div>
       
       <div>
-      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-heading">Date de publication</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">December 25, 2024</p>
+        <p class="date">mercredi, 25 décembre 2024</p>
       </div>
     </div>
     
@@ -231,20 +240,20 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+    <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#get-geographic-squares" id="toc-get-geographic-squares" class="nav-link active" data-scroll-target="#get-geographic-squares">Get geographic squares</a>
+  <li><a href="#get-geographic-squares" id="toc-get-geographic-squares" class="nav-link active" data-scroll-target="#get-geographic-squares"><span class="header-section-number">1</span> Get geographic squares</a>
   <ul class="collapse">
-  <li><a href="#function-get_geo_square-get-a-geographic-square-which-sides-have-alpha-degrees-angle" id="toc-function-get_geo_square-get-a-geographic-square-which-sides-have-alpha-degrees-angle" class="nav-link" data-scroll-target="#function-get_geo_square-get-a-geographic-square-which-sides-have-alpha-degrees-angle">function <code>get_geo_square</code> get a <code>geographic square</code> which sides have <span class="math inline">\(\alpha\)</span> degrees angle</a></li>
-  <li><a href="#function-get_all_geo_squares_on_sphere-cuts-the-sphere-into-geographic-squares-which-sides-have-alpha-degrees-angle" id="toc-function-get_all_geo_squares_on_sphere-cuts-the-sphere-into-geographic-squares-which-sides-have-alpha-degrees-angle" class="nav-link" data-scroll-target="#function-get_all_geo_squares_on_sphere-cuts-the-sphere-into-geographic-squares-which-sides-have-alpha-degrees-angle">function <code>get_all_geo_squares_on_sphere</code> cuts the sphere into <code>geographic squares</code> which sides have <span class="math inline">\(\alpha\)</span> degrees angle</a></li>
-  <li><a href="#function-get_all_geo_squares_on_sphere" id="toc-function-get_all_geo_squares_on_sphere" class="nav-link" data-scroll-target="#function-get_all_geo_squares_on_sphere">function <code>get_all_geo_squares_on_sphere</code></a></li>
-  <li><a href="#benchmarking" id="toc-benchmarking" class="nav-link" data-scroll-target="#benchmarking">benchmarking</a></li>
-  <li><a href="#results-when-applying" id="toc-results-when-applying" class="nav-link" data-scroll-target="#results-when-applying">results when applying</a></li>
-  <li><a href="#function-get_s2_square" id="toc-function-get_s2_square" class="nav-link" data-scroll-target="#function-get_s2_square">function <code>get_s2_square</code></a></li>
-  <li><a href="#benchmarking-1" id="toc-benchmarking-1" class="nav-link" data-scroll-target="#benchmarking-1">benchmarking</a></li>
-  <li><a href="#profiling-function-get_all_s2_squares_on_sphere" id="toc-profiling-function-get_all_s2_squares_on_sphere" class="nav-link" data-scroll-target="#profiling-function-get_all_s2_squares_on_sphere">profiling function <code>get_all_s2_squares_on_sphere</code></a></li>
-  <li><a href="#results-when-applying-1" id="toc-results-when-applying-1" class="nav-link" data-scroll-target="#results-when-applying-1">results when applying</a></li>
+  <li><a href="#function-get_geo_square-get-a-geographic-square-which-sides-have-alpha-degrees-angle" id="toc-function-get_geo_square-get-a-geographic-square-which-sides-have-alpha-degrees-angle" class="nav-link" data-scroll-target="#function-get_geo_square-get-a-geographic-square-which-sides-have-alpha-degrees-angle"><span class="header-section-number">1.1</span> function <code>get_geo_square</code> get a <code>geographic square</code> which sides have <span class="math inline">\(\alpha\)</span> degrees angle</a></li>
+  <li><a href="#function-get_all_geo_squares_on_sphere-cuts-the-sphere-into-geographic-squares-which-sides-have-alpha-degrees-angle" id="toc-function-get_all_geo_squares_on_sphere-cuts-the-sphere-into-geographic-squares-which-sides-have-alpha-degrees-angle" class="nav-link" data-scroll-target="#function-get_all_geo_squares_on_sphere-cuts-the-sphere-into-geographic-squares-which-sides-have-alpha-degrees-angle"><span class="header-section-number">1.2</span> function <code>get_all_geo_squares_on_sphere</code> cuts the sphere into <code>geographic squares</code> which sides have <span class="math inline">\(\alpha\)</span> degrees angle</a></li>
+  <li><a href="#function-get_all_geo_squares_on_sphere" id="toc-function-get_all_geo_squares_on_sphere" class="nav-link" data-scroll-target="#function-get_all_geo_squares_on_sphere"><span class="header-section-number">1.3</span> function <code>get_all_geo_squares_on_sphere</code></a></li>
+  <li><a href="#benchmarking" id="toc-benchmarking" class="nav-link" data-scroll-target="#benchmarking"><span class="header-section-number">1.4</span> benchmarking</a></li>
+  <li><a href="#results-when-applying" id="toc-results-when-applying" class="nav-link" data-scroll-target="#results-when-applying"><span class="header-section-number">1.5</span> results when applying</a></li>
+  <li><a href="#function-get_s2_square" id="toc-function-get_s2_square" class="nav-link" data-scroll-target="#function-get_s2_square"><span class="header-section-number">1.6</span> function <code>get_s2_square</code></a></li>
+  <li><a href="#benchmarking-1" id="toc-benchmarking-1" class="nav-link" data-scroll-target="#benchmarking-1"><span class="header-section-number">1.7</span> benchmarking</a></li>
+  <li><a href="#profiling-function-get_all_s2_squares_on_sphere" id="toc-profiling-function-get_all_s2_squares_on_sphere" class="nav-link" data-scroll-target="#profiling-function-get_all_s2_squares_on_sphere"><span class="header-section-number">1.8</span> profiling function <code>get_all_s2_squares_on_sphere</code></a></li>
+  <li><a href="#results-when-applying-1" id="toc-results-when-applying-1" class="nav-link" data-scroll-target="#results-when-applying-1"><span class="header-section-number">1.9</span> results when applying</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -256,8 +265,8 @@ window.Quarto = {
 
 
 
-<section id="get-geographic-squares" class="level2">
-<h2 class="anchored" data-anchor-id="get-geographic-squares">Get geographic squares</h2>
+<section id="get-geographic-squares" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="get-geographic-squares"><span class="header-section-number">1</span> Get geographic squares</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -266,11 +275,11 @@ window.Quarto = {
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(s2)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(profvis)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="function-get_geo_square-get-a-geographic-square-which-sides-have-alpha-degrees-angle" class="level3">
-<h3 class="anchored" data-anchor-id="function-get_geo_square-get-a-geographic-square-which-sides-have-alpha-degrees-angle">function <code>get_geo_square</code> get a <code>geographic square</code> which sides have <span class="math inline">\(\alpha\)</span> degrees angle</h3>
+<section id="function-get_geo_square-get-a-geographic-square-which-sides-have-alpha-degrees-angle" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="function-get_geo_square-get-a-geographic-square-which-sides-have-alpha-degrees-angle"><span class="header-section-number">1.1</span> function <code>get_geo_square</code> get a <code>geographic square</code> which sides have <span class="math inline">\(\alpha\)</span> degrees angle</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fonction génératrice de "carré géographique" de `alpha` degrés de côté</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># le point de base (lon, lat) est le point inférieur gauche. </span></span>
@@ -290,11 +299,11 @@ window.Quarto = {
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_polygon</span>(points)</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="function-get_all_geo_squares_on_sphere-cuts-the-sphere-into-geographic-squares-which-sides-have-alpha-degrees-angle" class="level3">
-<h3 class="anchored" data-anchor-id="function-get_all_geo_squares_on_sphere-cuts-the-sphere-into-geographic-squares-which-sides-have-alpha-degrees-angle">function <code>get_all_geo_squares_on_sphere</code> cuts the sphere into <code>geographic squares</code> which sides have <span class="math inline">\(\alpha\)</span> degrees angle</h3>
+<section id="function-get_all_geo_squares_on_sphere-cuts-the-sphere-into-geographic-squares-which-sides-have-alpha-degrees-angle" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="function-get_all_geo_squares_on_sphere-cuts-the-sphere-into-geographic-squares-which-sides-have-alpha-degrees-angle"><span class="header-section-number">1.2</span> function <code>get_all_geo_squares_on_sphere</code> cuts the sphere into <code>geographic squares</code> which sides have <span class="math inline">\(\alpha\)</span> degrees angle</h3>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -313,8 +322,8 @@ Note
 </div>
 </div>
 </section>
-<section id="function-get_all_geo_squares_on_sphere" class="level3">
-<h3 class="anchored" data-anchor-id="function-get_all_geo_squares_on_sphere">function <code>get_all_geo_squares_on_sphere</code></h3>
+<section id="function-get_all_geo_squares_on_sphere" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="function-get_all_geo_squares_on_sphere"><span class="header-section-number">1.3</span> function <code>get_all_geo_squares_on_sphere</code></h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>get_all_geo_squares_on_sphere <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha) {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -336,11 +345,11 @@ Note
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="benchmarking" class="level3">
-<h3 class="anchored" data-anchor-id="benchmarking">benchmarking</h3>
+<section id="benchmarking" class="level3" data-number="1.4">
+<h3 data-number="1.4" class="anchored" data-anchor-id="benchmarking"><span class="header-section-number">1.4</span> benchmarking</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -349,7 +358,7 @@ Note
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_all_geo_squares_on_sphere</span>(<span class="at">alpha =</span> <span class="dv">10</span>),</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">times =</span> <span class="dv">10</span>L</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">autoplot</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -360,8 +369,8 @@ Note
 </div>
 </div>
 </section>
-<section id="results-when-applying" class="level3">
-<h3 class="anchored" data-anchor-id="results-when-applying">results when applying</h3>
+<section id="results-when-applying" class="level3" data-number="1.5">
+<h3 data-number="1.5" class="anchored" data-anchor-id="results-when-applying"><span class="header-section-number">1.5</span> results when applying</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>geo_squares <span class="ot">&lt;-</span> <span class="fu">get_all_geo_squares_on_sphere</span>(<span class="at">alpha =</span> <span class="dv">10</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -370,7 +379,7 @@ Note
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> geo_squares) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> geo_centroids, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> geo_centroids, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -392,7 +401,7 @@ Note
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> geo_squares_moll) <span class="sc">+</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> geo_centroids_moll, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> geo_centroids_moll, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -402,8 +411,8 @@ Note
 </div>
 </div>
 </section>
-<section id="function-get_s2_square" class="level3">
-<h3 class="anchored" data-anchor-id="function-get_s2_square">function <code>get_s2_square</code></h3>
+<section id="function-get_s2_square" class="level3" data-number="1.6">
+<h3 data-number="1.6" class="anchored" data-anchor-id="function-get_s2_square"><span class="header-section-number">1.6</span> function <code>get_s2_square</code></h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>get_s2_square <span class="ot">&lt;-</span> <span class="cf">function</span>(lon, lat, alpha) {</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -418,7 +427,7 @@ Note
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">s2_make_polygon</span>(points[, <span class="dv">1</span>], points[, <span class="dv">2</span>])</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>function <code>get_all_s2_squares_on_sphere</code></p>
 <div class="cell">
@@ -445,11 +454,11 @@ Note
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="benchmarking-1" class="level3">
-<h3 class="anchored" data-anchor-id="benchmarking-1">benchmarking</h3>
+<section id="benchmarking-1" class="level3" data-number="1.7">
+<h3 data-number="1.7" class="anchored" data-anchor-id="benchmarking-1"><span class="header-section-number">1.7</span> benchmarking</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -458,7 +467,7 @@ Note
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_all_s2_squares_on_sphere</span>(<span class="at">alpha =</span> <span class="dv">10</span>),</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">times =</span> <span class="dv">100</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">autoplot</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -469,21 +478,21 @@ Note
 </div>
 </div>
 </section>
-<section id="profiling-function-get_all_s2_squares_on_sphere" class="level3">
-<h3 class="anchored" data-anchor-id="profiling-function-get_all_s2_squares_on_sphere">profiling function <code>get_all_s2_squares_on_sphere</code></h3>
+<section id="profiling-function-get_all_s2_squares_on_sphere" class="level3" data-number="1.8">
+<h3 data-number="1.8" class="anchored" data-anchor-id="profiling-function-get_all_s2_squares_on_sphere"><span class="header-section-number">1.8</span> profiling function <code>get_all_s2_squares_on_sphere</code></h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>profvis<span class="sc">::</span><span class="fu">profvis</span>({</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_all_s2_squares_on_sphere</span>(<span class="at">alpha =</span> <span class="dv">10</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="profvis html-widget html-fill-item" id="htmlwidget-e75298598cc597b35435" style="width:100%;height:600px;"></div>
-<script type="application/json" data-for="htmlwidget-e75298598cc597b35435">{"x":{"message":{"prof":{"time":[1,1,1,2,2,3,3,3,3,3,3,4,4,5,5,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,9,9,9,9,9,9,9,10,10,10,10,10,10,10,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,13,13,13,14,14,14,14,14,14,14,15,15,15,15,15,15,15,15,16,16,16,16,16,16,16,17,17,18,18,18,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,19,20,20,20,20,20,20,20,21,21,21,21,21,21,21,22,22,22,22,22,22,22,23,23,23,23,23,23,23,23,24,24,25,25,25,25,25,25,25,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,27,27,27,27,27,27,27,27,27,27,27,27,28,28,29,29,29,29,29,29,29,29,29,29,30,30,30,30,30,30,30,30,30,30,30,30,30,30,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,32,32,32,32,32,32,33,33,33,33,33,33,33],"depth":[3,2,1,2,1,6,5,4,3,2,1,2,1,2,1,8,7,6,5,4,3,2,1,12,11,10,9,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,7,6,5,4,3,2,1,7,6,5,4,3,2,1,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,11,10,9,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,2,1,12,11,10,9,8,7,6,5,4,3,2,1,9,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,7,6,5,4,3,2,1,7,6,5,4,3,2,1,8,7,6,5,4,3,2,1,2,1,7,6,5,4,3,2,1,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,12,11,10,9,8,7,6,5,4,3,2,1,2,1,10,9,8,7,6,5,4,3,2,1,14,13,12,11,10,9,8,7,6,5,4,3,2,1,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,6,5,4,3,2,1,7,6,5,4,3,2,1],"label":["with_profvis_handlers","profvis::profvis",".main","any",".main","structure","wk::new_wk_handler","s2_geography_writer","s2_make_polygon","get_s2_square","get_all_s2_squares_on_sphere","...elt",".main","...elt",".main","match.fun","vapply","validate_wk_rcrd","validate_wk_xy","wk::xy","s2_make_polygon","get_s2_square","get_all_s2_squares_on_sphere","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","CPL_crs_from_input","make_crs","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","structure","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","CPL_crs_from_input","make_crs","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","all.equal","all.equal.list","attr.all.equal","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","CPL_crs_from_input","make_crs","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","stopifnot","bb_wrap","compute_bbox","st_sfc","st_as_sfc.WKB","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","new_wk_handler","wk::wkb_writer","s2::s2_as_binary","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","structure","s2_projection_plate_carree","wk_handle.s2_geography","s2::s2_as_binary","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","CPL_crs_from_input","make_crs","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","c",".main","structure","bb_wrap","bbox.MtrxSetSet","compute_bbox","st_sfc","st_as_sfc.WKB","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","sfc_unique_sfg_dims_and_types","st_sfc","st_as_sfc.WKB","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","new_wk_handler","wk::wkb_writer","s2::s2_as_binary","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","CPL_crs_from_input","make_crs","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","grepl","make_crs","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","is.na","st_as_sfc.WKB","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","names",".main","CPL_crs_from_input","make_crs","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","eval","match.arg","order","attr.all.equal","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","structure","bb_wrap","bbox.MtrxSetSet","compute_bbox","st_sfc","st_as_sfc.WKB","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","any",".main","bbox.MtrxSetSet","compute_bbox","st_sfc","st_as_sfc.WKB","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","<GC>","attr.all.equal","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","all.equal.character","attr.all.equal","all.equal.list","attr.all.equal","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","paste0","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","CPL_crs_from_input","make_crs","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere"],"filenum":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"linenum":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"memalloc":[20.90689086914062,20.90689086914062,20.90689086914062,26.00202178955078,26.00202178955078,30.83835601806641,30.83835601806641,30.83835601806641,30.83835601806641,30.83835601806641,30.83835601806641,35.92365264892578,35.92365264892578,40.88455963134766,40.88455963134766,45.59544372558594,45.59544372558594,45.59544372558594,45.59544372558594,45.59544372558594,45.59544372558594,45.59544372558594,45.59544372558594,48.03252410888672,48.03252410888672,48.03252410888672,48.03252410888672,48.03252410888672,48.03252410888672,48.03252410888672,48.03252410888672,48.03252410888672,48.03252410888672,48.03252410888672,48.03252410888672,21.09461212158203,21.09461212158203,21.09461212158203,21.09461212158203,21.09461212158203,21.09461212158203,21.09461212158203,21.30213928222656,21.30213928222656,21.30213928222656,21.30213928222656,21.30213928222656,21.30213928222656,21.30213928222656,21.49449920654297,21.49449920654297,21.49449920654297,21.49449920654297,21.49449920654297,21.49449920654297,21.49449920654297,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.69092559814453,21.89442443847656,21.89442443847656,21.89442443847656,21.89442443847656,21.89442443847656,21.89442443847656,21.89442443847656,22.09494018554688,22.09494018554688,22.09494018554688,22.09494018554688,22.09494018554688,22.09494018554688,22.09494018554688,22.09494018554688,22.09494018554688,22.09494018554688,22.09494018554688,22.30148315429688,22.30148315429688,22.30148315429688,22.30148315429688,22.30148315429688,22.30148315429688,22.30148315429688,22.50934600830078,22.50934600830078,22.50934600830078,22.50934600830078,22.50934600830078,22.50934600830078,22.50934600830078,22.50934600830078,21.24411773681641,21.24411773681641,21.24411773681641,21.24411773681641,21.24411773681641,21.24411773681641,21.24411773681641,21.45095825195312,21.45095825195312,21.6533203125,21.6533203125,21.6533203125,21.6533203125,21.6533203125,21.6533203125,21.6533203125,21.6533203125,21.6533203125,21.6533203125,21.6533203125,21.6533203125,21.8609619140625,21.8609619140625,21.8609619140625,21.8609619140625,21.8609619140625,21.8609619140625,21.8609619140625,21.8609619140625,21.8609619140625,22.07589721679688,22.07589721679688,22.07589721679688,22.07589721679688,22.07589721679688,22.07589721679688,22.07589721679688,22.28554534912109,22.28554534912109,22.28554534912109,22.28554534912109,22.28554534912109,22.28554534912109,22.28554534912109,22.49380493164062,22.49380493164062,22.49380493164062,22.49380493164062,22.49380493164062,22.49380493164062,22.49380493164062,21.23871612548828,21.23871612548828,21.23871612548828,21.23871612548828,21.23871612548828,21.23871612548828,21.23871612548828,21.23871612548828,21.45181274414062,21.45181274414062,21.65525054931641,21.65525054931641,21.65525054931641,21.65525054931641,21.65525054931641,21.65525054931641,21.65525054931641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,21.85886383056641,22.07276916503906,22.07276916503906,22.07276916503906,22.07276916503906,22.07276916503906,22.07276916503906,22.07276916503906,22.07276916503906,22.07276916503906,22.07276916503906,22.07276916503906,22.07276916503906,22.28778839111328,22.28778839111328,22.49729156494141,22.49729156494141,22.49729156494141,22.49729156494141,22.49729156494141,22.49729156494141,22.49729156494141,22.49729156494141,22.49729156494141,22.49729156494141,22.70002746582031,22.70002746582031,22.70002746582031,22.70002746582031,22.70002746582031,22.70002746582031,22.70002746582031,22.70002746582031,22.70002746582031,22.70002746582031,22.70002746582031,22.70002746582031,22.70002746582031,22.70002746582031,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.46609497070312,21.66970825195312,21.66970825195312,21.66970825195312,21.66970825195312,21.66970825195312,21.66970825195312,21.87807464599609,21.87807464599609,21.87807464599609,21.87807464599609,21.87807464599609,21.87807464599609,21.87807464599609],"meminc":[0,0,0,5.095130920410156,0,4.836334228515625,0,0,0,0,0,5.085296630859375,0,4.960906982421875,0,4.710884094238281,0,0,0,0,0,0,0,2.437080383300781,0,0,0,0,0,0,0,0,0,0,0,-26.93791198730469,0,0,0,0,0,0,0.2075271606445312,0,0,0,0,0,0,0.1923599243164062,0,0,0,0,0,0,0.1964263916015625,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2034988403320312,0,0,0,0,0,0,0.2005157470703125,0,0,0,0,0,0,0,0,0,0,0.20654296875,0,0,0,0,0,0,0.2078628540039062,0,0,0,0,0,0,0,-1.265228271484375,0,0,0,0,0,0,0.2068405151367188,0,0.202362060546875,0,0,0,0,0,0,0,0,0,0,0,0.2076416015625,0,0,0,0,0,0,0,0,0.214935302734375,0,0,0,0,0,0,0.2096481323242188,0,0,0,0,0,0,0.2082595825195312,0,0,0,0,0,0,-1.255088806152344,0,0,0,0,0,0,0,0.2130966186523438,0,0.2034378051757812,0,0,0,0,0,0,0.20361328125,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2139053344726562,0,0,0,0,0,0,0,0,0,0,0,0.2150192260742188,0,0.209503173828125,0,0,0,0,0,0,0,0,0,0.2027359008789062,0,0,0,0,0,0,0,0,0,0,0,0,0,-1.233932495117188,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.20361328125,0,0,0,0,0,0.2083663940429688,0,0,0,0,0,0],"filename":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]},"interval":10,"files":[],"prof_output":"C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\Rtmp4elIPs\\file189c7be93b7.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
+<div class="profvis html-widget html-fill-item" id="htmlwidget-3a4db674f1f5465c044c" style="width:100%;height:600px;"></div>
+<script type="application/json" data-for="htmlwidget-3a4db674f1f5465c044c">{"x":{"message":{"prof":{"time":[2,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,9,9,10,10,10,10,10,10,10,11,11,11,11,11,11,11,11,11,11,11,11,11,12,12,12,12,12,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,14,14,14,14,14,14,14,15,15,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,17,17,17,17,17,18,18,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,20,20,20,20,20,20,20,20,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,22,22,23,23,23,23,23,23,24,24,24,24,24,24,24,24,25,25,26,26,27,27,27,27,27,27,28,28,28,28,28,28,28,29,29,29,29,29,29,29,29,29,29,29,30,30,30,30,30,30,30,30,30,30,30,30,30,30,31,31,31,31,31,31,31,32,32,32,32,32,32,32,32,32,32,32,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,34,34,34,34,34,34,34],"depth":[6,5,4,3,2,1,5,4,3,2,1,5,4,3,2,1,6,5,4,3,2,1,6,5,4,3,2,1,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,2,1,7,6,5,4,3,2,1,13,12,11,10,9,8,7,6,5,4,3,2,1,5,4,3,2,1,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,2,1,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,6,5,4,3,2,1,11,10,9,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,8,7,6,5,4,3,2,1,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,2,1,6,5,4,3,2,1,8,7,6,5,4,3,2,1,2,1,2,1,6,5,4,3,2,1,7,6,5,4,3,2,1,11,10,9,8,7,6,5,4,3,2,1,14,13,12,11,10,9,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,11,10,9,8,7,6,5,4,3,2,1,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1],"label":["structure","s2_projection_plate_carree","s2_geography_writer","s2_make_polygon","get_s2_square","get_all_s2_squares_on_sphere","recycle_common","wk::xy","s2_make_polygon","get_s2_square","get_all_s2_squares_on_sphere","as_wk_handler","wk_handle.wk_xy","s2_make_polygon","get_s2_square","get_all_s2_squares_on_sphere","integer","recycle_common","wk::xy","s2_make_polygon","get_s2_square","get_all_s2_squares_on_sphere","structure","wk::new_wk_handler","s2_geography_writer","s2_make_polygon","get_s2_square","get_all_s2_squares_on_sphere","match.arg","order","attr.all.equal","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","unique","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","is.expression",".main","CPL_crs_from_input","make_crs","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","all.equal","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","st_as_sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","all.equal.character","attr.all.equal","all.equal.list","attr.all.equal","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","CPL_crs_from_input","make_crs","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","...elt",".main","match.arg","order","attr.all.equal","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","wk_handle.s2_geography","s2::s2_as_binary","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","sfc_is_full","st_is_full.sfc","compute_bbox","st_sfc","st_as_sfc.WKB","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","CPL_crs_from_input","make_crs","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","vapply","st_as_sfc.WKB","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","vapply","order","attr.all.equal","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","all",".main","<GC>","st_as_sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","structure","s2_projection_plate_carree","wk_handle.s2_geography","s2::s2_as_binary","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","length",".main","is.na",".main","paste0","st_crs.numeric","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","unique.default","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","as.double","bb_wrap","compute_bbox","st_sfc","st_as_sfc.WKB","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","data.class","all.equal.character","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","st_as_sfc.WKB","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","bb_wrap","bbox.MtrxSetSet","compute_bbox","st_sfc","st_as_sfc.WKB","st_as_sfc.list","st_as_sfc.blob","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","match.arg","order","attr.all.equal","all.equal.list","all.equal.default","Ops.crs","Ops.crs","st_crs<-.sfc","st_sfc","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere","vapply","st_cast_sfc_default","st_cast.sfc","st_as_sfc.s2_geography","map_","map","get_all_s2_squares_on_sphere"],"filenum":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"linenum":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"memalloc":[25.95645904541016,25.95645904541016,25.95645904541016,25.95645904541016,25.95645904541016,25.95645904541016,30.79142761230469,30.79142761230469,30.79142761230469,30.79142761230469,30.79142761230469,35.71149444580078,35.71149444580078,35.71149444580078,35.71149444580078,35.71149444580078,40.71322631835938,40.71322631835938,40.71322631835938,40.71322631835938,40.71322631835938,40.71322631835938,45.63407135009766,45.63407135009766,45.63407135009766,45.63407135009766,45.63407135009766,45.63407135009766,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,48.06947326660156,21.12004089355469,21.12004089355469,21.12004089355469,21.12004089355469,21.12004089355469,21.12004089355469,21.12004089355469,21.32926177978516,21.32926177978516,21.53436279296875,21.53436279296875,21.53436279296875,21.53436279296875,21.53436279296875,21.53436279296875,21.53436279296875,21.73143768310547,21.73143768310547,21.73143768310547,21.73143768310547,21.73143768310547,21.73143768310547,21.73143768310547,21.73143768310547,21.73143768310547,21.73143768310547,21.73143768310547,21.73143768310547,21.73143768310547,21.93616485595703,21.93616485595703,21.93616485595703,21.93616485595703,21.93616485595703,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.14719390869141,22.350830078125,22.350830078125,22.350830078125,22.350830078125,22.350830078125,22.350830078125,22.350830078125,22.54936981201172,22.54936981201172,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.27254486083984,21.48396301269531,21.48396301269531,21.48396301269531,21.48396301269531,21.48396301269531,21.48396301269531,21.67761993408203,21.67761993408203,21.67761993408203,21.67761993408203,21.67761993408203,21.67761993408203,21.67761993408203,21.67761993408203,21.67761993408203,21.67761993408203,21.67761993408203,21.87705993652344,21.87705993652344,21.87705993652344,21.87705993652344,21.87705993652344,21.87705993652344,21.87705993652344,22.08480834960938,22.08480834960938,22.08480834960938,22.08480834960938,22.08480834960938,22.08480834960938,22.08480834960938,22.08480834960938,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.28916168212891,22.5003662109375,22.5003662109375,22.67503356933594,22.67503356933594,22.67503356933594,22.67503356933594,22.67503356933594,22.67503356933594,21.44606018066406,21.44606018066406,21.44606018066406,21.44606018066406,21.44606018066406,21.44606018066406,21.44606018066406,21.44606018066406,21.65007019042969,21.65007019042969,21.84937286376953,21.84937286376953,22.05590057373047,22.05590057373047,22.05590057373047,22.05590057373047,22.05590057373047,22.05590057373047,22.26628875732422,22.26628875732422,22.26628875732422,22.26628875732422,22.26628875732422,22.26628875732422,22.26628875732422,22.47362518310547,22.47362518310547,22.47362518310547,22.47362518310547,22.47362518310547,22.47362518310547,22.47362518310547,22.47362518310547,22.47362518310547,22.47362518310547,22.47362518310547,22.67783355712891,22.67783355712891,22.67783355712891,22.67783355712891,22.67783355712891,22.67783355712891,22.67783355712891,22.67783355712891,22.67783355712891,22.67783355712891,22.67783355712891,22.67783355712891,22.67783355712891,22.67783355712891,21.43094635009766,21.43094635009766,21.43094635009766,21.43094635009766,21.43094635009766,21.43094635009766,21.43094635009766,21.63990783691406,21.63990783691406,21.63990783691406,21.63990783691406,21.63990783691406,21.63990783691406,21.63990783691406,21.63990783691406,21.63990783691406,21.63990783691406,21.63990783691406,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,21.84317779541016,22.04933929443359,22.04933929443359,22.04933929443359,22.04933929443359,22.04933929443359,22.04933929443359,22.04933929443359],"meminc":[0,0,0,0,0,0,4.834968566894531,0,0,0,0,4.920066833496094,0,0,0,0,5.001731872558594,0,0,0,0,0,4.920845031738281,0,0,0,0,0,2.435401916503906,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-26.94943237304688,0,0,0,0,0,0,0.2092208862304688,0,0.2051010131835938,0,0,0,0,0,0,0.1970748901367188,0,0,0,0,0,0,0,0,0,0,0,0,0.2047271728515625,0,0,0,0,0.211029052734375,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2036361694335938,0,0,0,0,0,0,0.1985397338867188,0,-1.276824951171875,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2114181518554688,0,0,0,0,0,0.1936569213867188,0,0,0,0,0,0,0,0,0,0,0.1994400024414062,0,0,0,0,0,0,0.2077484130859375,0,0,0,0,0,0,0,0.2043533325195312,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2112045288085938,0,0.1746673583984375,0,0,0,0,0,-1.228973388671875,0,0,0,0,0,0,0,0.204010009765625,0,0.1993026733398438,0,0.2065277099609375,0,0,0,0,0,0.21038818359375,0,0,0,0,0,0,0.20733642578125,0,0,0,0,0,0,0,0,0,0,0.2042083740234375,0,0,0,0,0,0,0,0,0,0,0,0,0,-1.24688720703125,0,0,0,0,0,0,0.2089614868164062,0,0,0,0,0,0,0,0,0,0,0.2032699584960938,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2061614990234375,0,0,0,0,0,0],"filename":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]},"interval":10,"files":[],"prof_output":"C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\RtmpeWTHf9\\filea4076684963.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
-<section id="results-when-applying-1" class="level3">
-<h3 class="anchored" data-anchor-id="results-when-applying-1">results when applying</h3>
+<section id="results-when-applying-1" class="level3" data-number="1.9">
+<h3 data-number="1.9" class="anchored" data-anchor-id="results-when-applying-1"><span class="header-section-number">1.9</span> results when applying</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>s2_squares <span class="ot">&lt;-</span> <span class="fu">get_all_s2_squares_on_sphere</span>(<span class="at">alpha =</span> <span class="dv">10</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -492,7 +501,7 @@ Note
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> s2_squares) <span class="sc">+</span></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> s2_centroids, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> s2_centroids, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -514,7 +523,7 @@ Note
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> s2_squares_moll) <span class="sc">+</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> s2_centroids_moll, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> s2_centroids_moll, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -572,12 +581,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copié");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
+      button.setAttribute("data-bs-title", "Copié");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",

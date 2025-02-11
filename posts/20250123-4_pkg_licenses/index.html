@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.33">
@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alcor">
-<meta name="dcterms.date" content="2025-01-23">
+<meta name="description" content="Exploitation des données du champ License">
 
 <title>R CRAN Packages (licences) – dive-R-city</title>
 <style>
@@ -89,17 +89,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
   }
 }</script>
 
@@ -115,18 +115,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">dive-R-city</span>
+    <span class="navbar-title">A lambda</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
-<span class="menu-text">A propos</span></a>
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/"> <i class="bi bi-github" role="img">
@@ -148,10 +152,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">R CRAN Packages (licences)</h1>
-                                <div class="quarto-categories">
-                <div class="quarto-category">news</div>
+                  <div>
+        <div class="description">
+          <p>Exploitation des données du champ <code>License</code></p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
                 <div class="quarto-category">code</div>
                 <div class="quarto-category">analysis</div>
+                <div class="quarto-category">CRAN</div>
               </div>
                   </div>
   </div>
@@ -160,16 +169,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-title-meta">
 
       <div>
-      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-heading">Auteur·rice</div>
       <div class="quarto-title-meta-contents">
                <p>Alcor </p>
             </div>
     </div>
       
       <div>
-      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-heading">Date de publication</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 23, 2025</p>
+        <p class="date">jeudi, 23 janvier 2025</p>
       </div>
     </div>
     
@@ -182,13 +191,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+    <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#r-packages-licenses" id="toc-r-packages-licenses" class="nav-link active" data-scroll-target="#r-packages-licenses">R packages Licenses</a>
+  <li><a href="#r-packages-licenses" id="toc-r-packages-licenses" class="nav-link active" data-scroll-target="#r-packages-licenses"><span class="header-section-number">1</span> R packages Licenses</a>
   <ul class="collapse">
-  <li><a href="#chargement-des-données" id="toc-chargement-des-données" class="nav-link" data-scroll-target="#chargement-des-données">Chargement des données</a></li>
-  <li><a href="#types-de-licences-utilisées" id="toc-types-de-licences-utilisées" class="nav-link" data-scroll-target="#types-de-licences-utilisées">Types de licences utilisées</a></li>
+  <li><a href="#chargement-des-données" id="toc-chargement-des-données" class="nav-link" data-scroll-target="#chargement-des-données"><span class="header-section-number">1.1</span> Chargement des données</a></li>
+  <li><a href="#types-de-licences-utilisées" id="toc-types-de-licences-utilisées" class="nav-link" data-scroll-target="#types-de-licences-utilisées"><span class="header-section-number">1.2</span> Types de licences utilisées</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -200,25 +209,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="r-packages-licenses" class="level2">
-<h2 class="anchored" data-anchor-id="r-packages-licenses">R packages Licenses</h2>
+<section id="r-packages-licenses" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="r-packages-licenses"><span class="header-section-number">1</span> R packages Licenses</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tools)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="chargement-des-données" class="level3">
-<h3 class="anchored" data-anchor-id="chargement-des-données">Chargement des données</h3>
+<section id="chargement-des-données" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="chargement-des-données"><span class="header-section-number">1.1</span> Chargement des données</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pdb <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">CRAN_package_db</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pdb <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">CRAN_package_db</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="types-de-licences-utilisées" class="level3">
-<h3 class="anchored" data-anchor-id="types-de-licences-utilisées">Types de licences utilisées</h3>
+<section id="types-de-licences-utilisées" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="types-de-licences-utilisées"><span class="header-section-number">1.2</span> Types de licences utilisées</h3>
 <p>Les tableaux ci-dessous devront être transformés pour présenter de manière simplifiée les licences principales utilisées.</p>
 <div class="cell">
 <details class="code-fold">
@@ -231,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"Nom licence"</span> <span class="ot">=</span> license,</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">occurrences =</span> V1,</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span> </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">"Nom licence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">"Nom licence"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <ul>
@@ -251,25 +260,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="st">"(occurrence de licence égale à 1 pour un paquet donné)"</span>)</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  ) </span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>gt_orphan_licenses</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>gt_orphan_licenses</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="xksoauvher" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xksoauvher table {
+<div id="jsdxdjphla" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jsdxdjphla table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xksoauvher thead, #xksoauvher tbody, #xksoauvher tfoot, #xksoauvher tr, #xksoauvher td, #xksoauvher th {
+#jsdxdjphla thead, #jsdxdjphla tbody, #jsdxdjphla tfoot, #jsdxdjphla tr, #jsdxdjphla td, #jsdxdjphla th {
   border-style: none;
 }
 
-#xksoauvher p {
+#jsdxdjphla p {
   margin: 0;
   padding: 0;
 }
 
-#xksoauvher .gt_table {
+#jsdxdjphla .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -295,12 +304,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#xksoauvher .gt_caption {
+#jsdxdjphla .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xksoauvher .gt_title {
+#jsdxdjphla .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -312,7 +321,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#xksoauvher .gt_subtitle {
+#jsdxdjphla .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -324,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#xksoauvher .gt_heading {
+#jsdxdjphla .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -336,13 +345,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xksoauvher .gt_bottom_border {
+#jsdxdjphla .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xksoauvher .gt_col_headings {
+#jsdxdjphla .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -357,7 +366,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xksoauvher .gt_col_heading {
+#jsdxdjphla .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -377,7 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#xksoauvher .gt_column_spanner_outer {
+#jsdxdjphla .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -389,15 +398,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#xksoauvher .gt_column_spanner_outer:first-child {
+#jsdxdjphla .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xksoauvher .gt_column_spanner_outer:last-child {
+#jsdxdjphla .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xksoauvher .gt_column_spanner {
+#jsdxdjphla .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -409,11 +418,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#xksoauvher .gt_spanner_row {
+#jsdxdjphla .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xksoauvher .gt_group_heading {
+#jsdxdjphla .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -439,7 +448,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#xksoauvher .gt_empty_group_heading {
+#jsdxdjphla .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -454,15 +463,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#xksoauvher .gt_from_md > :first-child {
+#jsdxdjphla .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xksoauvher .gt_from_md > :last-child {
+#jsdxdjphla .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xksoauvher .gt_row {
+#jsdxdjphla .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -481,7 +490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#xksoauvher .gt_stub {
+#jsdxdjphla .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -494,7 +503,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xksoauvher .gt_stub_row_group {
+#jsdxdjphla .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -508,15 +517,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#xksoauvher .gt_row_group_first td {
+#jsdxdjphla .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xksoauvher .gt_row_group_first th {
+#jsdxdjphla .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xksoauvher .gt_summary_row {
+#jsdxdjphla .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -526,16 +535,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xksoauvher .gt_first_summary_row {
+#jsdxdjphla .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xksoauvher .gt_first_summary_row.thick {
+#jsdxdjphla .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xksoauvher .gt_last_summary_row {
+#jsdxdjphla .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -545,7 +554,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#xksoauvher .gt_grand_summary_row {
+#jsdxdjphla .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -555,7 +564,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xksoauvher .gt_first_grand_summary_row {
+#jsdxdjphla .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -565,7 +574,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#xksoauvher .gt_last_grand_summary_row_top {
+#jsdxdjphla .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -575,11 +584,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#xksoauvher .gt_striped {
+#jsdxdjphla .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xksoauvher .gt_table_body {
+#jsdxdjphla .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -588,7 +597,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#xksoauvher .gt_footnotes {
+#jsdxdjphla .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -602,7 +611,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xksoauvher .gt_footnote {
+#jsdxdjphla .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -611,7 +620,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xksoauvher .gt_sourcenotes {
+#jsdxdjphla .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -625,7 +634,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xksoauvher .gt_sourcenote {
+#jsdxdjphla .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -633,72 +642,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xksoauvher .gt_left {
+#jsdxdjphla .gt_left {
   text-align: left;
 }
 
-#xksoauvher .gt_center {
+#jsdxdjphla .gt_center {
   text-align: center;
 }
 
-#xksoauvher .gt_right {
+#jsdxdjphla .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xksoauvher .gt_font_normal {
+#jsdxdjphla .gt_font_normal {
   font-weight: normal;
 }
 
-#xksoauvher .gt_font_bold {
+#jsdxdjphla .gt_font_bold {
   font-weight: bold;
 }
 
-#xksoauvher .gt_font_italic {
+#jsdxdjphla .gt_font_italic {
   font-style: italic;
 }
 
-#xksoauvher .gt_super {
+#jsdxdjphla .gt_super {
   font-size: 65%;
 }
 
-#xksoauvher .gt_footnote_marks {
+#jsdxdjphla .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xksoauvher .gt_asterisk {
+#jsdxdjphla .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xksoauvher .gt_indent_1 {
+#jsdxdjphla .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xksoauvher .gt_indent_2 {
+#jsdxdjphla .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xksoauvher .gt_indent_3 {
+#jsdxdjphla .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xksoauvher .gt_indent_4 {
+#jsdxdjphla .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xksoauvher .gt_indent_5 {
+#jsdxdjphla .gt_indent_5 {
   text-indent: 25px;
 }
 
-#xksoauvher .katex-display {
+#jsdxdjphla .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#xksoauvher div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#jsdxdjphla div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -986,25 +995,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="st">"(occurrences de licence supérieure à 1 pour un paquet donné)"</span>)</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  ) </span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>gt_other_licenses</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>gt_other_licenses</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="jbybljhlsq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jbybljhlsq table {
+<div id="ilcyxdblrm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ilcyxdblrm table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jbybljhlsq thead, #jbybljhlsq tbody, #jbybljhlsq tfoot, #jbybljhlsq tr, #jbybljhlsq td, #jbybljhlsq th {
+#ilcyxdblrm thead, #ilcyxdblrm tbody, #ilcyxdblrm tfoot, #ilcyxdblrm tr, #ilcyxdblrm td, #ilcyxdblrm th {
   border-style: none;
 }
 
-#jbybljhlsq p {
+#ilcyxdblrm p {
   margin: 0;
   padding: 0;
 }
 
-#jbybljhlsq .gt_table {
+#ilcyxdblrm .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1030,12 +1039,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#jbybljhlsq .gt_caption {
+#ilcyxdblrm .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jbybljhlsq .gt_title {
+#ilcyxdblrm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1047,7 +1056,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#jbybljhlsq .gt_subtitle {
+#ilcyxdblrm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1059,7 +1068,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#jbybljhlsq .gt_heading {
+#ilcyxdblrm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1071,13 +1080,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jbybljhlsq .gt_bottom_border {
+#ilcyxdblrm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jbybljhlsq .gt_col_headings {
+#ilcyxdblrm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1092,7 +1101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jbybljhlsq .gt_col_heading {
+#ilcyxdblrm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1112,7 +1121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#jbybljhlsq .gt_column_spanner_outer {
+#ilcyxdblrm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1124,15 +1133,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#jbybljhlsq .gt_column_spanner_outer:first-child {
+#ilcyxdblrm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jbybljhlsq .gt_column_spanner_outer:last-child {
+#ilcyxdblrm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jbybljhlsq .gt_column_spanner {
+#ilcyxdblrm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1144,11 +1153,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#jbybljhlsq .gt_spanner_row {
+#ilcyxdblrm .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jbybljhlsq .gt_group_heading {
+#ilcyxdblrm .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1174,7 +1183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#jbybljhlsq .gt_empty_group_heading {
+#ilcyxdblrm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1189,15 +1198,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#jbybljhlsq .gt_from_md > :first-child {
+#ilcyxdblrm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jbybljhlsq .gt_from_md > :last-child {
+#ilcyxdblrm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jbybljhlsq .gt_row {
+#ilcyxdblrm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1216,7 +1225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#jbybljhlsq .gt_stub {
+#ilcyxdblrm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1229,7 +1238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jbybljhlsq .gt_stub_row_group {
+#ilcyxdblrm .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1243,15 +1252,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#jbybljhlsq .gt_row_group_first td {
+#ilcyxdblrm .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jbybljhlsq .gt_row_group_first th {
+#ilcyxdblrm .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jbybljhlsq .gt_summary_row {
+#ilcyxdblrm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1261,16 +1270,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jbybljhlsq .gt_first_summary_row {
+#ilcyxdblrm .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jbybljhlsq .gt_first_summary_row.thick {
+#ilcyxdblrm .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jbybljhlsq .gt_last_summary_row {
+#ilcyxdblrm .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1280,7 +1289,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jbybljhlsq .gt_grand_summary_row {
+#ilcyxdblrm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1290,7 +1299,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jbybljhlsq .gt_first_grand_summary_row {
+#ilcyxdblrm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1300,7 +1309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#jbybljhlsq .gt_last_grand_summary_row_top {
+#ilcyxdblrm .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1310,11 +1319,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jbybljhlsq .gt_striped {
+#ilcyxdblrm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jbybljhlsq .gt_table_body {
+#ilcyxdblrm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1323,7 +1332,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jbybljhlsq .gt_footnotes {
+#ilcyxdblrm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1337,7 +1346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jbybljhlsq .gt_footnote {
+#ilcyxdblrm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1346,7 +1355,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jbybljhlsq .gt_sourcenotes {
+#ilcyxdblrm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1360,7 +1369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jbybljhlsq .gt_sourcenote {
+#ilcyxdblrm .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1368,72 +1377,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jbybljhlsq .gt_left {
+#ilcyxdblrm .gt_left {
   text-align: left;
 }
 
-#jbybljhlsq .gt_center {
+#ilcyxdblrm .gt_center {
   text-align: center;
 }
 
-#jbybljhlsq .gt_right {
+#ilcyxdblrm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jbybljhlsq .gt_font_normal {
+#ilcyxdblrm .gt_font_normal {
   font-weight: normal;
 }
 
-#jbybljhlsq .gt_font_bold {
+#ilcyxdblrm .gt_font_bold {
   font-weight: bold;
 }
 
-#jbybljhlsq .gt_font_italic {
+#ilcyxdblrm .gt_font_italic {
   font-style: italic;
 }
 
-#jbybljhlsq .gt_super {
+#ilcyxdblrm .gt_super {
   font-size: 65%;
 }
 
-#jbybljhlsq .gt_footnote_marks {
+#ilcyxdblrm .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jbybljhlsq .gt_asterisk {
+#ilcyxdblrm .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jbybljhlsq .gt_indent_1 {
+#ilcyxdblrm .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jbybljhlsq .gt_indent_2 {
+#ilcyxdblrm .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jbybljhlsq .gt_indent_3 {
+#ilcyxdblrm .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jbybljhlsq .gt_indent_4 {
+#ilcyxdblrm .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jbybljhlsq .gt_indent_5 {
+#ilcyxdblrm .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jbybljhlsq .katex-display {
+#ilcyxdblrm .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jbybljhlsq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ilcyxdblrm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1494,7 +1503,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom licence">Apache License (&gt;= 2)</td>
-<td class="gt_row gt_right" headers="occurrences">144</td>
+<td class="gt_row gt_right" headers="occurrences">145</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom licence">Apache License (&gt;= 2.0)</td>
@@ -1502,7 +1511,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom licence">Apache License 2.0</td>
-<td class="gt_row gt_right" headers="occurrences">140</td>
+<td class="gt_row gt_right" headers="occurrences">141</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom licence">Apache License 2.0 | file LICENSE</td>
@@ -1666,7 +1675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom licence">GPL-3</td>
-<td class="gt_row gt_right" headers="occurrences">4919</td>
+<td class="gt_row gt_right" headers="occurrences">4920</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom licence">GPL-3 | file LICENSE</td>
@@ -1686,7 +1695,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom licence">GPL (&gt;= 2)</td>
-<td class="gt_row gt_right" headers="occurrences">4292</td>
+<td class="gt_row gt_right" headers="occurrences">4291</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom licence">GPL (&gt;= 2) | file LICENCE</td>
@@ -1714,7 +1723,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom licence">GPL (&gt;= 3)</td>
-<td class="gt_row gt_right" headers="occurrences">2041</td>
+<td class="gt_row gt_right" headers="occurrences">2040</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom licence">GPL (&gt;= 3) | file LICENCE</td>
@@ -1798,7 +1807,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Nom licence">MIT + file LICENSE</td>
-<td class="gt_row gt_right" headers="occurrences">4905</td>
+<td class="gt_row gt_right" headers="occurrences">4906</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Nom licence">MIT + file LICENSE | Apache License 2.0</td>
@@ -1895,12 +1904,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copié");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
+      button.setAttribute("data-bs-title", "Copié");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",
