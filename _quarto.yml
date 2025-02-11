@@ -1,9 +1,6 @@
 project:
   type: website
 
-execute: 
-  freeze: false
-  
 website:
   announcement:
     icon: cone-striped
@@ -13,16 +10,26 @@ website:
     type: primary
     position: below-navbar
   title: "dive-R-city"
+  description: "A part of me" 
   navbar:
+    title: "A lambda"
     right:
-      - about.qmd
+      - text: About
+        href: index.qmd
+      - text: Blog
+        href: blog.qmd
       - icon: github
         href: https://github.com/
 
 format:
   html:
+    lang: fr
+    date-format: 'dddd[, ] Do MMMM YYYY'
     code-link: true
     theme: cosmo
     css: styles.css
     toc: true
     link-external-newwindow: true
+
+execute: 
+  freeze: false
