@@ -297,6 +297,7 @@ On rajoute seulement le champ `tld`
 #| label: extract_TLD
 
 tbl_emails <- tbl_unique_emails_in_authorsR |>
+  filter(!is.na(email_id) & !is.na(email_domain)) |> 
   rowwise() |> 
   mutate(tld = match_tld_in_email_domain(email_domain)) |> 
   as_tibble() # else it causes error with summarize function
@@ -323,7 +324,6 @@ tbl_emails <- tbl_unique_emails_in_authorsR |>
 #| echo: false
 
 emails <- tbl_emails |> 
-  filter(!is.na(email_id) & !is.na(email_domain)) |> 
   mutate(email = paste(email_id, email_domain, sep = "@")) |> 
   select("Package", "Version", "email")
 
@@ -331,12 +331,10 @@ pdb_emails_total <- nrow(emails)
 pdb_emails_count <- length(unique(emails$email))
 pdb_mail_servers_count <- tbl_emails |> 
   select(email_domain) |> 
-  filter(!is.na(email_domain)) |>
   unique() |> 
   nrow()
 pdb_tlds_count <- tbl_emails |> 
   select(tld) |> 
-  filter(!is.na(tld)) |>
   unique() |> 
   nrow()
 
@@ -439,7 +437,6 @@ avec $a =$ `r eq$coefficients[[2]]` et $b =$ `r eq$coefficients[[1]]`
 
 mail_server_occurrences <- tbl_emails |>
   select(email_id, email_domain) |> 
-  filter(!is.na(email_id) & !is.na(email_domain)) |>
   unique() |> 
   summarize(n = n(), .by = "email_domain") |>
   arrange(desc(n), "email_domain")
@@ -466,7 +463,6 @@ gt_mail_server_occurrences
 
 TLD_occurrences <- tbl_emails |> 
   select(email_id, email_domain, tld) |> 
-  filter(!is.na(email_id) & !is.na(email_domain)) |> 
   unique() |> 
   summarize(n = n(), .by = "tld") |>
   arrange(desc(n), tld)
