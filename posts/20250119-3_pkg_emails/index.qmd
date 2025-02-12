@@ -95,7 +95,7 @@ Le résultat de la fonction `match_email_in_authors` est une matrice de correspo
 #| 
 match_emails_in_authorsR <- function(str) {
   
-  pattern_email <- "[\"|'|[ ]|[<]]([^\"|']+?)[@]{1}(.+?)[\"|'|[ ]|[>]]"
+  pattern_email <- "[\"|'|[ ]|[<]]([^\"|'|[ ]]+?)[@]{1}(.+?)[\"|'|[ ]|[>]]"
   resultat <- stringi::stri_match_all_regex(
               str = str, 
               pattern = pattern_email,
