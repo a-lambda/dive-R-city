@@ -324,8 +324,7 @@ tbl_emails <- tbl_unique_emails_in_authorsR |>
 #| echo: false
 
 emails <- tbl_emails |> 
-  mutate(email = paste(email_id, email_domain, sep = "@")) |> 
-  select("Package", "Version", "email")
+  mutate(email = paste(email_id, email_domain, sep = "@"))
 
 pdb_emails_total <- nrow(emails)
 pdb_emails_count <- length(unique(emails$email))
