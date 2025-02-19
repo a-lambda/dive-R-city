@@ -61,10 +61,59 @@ fields <- c(
   "NeedsCompilation", "Author", "Authors@R", "Date/Publication", 
   "Description", "Maintainer", "Packaged", "Title", "Published")
 
-pdb <- pdb_CRAN |> 
+pdb_simplified <- pdb_CRAN |> 
   dplyr::select(all_of(fields))
 
 ```
+
+## Vérification de l'unicité des triplets (Package, Version, Depends)
+
+Le chunk suivant permet de déceler les paquets répétés plusieurs fois.
+
+Bien que de même version ils diffèrent pratiquement au niveau du contenu de la colonne `Depends`.
+
+J'ai interrogé des spécialistes Posit sur le forum dédié [ici](https://forum.posit.co/t/what-about-these-packages-in-cran-database/197839)
+
+```{r}
+#| label: Package_Version_unicity
+#| code-fold: true
+
+pkg_version_non_unique <- pdb_CRAN |> 
+  group_by(Package, Version) |> 
+  summarize(n = n(), .groups = "drop") |> 
+  filter(n > 1) |> 
+  inner_join(pdb_CRAN, by = join_by(Package, Version)) |> 
+  select(Package, Version, Depends, `Date/Publication`) |> 
+  arrange(tolower(Package), Version, Depends) |>
+  gt()
+
+pkg_version_non_unique
+
+```
+
+### Choose `Package`, `Version` row with most `Depends` constraint (first one)
+
+Je choisis de ne garder que la ligne correspondant à la version de R maximale nécessaire pour pouvoir installer le paquet dans la version considérée (en considérant que le contenu des colonnes est meilleur sur ce critère)
+
+```{r}
+#| label: choose_most_R_constraint
+#| code-fold: true
+
+pdb <- pdb_simplified |> 
+  group_by(Package, Version) |>
+  arrange(tolower(Package), Version, desc(Depends)) |> 
+  mutate(duplicateID = row_number()) |> 
+  ungroup() |> 
+  filter(duplicateID == 1) |> 
+  select(-duplicateID)
+
+```
+
+::: {.callout-important collapse="false"}
+
+Le tableau de données `pdb` vient d'être épurée des lignes redondantes susceptibles de générer des erreurs dans la suite de l'étude.
+
+:::
 
 ## Evaluation du nombre maximal de mails présents dans la colonne `Authors@R`
 
