@@ -237,21 +237,29 @@ request <- "SELECT MIN(date_publication)::date AS date_min
 
 date_min <- RPostgres::dbGetQuery(conn, statement = request)$date_min
 
-request <- "SELECT DISTINCT(LOWER(paquet)) AS paquet, lien,
-            ROW_NUMBER() OVER(ORDER BY paquet) AS rang
-            FROM dev.paquets
-            GROUP BY paquet, lien
-            ORDER BY paquet;"
+request <- "SELECT ROW_NUMBER() OVER(ORDER BY paquet) AS rang, paquet, version, lien
+            FROM (
+                SELECT DISTINCT ON (paquet) dev.paquets.*
+                FROM dev.paquets
+                ORDER BY paquet, version DESC
+                );"
 
 result <- RPostgres::dbGetQuery(conn, statement = request)
 
-result |> 
+tab <- result |> 
   mutate(lien = map(lien, md)) |> 
   gt() |> 
   tab_header(
-    title    = md("**Liens vers les paquets déjà versionnés**"),
-    subtitle = md(paste0("(depuis le ", as.Date(date_min), ")"))
+    title    = md("#### Liens vers le dépôt CRAN des paquets déjà versionnés"),
+    subtitle = md(paste("**(", 
+                        total_paquets,
+                        "depuis le", 
+                        as.Date(date_min),
+                        ")**")
+                  )
   ) 
+
+tab
 
 ```
 
