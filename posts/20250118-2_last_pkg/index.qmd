@@ -250,7 +250,7 @@ tab <- result |>
   mutate(lien = map(lien, md)) |> 
   gt() |> 
   tab_header(
-    title    = md("#### Liens vers le dépôt CRAN des paquets déjà versionnés"),
+    title    = md("**Liens vers le dépôt CRAN des paquets déjà versionnés**"),
     subtitle = md(paste("**(", 
                         total_paquets,
                         "depuis le", 
@@ -263,12 +263,13 @@ tab
 
 ```
 
-### dernière version de chaque paquet enregistré dans la base
 
 ```{r}
 #| label: latest_versions
 #| code-fold: true
 #| message: false
+
+# dernière version de chaque paquet enregistré dans la base
 request <- "WITH rankedpackages AS (
 	            SELECT
 		          paquet,
@@ -284,7 +285,7 @@ request <- "WITH rankedpackages AS (
 
 result <- RPostgres::dbGetQuery(conn, statement = request)
 
-result |> 
+tab <- result |> 
   gt() |> 
   tab_header(
     title    = md("**Dernières versions des paquets enregistrés**"),
