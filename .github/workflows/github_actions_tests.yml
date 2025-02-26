@@ -19,3 +19,7 @@ jobs:
         run: |
           echo "The repository ${{ github.repository }} containts the following files:"
           whoami && pwd && tree && df -h
+
+      - name: test Perl
+        run: print %ENV
+        shell: perl {0}
