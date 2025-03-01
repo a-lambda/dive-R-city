@@ -102,6 +102,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Recherche"
   }
 }</script>
+<link href="../../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<link href="../../site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+
+<script src="../../site_libs/datatables-binding-0.33/datatables.js"></script>
+
+<script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="../../site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<link href="../../site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+
+<script src="../../site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+
+<link href="../../site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="../../site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -225,8 +245,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RPostgres)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RPostgres)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="récupération-des-données-packages-du-cran" class="level2" data-number="1">
@@ -266,738 +287,65 @@ Note
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cran_repo <span class="ot">&lt;-</span> <span class="st">"https://cran.r-project.org/web/packages/"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>last_pkg_published <span class="ot">&lt;-</span> pdb <span class="sc">|&gt;</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Package, Version, <span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">date</span>(<span class="fu">ymd_hms</span>(<span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>)) <span class="sc">==</span> (<span class="fu">Sys.Date</span>() <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>), Package, Version) <span class="sc">|&gt;</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">paquet =</span> Package,</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">version =</span> Version,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_publication =</span> <span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lien =</span> <span class="fu">paste0</span>(cran_repo, paquet),</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">lien =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"[{paquet}]({lien})"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(<span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>gt_last_pkg_published <span class="ot">&lt;-</span> last_pkg_published <span class="sc">|&gt;</span> </span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lien =</span> <span class="fu">map</span>(lien, md)) <span class="sc">|&gt;</span> </span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span>   </span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Derniers paquets publiés**"</span>),</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle  =</span> <span class="fu">md</span>(<span class="fu">paste</span>(<span class="st">"Total ="</span>, <span class="fu">nrow</span>(last_pkg_published))),</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>gt_last_pkg_published</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lien_markdown <span class="ot">&lt;-</span> <span class="cf">function</span>(nom, lien) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"[{nom}]({lien})"</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>lien_html <span class="ot">&lt;-</span> <span class="cf">function</span>(nom, lien) {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">'&lt;a href="{lien}"&gt;{nom}&lt;/a&gt;'</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>cran_repo <span class="ot">&lt;-</span> <span class="st">"https://cran.r-project.org/web/packages/"</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>last_pkg_published <span class="ot">&lt;-</span> pdb <span class="sc">|&gt;</span> </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Package, Version, <span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">date</span>(<span class="fu">ymd_hms</span>(<span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>)) <span class="sc">==</span> (<span class="fu">Sys.Date</span>() <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>), Package, Version) <span class="sc">|&gt;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">paquet =</span> Package,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">version =</span> Version,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_publication =</span> <span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lien =</span> <span class="fu">lien_markdown</span>(paquet, <span class="fu">paste0</span>(cran_repo, paquet))) <span class="sc">|&gt;</span> </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(<span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co"># gt_last_pkg_published &lt;- last_pkg_published |&gt; </span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">#   mutate(lien = map(lien, md)) |&gt; </span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">#   gt() |&gt;   </span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co">#   tab_header(</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co">#     title    = md("**Derniers paquets publiés**"),</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co">#     subtitle  = md(paste("Total =", nrow(last_pkg_published))),</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) </span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co"># gt_last_pkg_published</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># with DT::datatable</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>last_pkg_published_DT <span class="ot">&lt;-</span> pdb <span class="sc">|&gt;</span> </span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Package, Version, <span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">date</span>(<span class="fu">ymd_hms</span>(<span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>)) <span class="sc">==</span> (<span class="fu">Sys.Date</span>() <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span>), Package, Version) <span class="sc">|&gt;</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">paquet =</span> Package,</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">version =</span> Version,</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_publication =</span> <span class="st">`</span><span class="at">Date/Publication</span><span class="st">`</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">paquet =</span> <span class="fu">lien_html</span>(paquet, <span class="fu">paste0</span>(cran_repo, paquet))) <span class="sc">|&gt;</span> </span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(<span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>last_pkg_published_DT <span class="sc">|&gt;</span> </span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">datatable</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">class =</span> <span class="st">'cell-border stripe'</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="yfrrytlkla" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#yfrrytlkla table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#yfrrytlkla thead, #yfrrytlkla tbody, #yfrrytlkla tfoot, #yfrrytlkla tr, #yfrrytlkla td, #yfrrytlkla th {
-  border-style: none;
-}
-
-#yfrrytlkla p {
-  margin: 0;
-  padding: 0;
-}
-
-#yfrrytlkla .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#yfrrytlkla .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#yfrrytlkla .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#yfrrytlkla .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#yfrrytlkla .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#yfrrytlkla .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#yfrrytlkla .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#yfrrytlkla .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#yfrrytlkla .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#yfrrytlkla .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#yfrrytlkla .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#yfrrytlkla .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#yfrrytlkla .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#yfrrytlkla .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#yfrrytlkla .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#yfrrytlkla .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#yfrrytlkla .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#yfrrytlkla .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#yfrrytlkla .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#yfrrytlkla .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#yfrrytlkla .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#yfrrytlkla .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#yfrrytlkla .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#yfrrytlkla .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#yfrrytlkla .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#yfrrytlkla .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#yfrrytlkla .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#yfrrytlkla .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#yfrrytlkla .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#yfrrytlkla .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#yfrrytlkla .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#yfrrytlkla .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#yfrrytlkla .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#yfrrytlkla .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#yfrrytlkla .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#yfrrytlkla .gt_left {
-  text-align: left;
-}
-
-#yfrrytlkla .gt_center {
-  text-align: center;
-}
-
-#yfrrytlkla .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#yfrrytlkla .gt_font_normal {
-  font-weight: normal;
-}
-
-#yfrrytlkla .gt_font_bold {
-  font-weight: bold;
-}
-
-#yfrrytlkla .gt_font_italic {
-  font-style: italic;
-}
-
-#yfrrytlkla .gt_super {
-  font-size: 65%;
-}
-
-#yfrrytlkla .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#yfrrytlkla .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#yfrrytlkla .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#yfrrytlkla .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#yfrrytlkla .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#yfrrytlkla .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#yfrrytlkla .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#yfrrytlkla .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#yfrrytlkla div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading header">
-<th colspan="4" class="gt_heading gt_title gt_font_normal"><strong>Derniers paquets publiés</strong></th>
-</tr>
-<tr class="gt_heading even">
-<th colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Total = 39</th>
-</tr>
-<tr class="gt_col_headings header">
-<th id="paquet" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">paquet</th>
-<th id="version" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">version</th>
-<th id="date_publication" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">date_publication</th>
-<th id="lien" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">lien</th>
-</tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">rapportools</td>
-<td class="gt_row gt_right" headers="version">1.2</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 23:00:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/rapportools">rapportools</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">lifepack</td>
-<td class="gt_row gt_right" headers="version">0.1.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 22:10:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/lifepack">lifepack</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">apcf</td>
-<td class="gt_row gt_right" headers="version">0.3.2</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 21:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/apcf">apcf</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">estimatr</td>
-<td class="gt_row gt_right" headers="version">1.0.6</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 19:30:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/estimatr">estimatr</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">gamlssx</td>
-<td class="gt_row gt_right" headers="version">1.0.2</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 19:10:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/gamlssx">gamlssx</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">rTG</td>
-<td class="gt_row gt_right" headers="version">1.0.4</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 18:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/rTG">rTG</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">jobqueue</td>
-<td class="gt_row gt_right" headers="version">1.5.1</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 18:20:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/jobqueue">jobqueue</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">adelie</td>
-<td class="gt_row gt_right" headers="version">1.0.7</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 17:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/adelie">adelie</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">MASS</td>
-<td class="gt_row gt_right" headers="version">7.3-65</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 17:44:52 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/MASS">MASS</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">mtb</td>
-<td class="gt_row gt_right" headers="version">0.1.9</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 17:30:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/mtb">mtb</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">xml2</td>
-<td class="gt_row gt_right" headers="version">1.3.7</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 16:10:01 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/xml2">xml2</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">r2rtf</td>
-<td class="gt_row gt_right" headers="version">1.1.3</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 16:00:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/r2rtf">r2rtf</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">teal.modules.clinical</td>
-<td class="gt_row gt_right" headers="version">0.10.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 15:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/teal.modules.clinical">teal.modules.clinical</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">rayrender</td>
-<td class="gt_row gt_right" headers="version">0.38.10</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 15:20:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/rayrender">rayrender</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">teal.modules.general</td>
-<td class="gt_row gt_right" headers="version">0.4.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 15:10:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/teal.modules.general">teal.modules.general</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">phyloraster</td>
-<td class="gt_row gt_right" headers="version">2.2.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 15:00:01 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/phyloraster">phyloraster</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">odbc</td>
-<td class="gt_row gt_right" headers="version">1.6.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 14:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/odbc">odbc</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">MolgenisArmadillo</td>
-<td class="gt_row gt_right" headers="version">2.9.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 14:40:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/MolgenisArmadillo">MolgenisArmadillo</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">UComp</td>
-<td class="gt_row gt_right" headers="version">5.0.6</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 13:20:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/UComp">UComp</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">segmented</td>
-<td class="gt_row gt_right" headers="version">2.1-4</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 12:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/segmented">segmented</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">metaumbrella</td>
-<td class="gt_row gt_right" headers="version">1.1.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 11:40:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/metaumbrella">metaumbrella</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">stdReg2</td>
-<td class="gt_row gt_right" headers="version">1.0.3</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 11:10:01 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/stdReg2">stdReg2</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">BCDAG</td>
-<td class="gt_row gt_right" headers="version">1.1.3</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 11:00:09 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/BCDAG">BCDAG</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">cvasi</td>
-<td class="gt_row gt_right" headers="version">1.4.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 11:00:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/cvasi">cvasi</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">diseasystore</td>
-<td class="gt_row gt_right" headers="version">0.3.1</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 10:30:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/diseasystore">diseasystore</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">CNID</td>
-<td class="gt_row gt_right" headers="version">2.0.2</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 10:20:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/CNID">CNID</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">eq5d</td>
-<td class="gt_row gt_right" headers="version">0.15.7</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 10:00:01 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/eq5d">eq5d</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">tm.plugin.alceste</td>
-<td class="gt_row gt_right" headers="version">1.1.2</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 09:50:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/tm.plugin.alceste">tm.plugin.alceste</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">Bernadette</td>
-<td class="gt_row gt_right" headers="version">1.1.6</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 09:40:14 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/Bernadette">Bernadette</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">bvhar</td>
-<td class="gt_row gt_right" headers="version">2.2.2</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 09:40:08 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/bvhar">bvhar</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">httpgd</td>
-<td class="gt_row gt_right" headers="version">2.0.3</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 09:40:05 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/httpgd">httpgd</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">pemultinom</td>
-<td class="gt_row gt_right" headers="version">0.1.1</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 09:40:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/pemultinom">pemultinom</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">flexclust</td>
-<td class="gt_row gt_right" headers="version">1.5.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 06:40:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/flexclust">flexclust</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">flexmix</td>
-<td class="gt_row gt_right" headers="version">2.3-20</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 06:20:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/flexmix">flexmix</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">JMbayes2</td>
-<td class="gt_row gt_right" headers="version">0.5-2</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 06:10:01 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/JMbayes2">JMbayes2</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">splines2</td>
-<td class="gt_row gt_right" headers="version">0.5.4</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 05:40:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/splines2">splines2</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">censobr</td>
-<td class="gt_row gt_right" headers="version">0.4.1</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 03:30:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/censobr">censobr</a></td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="paquet">healthdb</td>
-<td class="gt_row gt_right" headers="version">0.4.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 03:10:06 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/healthdb">healthdb</a></td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="paquet">pmlbr</td>
-<td class="gt_row gt_right" headers="version">0.3.0</td>
-<td class="gt_row gt_left" headers="date_publication">2025-02-28 03:10:02 UTC</td>
-<td class="gt_row gt_center" headers="lien"><a href="https://cran.r-project.org/web/packages/pmlbr">pmlbr</a></td>
-</tr>
-</tbody>
-</table>
-
-</div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-497dc4237311b28d37a2" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-497dc4237311b28d37a2">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39"],["<a href=\"https://cran.r-project.org/web/packages/rapportools\">rapportools<\/a>","<a href=\"https://cran.r-project.org/web/packages/lifepack\">lifepack<\/a>","<a href=\"https://cran.r-project.org/web/packages/apcf\">apcf<\/a>","<a href=\"https://cran.r-project.org/web/packages/estimatr\">estimatr<\/a>","<a href=\"https://cran.r-project.org/web/packages/gamlssx\">gamlssx<\/a>","<a href=\"https://cran.r-project.org/web/packages/rTG\">rTG<\/a>","<a href=\"https://cran.r-project.org/web/packages/jobqueue\">jobqueue<\/a>","<a href=\"https://cran.r-project.org/web/packages/adelie\">adelie<\/a>","<a href=\"https://cran.r-project.org/web/packages/MASS\">MASS<\/a>","<a href=\"https://cran.r-project.org/web/packages/mtb\">mtb<\/a>","<a href=\"https://cran.r-project.org/web/packages/xml2\">xml2<\/a>","<a href=\"https://cran.r-project.org/web/packages/r2rtf\">r2rtf<\/a>","<a href=\"https://cran.r-project.org/web/packages/teal.modules.clinical\">teal.modules.clinical<\/a>","<a href=\"https://cran.r-project.org/web/packages/rayrender\">rayrender<\/a>","<a href=\"https://cran.r-project.org/web/packages/teal.modules.general\">teal.modules.general<\/a>","<a href=\"https://cran.r-project.org/web/packages/phyloraster\">phyloraster<\/a>","<a href=\"https://cran.r-project.org/web/packages/odbc\">odbc<\/a>","<a href=\"https://cran.r-project.org/web/packages/MolgenisArmadillo\">MolgenisArmadillo<\/a>","<a href=\"https://cran.r-project.org/web/packages/UComp\">UComp<\/a>","<a href=\"https://cran.r-project.org/web/packages/segmented\">segmented<\/a>","<a href=\"https://cran.r-project.org/web/packages/metaumbrella\">metaumbrella<\/a>","<a href=\"https://cran.r-project.org/web/packages/stdReg2\">stdReg2<\/a>","<a href=\"https://cran.r-project.org/web/packages/BCDAG\">BCDAG<\/a>","<a href=\"https://cran.r-project.org/web/packages/cvasi\">cvasi<\/a>","<a href=\"https://cran.r-project.org/web/packages/diseasystore\">diseasystore<\/a>","<a href=\"https://cran.r-project.org/web/packages/CNID\">CNID<\/a>","<a href=\"https://cran.r-project.org/web/packages/eq5d\">eq5d<\/a>","<a href=\"https://cran.r-project.org/web/packages/tm.plugin.alceste\">tm.plugin.alceste<\/a>","<a href=\"https://cran.r-project.org/web/packages/Bernadette\">Bernadette<\/a>","<a href=\"https://cran.r-project.org/web/packages/bvhar\">bvhar<\/a>","<a href=\"https://cran.r-project.org/web/packages/httpgd\">httpgd<\/a>","<a href=\"https://cran.r-project.org/web/packages/pemultinom\">pemultinom<\/a>","<a href=\"https://cran.r-project.org/web/packages/flexclust\">flexclust<\/a>","<a href=\"https://cran.r-project.org/web/packages/flexmix\">flexmix<\/a>","<a href=\"https://cran.r-project.org/web/packages/JMbayes2\">JMbayes2<\/a>","<a href=\"https://cran.r-project.org/web/packages/splines2\">splines2<\/a>","<a href=\"https://cran.r-project.org/web/packages/censobr\">censobr<\/a>","<a href=\"https://cran.r-project.org/web/packages/healthdb\">healthdb<\/a>","<a href=\"https://cran.r-project.org/web/packages/pmlbr\">pmlbr<\/a>"],["1.2","0.1.0","0.3.2","1.0.6","1.0.2","1.0.4","1.5.1","1.0.7","7.3-65","0.1.9","1.3.7","1.1.3","0.10.0","0.38.10","0.4.0","2.2.0","1.6.0","2.9.0","5.0.6","2.1-4","1.1.0","1.0.3","1.1.3","1.4.0","0.3.1","2.0.2","0.15.7","1.1.2","1.1.6","2.2.2","2.0.3","0.1.1","1.5.0","2.3-20","0.5-2","0.5.4","0.4.1","0.4.0","0.3.0"],["2025-02-28 23:00:02 UTC","2025-02-28 22:10:02 UTC","2025-02-28 21:50:02 UTC","2025-02-28 19:30:02 UTC","2025-02-28 19:10:02 UTC","2025-02-28 18:50:02 UTC","2025-02-28 18:20:02 UTC","2025-02-28 17:50:02 UTC","2025-02-28 17:44:52 UTC","2025-02-28 17:30:02 UTC","2025-02-28 16:10:01 UTC","2025-02-28 16:00:02 UTC","2025-02-28 15:50:02 UTC","2025-02-28 15:20:02 UTC","2025-02-28 15:10:02 UTC","2025-02-28 15:00:01 UTC","2025-02-28 14:50:02 UTC","2025-02-28 14:40:02 UTC","2025-02-28 13:20:02 UTC","2025-02-28 12:50:02 UTC","2025-02-28 11:40:02 UTC","2025-02-28 11:10:01 UTC","2025-02-28 11:00:09 UTC","2025-02-28 11:00:02 UTC","2025-02-28 10:30:02 UTC","2025-02-28 10:20:02 UTC","2025-02-28 10:00:01 UTC","2025-02-28 09:50:02 UTC","2025-02-28 09:40:14 UTC","2025-02-28 09:40:08 UTC","2025-02-28 09:40:05 UTC","2025-02-28 09:40:02 UTC","2025-02-28 06:40:02 UTC","2025-02-28 06:20:02 UTC","2025-02-28 06:10:01 UTC","2025-02-28 05:40:02 UTC","2025-02-28 03:30:02 UTC","2025-02-28 03:10:06 UTC","2025-02-28 03:10:02 UTC"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>paquet<\/th>\n      <th>version<\/th>\n      <th>date_publication<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"paquet","targets":1},{"name":"version","targets":2},{"name":"date_publication","targets":3}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -1126,23 +474,23 @@ Note
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="lpyajwfsuk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lpyajwfsuk table {
+<div id="rxovihluni" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rxovihluni table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lpyajwfsuk thead, #lpyajwfsuk tbody, #lpyajwfsuk tfoot, #lpyajwfsuk tr, #lpyajwfsuk td, #lpyajwfsuk th {
+#rxovihluni thead, #rxovihluni tbody, #rxovihluni tfoot, #rxovihluni tr, #rxovihluni td, #rxovihluni th {
   border-style: none;
 }
 
-#lpyajwfsuk p {
+#rxovihluni p {
   margin: 0;
   padding: 0;
 }
 
-#lpyajwfsuk .gt_table {
+#rxovihluni .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1168,12 +516,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#lpyajwfsuk .gt_caption {
+#rxovihluni .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lpyajwfsuk .gt_title {
+#rxovihluni .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1185,7 +533,7 @@ Note
   border-bottom-width: 0;
 }
 
-#lpyajwfsuk .gt_subtitle {
+#rxovihluni .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1197,7 +545,7 @@ Note
   border-top-width: 0;
 }
 
-#lpyajwfsuk .gt_heading {
+#rxovihluni .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1209,13 +557,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#lpyajwfsuk .gt_bottom_border {
+#rxovihluni .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lpyajwfsuk .gt_col_headings {
+#rxovihluni .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1230,7 +578,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#lpyajwfsuk .gt_col_heading {
+#rxovihluni .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1250,7 +598,7 @@ Note
   overflow-x: hidden;
 }
 
-#lpyajwfsuk .gt_column_spanner_outer {
+#rxovihluni .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1262,15 +610,15 @@ Note
   padding-right: 4px;
 }
 
-#lpyajwfsuk .gt_column_spanner_outer:first-child {
+#rxovihluni .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lpyajwfsuk .gt_column_spanner_outer:last-child {
+#rxovihluni .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lpyajwfsuk .gt_column_spanner {
+#rxovihluni .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1282,11 +630,11 @@ Note
   width: 100%;
 }
 
-#lpyajwfsuk .gt_spanner_row {
+#rxovihluni .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lpyajwfsuk .gt_group_heading {
+#rxovihluni .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1312,7 +660,7 @@ Note
   text-align: left;
 }
 
-#lpyajwfsuk .gt_empty_group_heading {
+#rxovihluni .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1327,15 +675,15 @@ Note
   vertical-align: middle;
 }
 
-#lpyajwfsuk .gt_from_md > :first-child {
+#rxovihluni .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lpyajwfsuk .gt_from_md > :last-child {
+#rxovihluni .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lpyajwfsuk .gt_row {
+#rxovihluni .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1354,7 +702,7 @@ Note
   overflow-x: hidden;
 }
 
-#lpyajwfsuk .gt_stub {
+#rxovihluni .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1367,7 +715,7 @@ Note
   padding-right: 5px;
 }
 
-#lpyajwfsuk .gt_stub_row_group {
+#rxovihluni .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1381,15 +729,15 @@ Note
   vertical-align: top;
 }
 
-#lpyajwfsuk .gt_row_group_first td {
+#rxovihluni .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lpyajwfsuk .gt_row_group_first th {
+#rxovihluni .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lpyajwfsuk .gt_summary_row {
+#rxovihluni .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1399,16 +747,16 @@ Note
   padding-right: 5px;
 }
 
-#lpyajwfsuk .gt_first_summary_row {
+#rxovihluni .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lpyajwfsuk .gt_first_summary_row.thick {
+#rxovihluni .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lpyajwfsuk .gt_last_summary_row {
+#rxovihluni .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1418,7 +766,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#lpyajwfsuk .gt_grand_summary_row {
+#rxovihluni .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1428,7 +776,7 @@ Note
   padding-right: 5px;
 }
 
-#lpyajwfsuk .gt_first_grand_summary_row {
+#rxovihluni .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1438,7 +786,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#lpyajwfsuk .gt_last_grand_summary_row_top {
+#rxovihluni .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1448,11 +796,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#lpyajwfsuk .gt_striped {
+#rxovihluni .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lpyajwfsuk .gt_table_body {
+#rxovihluni .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1461,7 +809,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#lpyajwfsuk .gt_footnotes {
+#rxovihluni .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1475,7 +823,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#lpyajwfsuk .gt_footnote {
+#rxovihluni .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1484,7 +832,7 @@ Note
   padding-right: 5px;
 }
 
-#lpyajwfsuk .gt_sourcenotes {
+#rxovihluni .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1498,7 +846,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#lpyajwfsuk .gt_sourcenote {
+#rxovihluni .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1506,72 +854,72 @@ Note
   padding-right: 5px;
 }
 
-#lpyajwfsuk .gt_left {
+#rxovihluni .gt_left {
   text-align: left;
 }
 
-#lpyajwfsuk .gt_center {
+#rxovihluni .gt_center {
   text-align: center;
 }
 
-#lpyajwfsuk .gt_right {
+#rxovihluni .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lpyajwfsuk .gt_font_normal {
+#rxovihluni .gt_font_normal {
   font-weight: normal;
 }
 
-#lpyajwfsuk .gt_font_bold {
+#rxovihluni .gt_font_bold {
   font-weight: bold;
 }
 
-#lpyajwfsuk .gt_font_italic {
+#rxovihluni .gt_font_italic {
   font-style: italic;
 }
 
-#lpyajwfsuk .gt_super {
+#rxovihluni .gt_super {
   font-size: 65%;
 }
 
-#lpyajwfsuk .gt_footnote_marks {
+#rxovihluni .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lpyajwfsuk .gt_asterisk {
+#rxovihluni .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lpyajwfsuk .gt_indent_1 {
+#rxovihluni .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lpyajwfsuk .gt_indent_2 {
+#rxovihluni .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lpyajwfsuk .gt_indent_3 {
+#rxovihluni .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lpyajwfsuk .gt_indent_4 {
+#rxovihluni .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lpyajwfsuk .gt_indent_5 {
+#rxovihluni .gt_indent_5 {
   text-indent: 25px;
 }
 
-#lpyajwfsuk .katex-display {
+#rxovihluni .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#lpyajwfsuk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#rxovihluni div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1845,23 +1193,23 @@ Note
 <span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="nzkjifcahw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nzkjifcahw table {
+<div id="snlncwhcro" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#snlncwhcro table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nzkjifcahw thead, #nzkjifcahw tbody, #nzkjifcahw tfoot, #nzkjifcahw tr, #nzkjifcahw td, #nzkjifcahw th {
+#snlncwhcro thead, #snlncwhcro tbody, #snlncwhcro tfoot, #snlncwhcro tr, #snlncwhcro td, #snlncwhcro th {
   border-style: none;
 }
 
-#nzkjifcahw p {
+#snlncwhcro p {
   margin: 0;
   padding: 0;
 }
 
-#nzkjifcahw .gt_table {
+#snlncwhcro .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1887,12 +1235,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#nzkjifcahw .gt_caption {
+#snlncwhcro .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nzkjifcahw .gt_title {
+#snlncwhcro .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1904,7 +1252,7 @@ Note
   border-bottom-width: 0;
 }
 
-#nzkjifcahw .gt_subtitle {
+#snlncwhcro .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1916,7 +1264,7 @@ Note
   border-top-width: 0;
 }
 
-#nzkjifcahw .gt_heading {
+#snlncwhcro .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1928,13 +1276,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#nzkjifcahw .gt_bottom_border {
+#snlncwhcro .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nzkjifcahw .gt_col_headings {
+#snlncwhcro .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1949,7 +1297,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#nzkjifcahw .gt_col_heading {
+#snlncwhcro .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1969,7 +1317,7 @@ Note
   overflow-x: hidden;
 }
 
-#nzkjifcahw .gt_column_spanner_outer {
+#snlncwhcro .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1981,15 +1329,15 @@ Note
   padding-right: 4px;
 }
 
-#nzkjifcahw .gt_column_spanner_outer:first-child {
+#snlncwhcro .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nzkjifcahw .gt_column_spanner_outer:last-child {
+#snlncwhcro .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nzkjifcahw .gt_column_spanner {
+#snlncwhcro .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2001,11 +1349,11 @@ Note
   width: 100%;
 }
 
-#nzkjifcahw .gt_spanner_row {
+#snlncwhcro .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nzkjifcahw .gt_group_heading {
+#snlncwhcro .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2031,7 +1379,7 @@ Note
   text-align: left;
 }
 
-#nzkjifcahw .gt_empty_group_heading {
+#snlncwhcro .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2046,15 +1394,15 @@ Note
   vertical-align: middle;
 }
 
-#nzkjifcahw .gt_from_md > :first-child {
+#snlncwhcro .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nzkjifcahw .gt_from_md > :last-child {
+#snlncwhcro .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nzkjifcahw .gt_row {
+#snlncwhcro .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2073,7 +1421,7 @@ Note
   overflow-x: hidden;
 }
 
-#nzkjifcahw .gt_stub {
+#snlncwhcro .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2086,7 +1434,7 @@ Note
   padding-right: 5px;
 }
 
-#nzkjifcahw .gt_stub_row_group {
+#snlncwhcro .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2100,15 +1448,15 @@ Note
   vertical-align: top;
 }
 
-#nzkjifcahw .gt_row_group_first td {
+#snlncwhcro .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nzkjifcahw .gt_row_group_first th {
+#snlncwhcro .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nzkjifcahw .gt_summary_row {
+#snlncwhcro .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2118,16 +1466,16 @@ Note
   padding-right: 5px;
 }
 
-#nzkjifcahw .gt_first_summary_row {
+#snlncwhcro .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nzkjifcahw .gt_first_summary_row.thick {
+#snlncwhcro .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nzkjifcahw .gt_last_summary_row {
+#snlncwhcro .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2137,7 +1485,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#nzkjifcahw .gt_grand_summary_row {
+#snlncwhcro .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2147,7 +1495,7 @@ Note
   padding-right: 5px;
 }
 
-#nzkjifcahw .gt_first_grand_summary_row {
+#snlncwhcro .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2157,7 +1505,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#nzkjifcahw .gt_last_grand_summary_row_top {
+#snlncwhcro .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2167,11 +1515,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#nzkjifcahw .gt_striped {
+#snlncwhcro .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nzkjifcahw .gt_table_body {
+#snlncwhcro .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2180,7 +1528,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#nzkjifcahw .gt_footnotes {
+#snlncwhcro .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2194,7 +1542,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#nzkjifcahw .gt_footnote {
+#snlncwhcro .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2203,7 +1551,7 @@ Note
   padding-right: 5px;
 }
 
-#nzkjifcahw .gt_sourcenotes {
+#snlncwhcro .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2217,7 +1565,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#nzkjifcahw .gt_sourcenote {
+#snlncwhcro .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2225,72 +1573,72 @@ Note
   padding-right: 5px;
 }
 
-#nzkjifcahw .gt_left {
+#snlncwhcro .gt_left {
   text-align: left;
 }
 
-#nzkjifcahw .gt_center {
+#snlncwhcro .gt_center {
   text-align: center;
 }
 
-#nzkjifcahw .gt_right {
+#snlncwhcro .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nzkjifcahw .gt_font_normal {
+#snlncwhcro .gt_font_normal {
   font-weight: normal;
 }
 
-#nzkjifcahw .gt_font_bold {
+#snlncwhcro .gt_font_bold {
   font-weight: bold;
 }
 
-#nzkjifcahw .gt_font_italic {
+#snlncwhcro .gt_font_italic {
   font-style: italic;
 }
 
-#nzkjifcahw .gt_super {
+#snlncwhcro .gt_super {
   font-size: 65%;
 }
 
-#nzkjifcahw .gt_footnote_marks {
+#snlncwhcro .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nzkjifcahw .gt_asterisk {
+#snlncwhcro .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nzkjifcahw .gt_indent_1 {
+#snlncwhcro .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nzkjifcahw .gt_indent_2 {
+#snlncwhcro .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nzkjifcahw .gt_indent_3 {
+#snlncwhcro .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nzkjifcahw .gt_indent_4 {
+#snlncwhcro .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nzkjifcahw .gt_indent_5 {
+#snlncwhcro .gt_indent_5 {
   text-indent: 25px;
 }
 
-#nzkjifcahw .katex-display {
+#snlncwhcro .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#nzkjifcahw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#snlncwhcro div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4909,23 +4257,23 @@ Note
 <span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>tab</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="erfptucuck" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#erfptucuck table {
+<div id="sxzlefyark" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#sxzlefyark table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#erfptucuck thead, #erfptucuck tbody, #erfptucuck tfoot, #erfptucuck tr, #erfptucuck td, #erfptucuck th {
+#sxzlefyark thead, #sxzlefyark tbody, #sxzlefyark tfoot, #sxzlefyark tr, #sxzlefyark td, #sxzlefyark th {
   border-style: none;
 }
 
-#erfptucuck p {
+#sxzlefyark p {
   margin: 0;
   padding: 0;
 }
 
-#erfptucuck .gt_table {
+#sxzlefyark .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4951,12 +4299,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#erfptucuck .gt_caption {
+#sxzlefyark .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#erfptucuck .gt_title {
+#sxzlefyark .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4968,7 +4316,7 @@ Note
   border-bottom-width: 0;
 }
 
-#erfptucuck .gt_subtitle {
+#sxzlefyark .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4980,7 +4328,7 @@ Note
   border-top-width: 0;
 }
 
-#erfptucuck .gt_heading {
+#sxzlefyark .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4992,13 +4340,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#erfptucuck .gt_bottom_border {
+#sxzlefyark .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#erfptucuck .gt_col_headings {
+#sxzlefyark .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5013,7 +4361,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#erfptucuck .gt_col_heading {
+#sxzlefyark .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5033,7 +4381,7 @@ Note
   overflow-x: hidden;
 }
 
-#erfptucuck .gt_column_spanner_outer {
+#sxzlefyark .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5045,15 +4393,15 @@ Note
   padding-right: 4px;
 }
 
-#erfptucuck .gt_column_spanner_outer:first-child {
+#sxzlefyark .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#erfptucuck .gt_column_spanner_outer:last-child {
+#sxzlefyark .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#erfptucuck .gt_column_spanner {
+#sxzlefyark .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -5065,11 +4413,11 @@ Note
   width: 100%;
 }
 
-#erfptucuck .gt_spanner_row {
+#sxzlefyark .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#erfptucuck .gt_group_heading {
+#sxzlefyark .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5095,7 +4443,7 @@ Note
   text-align: left;
 }
 
-#erfptucuck .gt_empty_group_heading {
+#sxzlefyark .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5110,15 +4458,15 @@ Note
   vertical-align: middle;
 }
 
-#erfptucuck .gt_from_md > :first-child {
+#sxzlefyark .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#erfptucuck .gt_from_md > :last-child {
+#sxzlefyark .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#erfptucuck .gt_row {
+#sxzlefyark .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5137,7 +4485,7 @@ Note
   overflow-x: hidden;
 }
 
-#erfptucuck .gt_stub {
+#sxzlefyark .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5150,7 +4498,7 @@ Note
   padding-right: 5px;
 }
 
-#erfptucuck .gt_stub_row_group {
+#sxzlefyark .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5164,15 +4512,15 @@ Note
   vertical-align: top;
 }
 
-#erfptucuck .gt_row_group_first td {
+#sxzlefyark .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#erfptucuck .gt_row_group_first th {
+#sxzlefyark .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#erfptucuck .gt_summary_row {
+#sxzlefyark .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5182,16 +4530,16 @@ Note
   padding-right: 5px;
 }
 
-#erfptucuck .gt_first_summary_row {
+#sxzlefyark .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#erfptucuck .gt_first_summary_row.thick {
+#sxzlefyark .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#erfptucuck .gt_last_summary_row {
+#sxzlefyark .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5201,7 +4549,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#erfptucuck .gt_grand_summary_row {
+#sxzlefyark .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5211,7 +4559,7 @@ Note
   padding-right: 5px;
 }
 
-#erfptucuck .gt_first_grand_summary_row {
+#sxzlefyark .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5221,7 +4569,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#erfptucuck .gt_last_grand_summary_row_top {
+#sxzlefyark .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5231,11 +4579,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#erfptucuck .gt_striped {
+#sxzlefyark .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#erfptucuck .gt_table_body {
+#sxzlefyark .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5244,7 +4592,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#erfptucuck .gt_footnotes {
+#sxzlefyark .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5258,7 +4606,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#erfptucuck .gt_footnote {
+#sxzlefyark .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -5267,7 +4615,7 @@ Note
   padding-right: 5px;
 }
 
-#erfptucuck .gt_sourcenotes {
+#sxzlefyark .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5281,7 +4629,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#erfptucuck .gt_sourcenote {
+#sxzlefyark .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5289,72 +4637,72 @@ Note
   padding-right: 5px;
 }
 
-#erfptucuck .gt_left {
+#sxzlefyark .gt_left {
   text-align: left;
 }
 
-#erfptucuck .gt_center {
+#sxzlefyark .gt_center {
   text-align: center;
 }
 
-#erfptucuck .gt_right {
+#sxzlefyark .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#erfptucuck .gt_font_normal {
+#sxzlefyark .gt_font_normal {
   font-weight: normal;
 }
 
-#erfptucuck .gt_font_bold {
+#sxzlefyark .gt_font_bold {
   font-weight: bold;
 }
 
-#erfptucuck .gt_font_italic {
+#sxzlefyark .gt_font_italic {
   font-style: italic;
 }
 
-#erfptucuck .gt_super {
+#sxzlefyark .gt_super {
   font-size: 65%;
 }
 
-#erfptucuck .gt_footnote_marks {
+#sxzlefyark .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#erfptucuck .gt_asterisk {
+#sxzlefyark .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#erfptucuck .gt_indent_1 {
+#sxzlefyark .gt_indent_1 {
   text-indent: 5px;
 }
 
-#erfptucuck .gt_indent_2 {
+#sxzlefyark .gt_indent_2 {
   text-indent: 10px;
 }
 
-#erfptucuck .gt_indent_3 {
+#sxzlefyark .gt_indent_3 {
   text-indent: 15px;
 }
 
-#erfptucuck .gt_indent_4 {
+#sxzlefyark .gt_indent_4 {
   text-indent: 20px;
 }
 
-#erfptucuck .gt_indent_5 {
+#sxzlefyark .gt_indent_5 {
   text-indent: 25px;
 }
 
-#erfptucuck .katex-display {
+#sxzlefyark .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#erfptucuck div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#sxzlefyark div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
