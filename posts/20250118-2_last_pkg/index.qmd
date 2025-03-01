@@ -19,6 +19,7 @@ library(dplyr)
 library(tibble)
 library(lubridate)
 library(gt)
+library(DT)
 library(glue)
 library(RPostgres)
 
@@ -60,6 +61,18 @@ Si l'élimination des doublons n'est pas effectuée avant intégration dans la b
 #| label: published_field
 #| code-fold: true
 
+lien_markdown <- function(nom, lien) {
+  
+  return(glue::glue("[{nom}]({lien})"))
+
+}
+
+lien_html <- function(nom, lien) {
+  
+  return(glue::glue('<a href="{lien}">{nom}</a>'))
+  
+}
+
 cran_repo <- "https://cran.r-project.org/web/packages/"
 
 last_pkg_published <- pdb |> 
@@ -73,19 +86,36 @@ last_pkg_published <- pdb |>
     version = Version,
     date_publication = `Date/Publication`
   ) |> 
-  mutate(lien = paste0(cran_repo, paquet),
-    lien = glue::glue("[{paquet}]({lien})")) |> 
+  mutate(lien = lien_markdown(paquet, paste0(cran_repo, paquet))) |> 
   distinct(.keep_all = TRUE)
 
-gt_last_pkg_published <- last_pkg_published |> 
-  mutate(lien = map(lien, md)) |> 
-  gt() |>   
-  tab_header(
-    title    = md("**Derniers paquets publiés**"),
-    subtitle  = md(paste("Total =", nrow(last_pkg_published))),
-  ) 
+# gt_last_pkg_published <- last_pkg_published |> 
+#   mutate(lien = map(lien, md)) |> 
+#   gt() |>   
+#   tab_header(
+#     title    = md("**Derniers paquets publiés**"),
+#     subtitle  = md(paste("Total =", nrow(last_pkg_published))),
+#   ) 
+# 
+# gt_last_pkg_published
 
-gt_last_pkg_published
+# with DT::datatable
+last_pkg_published_DT <- pdb |> 
+  select(Package, Version, `Date/Publication`) |> 
+  filter(
+    date(ymd_hms(`Date/Publication`)) == (Sys.Date() - 1)
+  ) |> 
+  arrange(desc(`Date/Publication`), Package, Version) |>
+  rename(
+    paquet = Package,
+    version = Version,
+    date_publication = `Date/Publication`
+  ) |> 
+  mutate(paquet = lien_html(paquet, paste0(cran_repo, paquet))) |> 
+  distinct(.keep_all = TRUE)
+
+last_pkg_published_DT |> 
+  datatable(escape = FALSE, class = 'cell-border stripe')
 
 ```
 
