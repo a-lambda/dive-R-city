@@ -37,6 +37,25 @@ pdb <- tools::CRAN_package_db()
 
 On se base sur la date de publication issue du timestamp provenant du champ `Date\Publication`
   
+::: {.callout-note collapse="false"}
+
+L'utilisation de la fonction `distinct` pour créer le data.frame `last_pkg_published` permet d'éliminer les doublons.
+
+En effet la publication du paquet `MASS` en version **7.3-65** le 28 février 2025 est reproduite à l'identique pour des versions de R différentes (colonne `Depends`)
+	
+  - R (>= 4.4.0), grDevices, graphics, stats, utils
+
+  - R (>= 4.5), grDevices, graphics, stats, utils
+
+Si l'élimination des doublons n'est pas effectuée avant intégration dans la base PostgreSQL, alors la contrainte d'unicité `unique (paquet, version)` est rompue, et le script est interrompu.
+
+> Error:
+> ! COPY returned error : ERREUR:  la valeur d'une clé dupliquée rompt 
+> la contrainte unique « paquets_paquet_version_key »
+> DETAIL:  La clé « (paquet, version)=(MASS, 7.3-65) » existe déjà.
+
+:::
+
 ```{r}
 #| label: published_field
 #| code-fold: true
@@ -55,8 +74,9 @@ last_pkg_published <- pdb |>
     date_publication = `Date/Publication`
   ) |> 
   mutate(lien = paste0(cran_repo, paquet),
-    lien = glue::glue("[{paquet}]({lien})"))
-         
+    lien = glue::glue("[{paquet}]({lien})")) |> 
+  distinct(.keep_all = TRUE)
+
 gt_last_pkg_published <- last_pkg_published |> 
   mutate(lien = map(lien, md)) |> 
   gt() |>   
