@@ -115,7 +115,15 @@ last_pkg_published_DT <- pdb |>
   distinct(.keep_all = TRUE)
 
 last_pkg_published_DT |> 
-  datatable(escape = FALSE, class = 'cell-border stripe hover compact')
+  datatable(
+    escape = FALSE, 
+    class = 'cell-border stripe hover compact',
+    extensions = 'Buttons', 
+    options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+    )
+  )
 
 ```
 
