@@ -61,20 +61,17 @@ Si l'élimination des doublons n'est pas effectuée avant intégration dans la b
 #| label: published_field
 #| code-fold: true
 
-lien_markdown <- function(nom, lien) {
-  
+lien_markdown <- function(nom, lien) { 
   return(glue::glue("[{nom}]({lien})"))
-
 }
 
 lien_html <- function(nom, lien) {
-  
   return(glue::glue('<a href="{lien}">{nom}</a>'))
-  
 }
 
 cran_repo <- "https://cran.r-project.org/web/packages/"
 
+# last_pkg_puplished added with markdown links to PostgreSQL database
 last_pkg_published <- pdb |> 
   select(Package, Version, `Date/Publication`) |> 
   filter(
@@ -89,17 +86,7 @@ last_pkg_published <- pdb |>
   mutate(lien = lien_markdown(paquet, paste0(cran_repo, paquet))) |> 
   distinct(.keep_all = TRUE)
 
-# gt_last_pkg_published <- last_pkg_published |> 
-#   mutate(lien = map(lien, md)) |> 
-#   gt() |>   
-#   tab_header(
-#     title    = md("**Derniers paquets publiés**"),
-#     subtitle  = md(paste("Total =", nrow(last_pkg_published))),
-#   ) 
-# 
-# gt_last_pkg_published
-
-# with DT::datatable
+# last_pkg_puplished_DT used to display table with DT::datatable
 last_pkg_published_DT <- pdb |> 
   select(Package, Version, `Date/Publication`) |> 
   filter(
@@ -122,7 +109,15 @@ last_pkg_published_DT |>
     extensions = 'Buttons', 
     options = list(
       dom = 'Bfrtip',
-      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+      buttons = c('copy', 'csv', 'excel', 'pdf')
+    ),
+    caption = htmltools::tags$caption(
+      style = 'caption-side: bottom; text-align: center;',
+      'Table 1: ',
+      htmltools::strong('Liste des derniers paquets publiés (',
+                        nrow(last_pkg_published),
+                        ' paquets).'
+                        )
     )
   )
 
@@ -236,16 +231,33 @@ request <- "SELECT MAX(date_publication::date) -
 duree <- RPostgres::dbGetQuery(conn, statement = request)$duree
 
 request <- "SELECT count(paquet) AS nb_paquets, date_publication::date,
-            SUM(COUNT(paquet)) OVER (ORDER BY date_publication::date) AS total
+            SUM(COUNT(paquet)) OVER (ORDER BY date_publication::date) AS cumul
             FROM dev.paquets
             GROUP BY date_publication::date;"
 
 result <- RPostgres::dbGetQuery(conn, statement = request)
 
-gt(result) |> tab_header(
-  title    = md(paste("**Total des versions de paquets sur", duree, "jours**")),
-  subtitle = md(paste("(sur", total_paquets, "paquets versionnés)"))
-)
+result |> 
+  datatable(
+    escape = FALSE,
+    rownames = FALSE,
+    class = 'cell-border stripe hover compact',
+    extensions = 'Buttons', 
+    options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf')
+    ),
+    caption = htmltools::tags$caption(
+      style = 'caption-side: bottom; text-align: center;',
+      'Table 2: ', 
+      htmltools::strong('Total des versions de paquets sur', 
+                        duree, 
+                        'jours (',
+                        total_paquets,
+                        ' paquets versionnés).'
+                       )
+    )
+  )
 
 ```
 
@@ -276,10 +288,24 @@ request <- "SELECT paquet, version, date_publication,
 
 result <- RPostgres::dbGetQuery(conn, statement = request)
 
-gt(result) |> 
-  tab_header(
-    title    = md("**Paquets versionnés plus d'une fois**"),
-    subtitle = md(paste0("(depuis le ", as.Date(date_min), ")"))
+result |> 
+  datatable(
+    escape = FALSE,
+    rownames = FALSE,
+    class = 'cell-border stripe hover compact',
+    extensions = 'Buttons', 
+    options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf')
+    ),
+    caption = htmltools::tags$caption(
+      style = 'caption-side: bottom; text-align: center;',
+      'Table 3: ', 
+      htmltools::strong("Paquets versionnés plus d'une fois depuis le ", 
+                        as.Date(date_min),
+                        '.'
+                       )
+    )
   )
 
 ```
