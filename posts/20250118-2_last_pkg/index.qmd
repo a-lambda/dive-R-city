@@ -108,6 +108,10 @@ last_pkg_published_DT |>
     class = 'cell-border stripe hover compact',
     extensions = 'Buttons', 
     options = list(
+      initComplete = JS(
+        "function(settings, json) {",
+        "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
+        "}"),
       dom = 'Bfrtip',
       buttons = c('copy', 'csv', 'excel', 'pdf')
     ),
@@ -244,6 +248,10 @@ result |>
     class = 'cell-border stripe hover compact',
     extensions = 'Buttons', 
     options = list(
+      initComplete = JS(
+        "function(settings, json) {",
+        "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
+        "}"),
       dom = 'Bfrtip',
       buttons = c('copy', 'csv', 'excel', 'pdf')
     ),
@@ -295,6 +303,10 @@ result |>
     class = 'cell-border stripe hover compact',
     extensions = 'Buttons', 
     options = list(
+      initComplete = JS(
+        "function(settings, json) {",
+        "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
+        "}"),
       dom = 'Bfrtip',
       buttons = c('copy', 'csv', 'excel', 'pdf')
     ),
