@@ -234,7 +234,7 @@ request <- "SELECT MAX(date_publication::date) -
 
 duree <- RPostgres::dbGetQuery(conn, statement = request)$duree
 
-request <- "SELECT count(paquet) AS nb_paquets, date_publication::date,
+request <- "SELECT date_publication::date, count(paquet) AS nb_paquets,
             SUM(COUNT(paquet)) OVER (ORDER BY date_publication::date) AS cumul
             FROM dev.paquets
             GROUP BY date_publication::date;"
@@ -248,6 +248,7 @@ result |>
     class = 'cell-border stripe hover compact',
     extensions = 'Buttons', 
     options = list(
+      ordering = FALSE,
       initComplete = JS(
         "function(settings, json) {",
         "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
