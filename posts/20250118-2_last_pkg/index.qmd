@@ -344,21 +344,48 @@ request <- "SELECT ROW_NUMBER() OVER(ORDER BY paquet) AS rang, paquet, version, 
 
 result <- RPostgres::dbGetQuery(conn, statement = request)
 
-tab <- result |> 
-  mutate(paquet = map(lien, md)) |> 
-  select(!c(lien)) |>
-  gt() |> 
-  tab_header(
-    title    = md("**Liens vers le dépôt CRAN des paquets déjà versionnés**"),
-    subtitle = md(paste("**(", 
-                        total_paquets,
-                        "depuis le", 
+result |> 
+  mutate(paquet = lien_html(paquet, paste0(cran_repo, paquet))) |> 
+  select(!c(lien)) |> 
+  datatable(
+    escape = FALSE,
+    rownames = FALSE,
+    class = 'cell-border stripe hover compact',
+    extensions = 'Buttons', 
+    options = list(
+      ordering = FALSE,
+      initComplete = JS(
+        "function(settings, json) {",
+        "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
+        "}"),
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf')
+    ),
+    caption = htmltools::tags$caption(
+      style = 'caption-side: bottom; text-align: center;',
+      'Table 4: ', 
+      htmltools::strong("Paquets versionnés depuis le ", 
                         as.Date(date_min),
-                        ")**")
-                  )
-  ) 
+                        ' (',
+                        total_paquets,
+                        ' paquets versionnés).'
+                       )
+    )
+  )
 
-tab
+# tab <- result |> 
+#   mutate(paquet = map(lien, md)) |> 
+#   select(!c(lien)) |>
+#   gt() |> 
+#   tab_header(
+#     title    = md("**Liens vers le dépôt CRAN des paquets déjà versionnés**"),
+#     subtitle = md(paste("**(", 
+#                         total_paquets,
+#                         "depuis le", 
+#                         as.Date(date_min),
+#                         ")**")
+#                   )
+#   ) 
 
 ```
 
