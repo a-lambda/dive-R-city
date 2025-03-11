@@ -83,7 +83,6 @@ last_pkg_published <- pdb |>
     version = Version,
     date_publication = `Date/Publication`
   ) |> 
-  mutate(lien = lien_markdown(paquet, paste0(cran_repo, paquet))) |> 
   distinct(.keep_all = TRUE)
 
 # last_pkg_puplished_DT used to display table with DT::datatable
