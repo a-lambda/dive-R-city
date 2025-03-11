@@ -32,6 +32,16 @@ library(RPostgres)
 #| 
 pdb <- tools::CRAN_package_db()
 
+lien_markdown <- function(nom, lien) { 
+  return(glue::glue("[{nom}]({lien})"))
+}
+
+lien_html <- function(nom, lien) {
+  return(glue::glue('<a href="{lien}">{nom}</a>'))
+}
+
+cran_repo <- "https://cran.r-project.org/web/packages/"
+
 ```
 
 ## Récupération des derniers paquets publiés
@@ -60,16 +70,6 @@ Si l'élimination des doublons n'est pas effectuée avant intégration dans la b
 ```{r}
 #| label: published_field
 #| code-fold: true
-
-lien_markdown <- function(nom, lien) { 
-  return(glue::glue("[{nom}]({lien})"))
-}
-
-lien_html <- function(nom, lien) {
-  return(glue::glue('<a href="{lien}">{nom}</a>'))
-}
-
-cran_repo <- "https://cran.r-project.org/web/packages/"
 
 # last_pkg_puplished added with markdown links to PostgreSQL database
 last_pkg_published <- pdb |> 
@@ -372,20 +372,6 @@ result |>
                        )
     )
   )
-
-# tab <- result |> 
-#   mutate(paquet = map(lien, md)) |> 
-#   select(!c(lien)) |>
-#   gt() |> 
-#   tab_header(
-#     title    = md("**Liens vers le dépôt CRAN des paquets déjà versionnés**"),
-#     subtitle = md(paste("**(", 
-#                         total_paquets,
-#                         "depuis le", 
-#                         as.Date(date_min),
-#                         ")**")
-#                   )
-#   ) 
 
 ```
 
