@@ -71,7 +71,6 @@ Si l'élimination des doublons n'est pas effectuée avant intégration dans la b
 #| label: published_field
 #| code-fold: true
 
-# last_pkg_puplished added with markdown links to PostgreSQL database
 last_pkg_published <- pdb |> 
   select(Package, Version, `Date/Publication`) |> 
   filter(
@@ -85,20 +84,8 @@ last_pkg_published <- pdb |>
   ) |> 
   distinct(.keep_all = TRUE)
 
-# last_pkg_puplished_DT used to display table with DT::datatable
-last_pkg_published_DT <- pdb |> 
-  select(Package, Version, `Date/Publication`) |> 
-  filter(
-    date(ymd_hms(`Date/Publication`)) == (Sys.Date() - 1)
-  ) |> 
-  arrange(desc(`Date/Publication`), Package, Version) |>
-  rename(
-    paquet = Package,
-    version = Version,
-    date_publication = `Date/Publication`
-  ) |> 
-  mutate(paquet = lien_html(paquet, paste0(cran_repo, paquet))) |> 
-  distinct(.keep_all = TRUE)
+last_pkg_published_DT <- last_pkg_published |> 
+  mutate(paquet = lien_html(paquet, paste0(cran_repo, paquet)))
 
 last_pkg_published_DT |> 
   datatable(
@@ -184,7 +171,6 @@ CREATE TABLE dev.paquets(
   paquet VARCHAR(50) NOT NULL,
   version VARCHAR(20) NOT NULL,
   date_publication TIMESTAMP NOT NULL, 
-  lien VARCHAR(100),
   UNIQUE(paquet, version));
 ```
 :::
@@ -334,7 +320,7 @@ request <- "SELECT MIN(date_publication)::date AS date_min
 
 date_min <- RPostgres::dbGetQuery(conn, statement = request)$date_min
 
-request <- "SELECT ROW_NUMBER() OVER(ORDER BY paquet) AS rang, paquet, version, lien
+request <- "SELECT ROW_NUMBER() OVER(ORDER BY paquet) AS rang, paquet, version
             FROM (
                 SELECT DISTINCT ON (paquet) dev.paquets.*
                 FROM dev.paquets
@@ -345,7 +331,6 @@ result <- RPostgres::dbGetQuery(conn, statement = request)
 
 result |> 
   mutate(paquet = lien_html(paquet, paste0(cran_repo, paquet))) |> 
-  select(!c(lien)) |> 
   datatable(
     escape = FALSE,
     rownames = FALSE,
@@ -367,7 +352,7 @@ result |>
                         as.Date(date_min),
                         ' (',
                         total_paquets,
-                        ' paquets versionnés).'
+                        ' paquets).'
                        )
     )
   )
