@@ -32,15 +32,14 @@ library(RPostgres)
 #| 
 pdb <- tools::CRAN_package_db()
 
-lien_markdown <- function(nom, lien) { 
-  return(glue::glue("[{nom}]({lien})"))
+lien_pkg <- function(pkg, type = "html")  {
+                          
+  cran_repo <- "https://cran.r-project.org/web/packages/" 
+  lien <- paste0(cran_repo, pkg)
+  if (type == "html")     { return(glue::glue('<a href="{lien}">{pkg}</a>')) }
+  if (type == "markdown") { return(glue::glue("[{pkg}]({lien})")) }
+  
 }
-
-lien_html <- function(nom, lien) {
-  return(glue::glue('<a href="{lien}">{nom}</a>'))
-}
-
-cran_repo <- "https://cran.r-project.org/web/packages/"
 
 ```
 
@@ -85,7 +84,7 @@ last_pkg_published <- pdb |>
   distinct(.keep_all = TRUE)
 
 last_pkg_published_DT <- last_pkg_published |> 
-  mutate(paquet = lien_html(paquet, paste0(cran_repo, paquet)))
+  mutate(paquet = lien_pkg(paquet))
 
 last_pkg_published_DT |> 
   datatable(
@@ -333,7 +332,7 @@ request <- "SELECT ROW_NUMBER() OVER(ORDER BY paquet) AS rang, paquet, version
 result <- RPostgres::dbGetQuery(conn, statement = request)
 
 result |> 
-  mutate(paquet = lien_html(paquet, paste0(cran_repo, paquet))) |> 
+  mutate(paquet = lien_pkg(paquet)) |> 
   datatable(
     escape = FALSE,
     rownames = FALSE,
